@@ -1,0 +1,34 @@
+{
+  "name": "gluebert",
+  "version": "0.0.1",
+  "description": "gluebert.js is a tiny helper orchestrating interactive html elements with on demand dynamic import Edit",
+  "main": "./src/gluebert.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wildhaber/gluebert.git"
+  },
+  "keywords": [
+    "dom",
+    "mutations",
+    "observer",
+    "dynamic",
+    "import",
+    "lazy",
+    "loading",
+    "performance",
+    "efficient",
+    "on-demand"
+  ],
+  "author": "Raphael Wildhaber",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wildhaber/gluebert/issues"
+  },
+  "homepage": "https://github.com/wildhaber/gluebert#readme",
+  "dependencies": {
+    "rxjs": "^5.4.3"
+  }
+}
