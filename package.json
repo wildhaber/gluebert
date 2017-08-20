@@ -1,13 +1,12 @@
 {
   "name": "gluebert",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "gluebert.js is a tiny helper orchestrating interactive html elements with on demand dynamic import Edit",
   "scripts": {
     "test": "npm run lint",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "./node_modules/.bin/eslint src --fix",
-    "build": "./node_modules/.bin/babel src --out-dir dist",
-    "publish": "npm run build && npm publish"
+    "build": "./node_modules/.bin/babel src --out-dir dist"
   },
   "main": "./dist/gluebert.js",
   "dependencies": {
