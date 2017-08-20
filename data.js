@@ -1,5 +1,5 @@
-import {DataAbstract} from './src/data/data.abstract';
-import {DataSignature} from './src/data/data.signature';
+import {DataAbstract} from './dist/data/data.abstract';
+import {DataSignature} from './dist/data/data.signature';
 
 export {
     DataSignature,

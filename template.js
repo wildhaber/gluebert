@@ -1,7 +1,7 @@
-import {HandlebarsTemplate} from './src/template/handlebars.template';
-import {MustacheTemplate} from './src/template/mustache.template';
-import {TemplateAbstract} from './src/template/template.abstract';
-import {TwigTemplate} from './src/template/twig.template';
+import {HandlebarsTemplate} from './dist/template/handlebars.template';
+import {MustacheTemplate} from './dist/template/mustache.template';
+import {TemplateAbstract} from './dist/template/template.abstract';
+import {TwigTemplate} from './dist/template/twig.template';
 
 export {
     HandlebarsTemplate,

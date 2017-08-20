@@ -1,4 +1,4 @@
-import {ModuleSignature} from './src/module/module.signature';
+import {ModuleSignature} from './dist/module/module.signature';
 
 export {
     ModuleSignature,

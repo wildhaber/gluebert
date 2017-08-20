@@ -2,7 +2,6 @@
 .idea
 
 # Build
-dist
 doc
 
 # Logs
