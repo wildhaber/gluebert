@@ -32,8 +32,8 @@ jobs:
       - run: yarn test
 
       # coverage
-      - run: yarn global add codeclimate-test-reporter
+      - run: npm install -g codeclimate-test-reporter
 
       - run:
           name: code-coverage
-          command: 'codeclimate-test-reporter < coverage/phantomjs/lcov.info'
+          command: 'codeclimate-test-reporter < ./coverage/phantomjs/lcov.info'
