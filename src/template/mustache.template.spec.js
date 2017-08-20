@@ -1,0 +1,1 @@
+import { MustacheTemplate } from './mustache.template';

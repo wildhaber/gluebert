@@ -1,0 +1,1 @@
+import { HandlebarsTemplate } from './handlebars.template';

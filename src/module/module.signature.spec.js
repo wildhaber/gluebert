@@ -1,0 +1,1 @@
+import { ModuleSignature } from './module.signature';

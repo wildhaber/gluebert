@@ -1,0 +1,1 @@
+import { TwigTemplate } from './twig.template';

@@ -44,12 +44,25 @@ var ModuleLauncher = function () {
         }
     }
 
+    /**
+     * initialize ModuleLoader
+     * @private
+     */
+
+
     _createClass(ModuleLauncher, [{
         key: '_init',
         value: function _init() {
             this.registerObserver(document.body);
             this._bootstrap();
         }
+
+        /**
+         * register observer
+         * @param {Element} element
+         * @param {object} options
+         */
+
     }, {
         key: 'registerObserver',
         value: function registerObserver(element, options) {
@@ -62,6 +75,13 @@ var ModuleLauncher = function () {
 
             this._observer.observe(element, _options);
         }
+
+        /**
+         * module iterator for each module
+         * @param {function|null} callback
+         * @private
+         */
+
     }, {
         key: '_eachModule',
         value: function _eachModule() {
@@ -73,11 +93,26 @@ var ModuleLauncher = function () {
                 }
             }
         }
+
+        /**
+         * register a controller instance to element
+         * @param {Element} element
+         * @param {function} instance - controller instance
+         * @private
+         */
+
     }, {
         key: '_addInstance',
         value: function _addInstance(element, instance) {
             this._instanceMap.set(element, instance);
         }
+
+        /**
+         * call instance destruct
+         * @param {Element} element
+         * @private
+         */
+
     }, {
         key: '_destructInstance',
         value: function _destructInstance(element) {
@@ -89,6 +124,15 @@ var ModuleLauncher = function () {
                 this._instanceMap.delete(element);
             }
         }
+
+        /**
+         * bind controllers from signatures
+         * @param {Element} elements
+         * @param {ModuleSignature} signature
+         * @return {Promise.<void>}
+         * @private
+         */
+
     }, {
         key: '_bindController',
         value: function () {
@@ -136,6 +180,14 @@ var ModuleLauncher = function () {
 
             return _bindController;
         }()
+
+        /**
+         * launch matching elements
+         * @param {Element} node
+         * @return {Promise.<void>}
+         * @private
+         */
+
     }, {
         key: '_launchMatchingElements',
         value: function () {
@@ -192,6 +244,13 @@ var ModuleLauncher = function () {
 
             return _launchMatchingElements;
         }()
+
+        /**
+         * bootstrap module instance iterator
+         * @return {Promise.<void>}
+         * @private
+         */
+
     }, {
         key: '_bootstrap',
         value: function () {
@@ -241,11 +300,24 @@ var ModuleLauncher = function () {
 
             return _bootstrap;
         }()
+
+        /**
+         * handle removed item
+         * @param {Element} node
+         */
+
     }, {
         key: 'removedElement',
         value: function removedElement(node) {
             this._destructInstance(node);
         }
+
+        /**
+         * add observe DOM changes
+         * @param {NodeList} mutations
+         * @private
+         */
+
     }, {
         key: '_observeDomMutation',
         value: function _observeDomMutation(mutations) {
@@ -272,6 +344,15 @@ var ModuleLauncher = function () {
                 }
             }
         }
+
+        /**
+         * extract and add stylesheet
+         * @param {string} name
+         * @param {function} importer
+         * @return {Promise.<ModuleLauncher>}
+         * @private
+         */
+
     }, {
         key: '_addStyles',
         value: function () {
