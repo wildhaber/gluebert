@@ -40,4 +40,4 @@ class Message {
 
 export {
     Message,
-}
+};

@@ -15,19 +15,18 @@ class TemplateAbstract {
      * create view
      */
     createView() {
-        throw new Error(`Template engine must provide a .createView() method`);
+        throw new Error('Template engine must provide a .createView() method');
     }
 
     /**
      * actual render function of the template and the data
-     * @param data
      */
-    render(data) {
-        throw new Error(`Template engine must provide a .render() method`);
+    render() {
+        throw new Error('Template engine must provide a .render() method');
     }
 
 }
 
 export {
     TemplateAbstract,
-}
+};

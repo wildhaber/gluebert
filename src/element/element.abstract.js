@@ -34,4 +34,4 @@ class ElementAbstract {
 
 export {
     ElementAbstract,
-}
+};

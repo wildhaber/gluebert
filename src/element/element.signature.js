@@ -1,4 +1,4 @@
-import {ElementAbstract} from './element.abstract';
+import { ElementAbstract } from './element.abstract';
 
 /**
  * Class represents ElementSignature
@@ -86,4 +86,4 @@ class ElementSignature {
 
 export {
     ElementSignature,
-}
+};

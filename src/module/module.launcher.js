@@ -22,7 +22,7 @@ class ModuleLauncher {
         this._instanceMap = new Map();
         this._stylesLoaded = new Set();
 
-        if (modules.length) {
+        if(modules.length) {
             this._init();
         }
     }
@@ -47,8 +47,8 @@ class ModuleLauncher {
     }
 
     _eachModule(callback = null) {
-        if (typeof callback === 'function') {
-            for (let i = 0, l = this._modules.length; i < l; i++) {
+        if(typeof callback === 'function') {
+            for(let i = 0, l = this._modules.length; i < l; i++) {
                 callback(this._modules[i]);
             }
         }
@@ -60,8 +60,8 @@ class ModuleLauncher {
 
     _destructInstance(element) {
         const instance = this._instanceMap.get(element);
-        if (instance) {
-            if (typeof instance.destruct === 'function') {
+        if(instance) {
+            if(typeof instance.destruct === 'function') {
                 instance.destruct();
             }
             this._instanceMap.delete(element);
@@ -70,16 +70,16 @@ class ModuleLauncher {
 
     async _bindController(elements, signature) {
 
-        if (elements.length) {
+        if(elements.length) {
             const controller = await signature.importController();
 
             if(!this._stylesLoaded.has(signature.name)) {
                 this._addStyles(signature.name, signature.importStyles);
             }
 
-            for (let i = 0, l = elements.length; i < l; i++) {
+            for(let i = 0, l = elements.length; i < l; i++) {
                 const element = elements[i];
-                if (!this._instanceMap.has(element)) {
+                if(!this._instanceMap.has(element)) {
                     this._addInstance(element, new controller(element, this._dataObserver, this._elementBuilder));
                 }
             }
@@ -88,12 +88,12 @@ class ModuleLauncher {
     }
 
     async _launchMatchingElements(node) {
-        this._eachModule(async (signature) => {
-            for (let i = 0, l = this._modules.length; i < l; i++) {
+        this._eachModule(async(signature) => {
+            for(let i = 0, l = this._modules.length; i < l; i++) {
                 let elements = Array.from(node.querySelectorAll(signature.selector));
                 const matchingRootElement = node.matches(signature.selector);
 
-                if (matchingRootElement) {
+                if(matchingRootElement) {
                     elements = [node];
                 }
 
@@ -105,10 +105,10 @@ class ModuleLauncher {
 
     async _bootstrap() {
 
-        this._eachModule(async (signature) => {
-                const elements = Array.from(document.querySelectorAll(signature.selector));
-                this._bindController(elements, signature);
-            }
+        this._eachModule(async(signature) => {
+            const elements = Array.from(document.querySelectorAll(signature.selector));
+            this._bindController(elements, signature);
+        }
         );
 
     }
@@ -119,25 +119,24 @@ class ModuleLauncher {
 
     _observeDomMutation(mutations) {
 
-        for (let i = 0, l = mutations.length; i < l; i++) {
+        for(let i = 0, l = mutations.length; i < l; i++) {
             const mutation = mutations[i];
 
             switch (mutation.type) {
                 case 'childList':
                     Array.from(mutation.addedNodes).forEach((node) => {
-                        if (typeof node.querySelectorAll === 'function') {
+                        if(typeof node.querySelectorAll === 'function') {
                             this._launchMatchingElements(node);
                         }
                     });
                     Array.from(mutation.removedNodes).forEach((node) => {
-                        if (typeof node.querySelectorAll === 'function') {
+                        if(typeof node.querySelectorAll === 'function') {
                             this.removedElement(node);
                         }
                     });
                     break;
                 default:
-                    console.log(`Unsupported Mutation Type`, mutation.type, mutation);
-                    break;
+                    throw new Error(`Unsupported Mutation Type ${mutation.type}`);
             }
         }
     }
@@ -157,4 +156,4 @@ class ModuleLauncher {
 
 export {
     ModuleLauncher,
-}
+};

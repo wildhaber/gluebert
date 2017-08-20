@@ -1,7 +1,5 @@
-import {Gluebert} from './gluebert.bootstrap';
-
-export default Gluebert;
+import { Gluebert } from './gluebert.bootstrap';
 
 export {
     Gluebert,
-}
+};

@@ -42,4 +42,4 @@ class DataManager {
 
 export {
     DataManager,
-}
+};

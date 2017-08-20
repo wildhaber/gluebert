@@ -1,4 +1,4 @@
-import {Subject} from 'rxjs/Subject'
+import { Subject } from 'rxjs/Subject';
 
 /**
  * Abstract Data object
@@ -40,4 +40,4 @@ class DataAbstract {
 
 export {
     DataAbstract,
-}
+};

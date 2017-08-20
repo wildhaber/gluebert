@@ -1,4 +1,4 @@
-import {TemplateAbstract} from './template.abstract';
+import { TemplateAbstract } from './template.abstract';
 
 /**
  * Class represents TwigTemplate
@@ -38,4 +38,4 @@ class TwigTemplate extends TemplateAbstract {
 
 export {
     TwigTemplate,
-}
+};

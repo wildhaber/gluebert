@@ -1,4 +1,4 @@
-import {TemplateAbstract} from './template.abstract';
+import { TemplateAbstract } from './template.abstract';
 
 /**
  * Class represents HandlebarsTemplate
@@ -36,4 +36,4 @@ class HandlebarsTemplate extends TemplateAbstract {
 
 export {
     HandlebarsTemplate,
-}
+};

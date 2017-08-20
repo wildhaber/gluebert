@@ -65,7 +65,7 @@ class ElementBuilder {
      * @return {ElementBuilder}
      */
     removeSignature(name) {
-        if (this._signatureExists(name)) {
+        if(this._signatureExists(name)) {
             delete this._signatures[name];
         }
         return this;
@@ -98,7 +98,7 @@ class ElementBuilder {
      */
     setBusySignature(name) {
         let signature = this.getSignature(name);
-        if (signature) {
+        if(signature) {
             this._signatures[name].busy = true;
         }
         return this;
@@ -144,7 +144,7 @@ class ElementBuilder {
     _validate(elementName, data) {
         const schema = this.getSchema(elementName);
 
-        if (
+        if(
             this._schemaValidator &&
             schema
         ) {
@@ -187,8 +187,8 @@ class ElementBuilder {
      * @return {Promise}
      */
     async create(name, data) {
-        if (this._elementExists(name)) {
-            if (this._validate(name, data)) {
+        if(this._elementExists(name)) {
+            if(this._validate(name, data)) {
                 const element = this.getElement(name, data);
 
                 const elementInstance = new element.module(
@@ -198,10 +198,9 @@ class ElementBuilder {
 
                 return elementInstance.create();
             } else {
-                console.error(`Create Element ${name} failed. Given data do not match given schema.`, data);
-                return null;
+                throw new Error(`Create Element ${name} failed. Given data do not match given schema.`);
             }
-        } else if (
+        } else if(
             this._signatureExists(name) &&
             !this.isBusySignature(name)
         ) {
@@ -216,28 +215,27 @@ class ElementBuilder {
                 .then((imports) => {
                     this.addElement(name, imports[0], imports[1], imports[2]);
 
-                    if (this._elementExists(name)) {
+                    if(this._elementExists(name)) {
                         this.removeSignature(name);
                         return this.create(name, data);
                     } else {
-                        throw new Error(`Unfortunately Element $\{name} could not have been instanciated.`);
+                        throw new Error(`Unfortunately Element ${name} could not have been instanciated.`);
                     }
                 })
                 .catch((err) => {
-                    console.error(err);
                     throw new Error(`Unfortunately Element ${name} could not have been instanciated. ${err}`);
                 });
-        } else if (
+        } else if(
             this._signatureExists(name) &&
             this.isBusySignature(name)
         ) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 window.setTimeout(() => {
                     resolve(this.create(name, data));
                 }, 100);
             });
         } else {
-            throw new Error(`Element ${name} is not have registered.`)
+            throw new Error(`Element ${name} is not have registered.`);
         }
     }
 
@@ -245,4 +243,4 @@ class ElementBuilder {
 
 export {
     ElementBuilder,
-}
+};

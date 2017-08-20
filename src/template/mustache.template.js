@@ -1,4 +1,4 @@
-import {TemplateAbstract} from './template.abstract';
+import { TemplateAbstract } from './template.abstract';
 
 /**
  * Class represents MustacheTemplate
@@ -36,4 +36,4 @@ class MustacheTemplate extends TemplateAbstract {
 
 export {
     MustacheTemplate,
-}
+};

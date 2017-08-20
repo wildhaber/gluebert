@@ -25,5 +25,5 @@ class ControllerAbstract {
 }
 
 export {
-    ControllerAbstract
-}
+    ControllerAbstract,
+};

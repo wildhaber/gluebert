@@ -1,7 +1,7 @@
-import {ModuleLauncher} from './module/module.launcher';
-import {DataObserver} from './data/data.observer';
-import {DataManager} from './data/data.manager';
-import {ElementBuilder} from './element/element.builder';
+import { ModuleLauncher } from './module/module.launcher';
+import { DataObserver } from './data/data.observer';
+import { DataManager } from './data/data.manager';
+import { ElementBuilder } from './element/element.builder';
 
 /**
  * Class represents Gluebert
@@ -48,7 +48,7 @@ class Gluebert {
 
         return modules.reduce((a, b) => {
             let elements = b.getElementSignatures();
-            if (elements.size) {
+            if(elements.size) {
                 a.push(...elements);
             }
             return a;
@@ -70,5 +70,5 @@ class Gluebert {
 }
 
 export {
-    Gluebert
-}
+    Gluebert,
+};

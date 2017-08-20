@@ -27,16 +27,16 @@ class MessageDispatcher {
                 !this._filter(message.getData())
             )
         ) {
-           return;
+            return;
         }
 
-        switch(allocatorType) {
+        switch (allocatorType) {
             case 'function':
                 return this._actionAllocator[action](message.getData());
             case 'object':
                 return this._runObjectAllocator(this._actionAllocator[action], message.getData());
             default:
-                // ignore
+            // ignore
                 break;
         }
 
