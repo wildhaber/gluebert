@@ -32,7 +32,7 @@ jobs:
       - run: yarn test
 
       # coverage
-      - run: yarn install codeclimate-test-reporter -g
+      - run: yarn global add codeclimate-test-reporter
 
       - run:
           name: code-coverage
