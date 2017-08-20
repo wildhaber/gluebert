@@ -22,16 +22,25 @@ class ModuleLauncher {
         this._instanceMap = new Map();
         this._stylesLoaded = new Set();
 
-        if(modules.length) {
+        if (modules.length) {
             this._init();
         }
     }
 
+    /**
+     * initialize ModuleLoader
+     * @private
+     */
     _init() {
         this.registerObserver(document.body);
         this._bootstrap();
     }
 
+    /**
+     * register observer
+     * @param {Element} element
+     * @param {object} options
+     */
     registerObserver(element, options) {
         let _options = Object.assign({
             attributes: false,
@@ -42,44 +51,67 @@ class ModuleLauncher {
 
         this._observer.observe(
             element,
-            _options
+            _options,
         );
     }
 
+    /**
+     * module iterator for each module
+     * @param {function|null} callback
+     * @private
+     */
     _eachModule(callback = null) {
-        if(typeof callback === 'function') {
-            for(let i = 0, l = this._modules.length; i < l; i++) {
+        if (typeof callback === 'function') {
+            for (let i = 0, l = this._modules.length; i < l; i++) {
                 callback(this._modules[i]);
             }
         }
     }
 
+    /**
+     * register a controller instance to element
+     * @param {Element} element
+     * @param {function} instance - controller instance
+     * @private
+     */
     _addInstance(element, instance) {
         this._instanceMap.set(element, instance);
     }
 
+    /**
+     * call instance destruct
+     * @param {Element} element
+     * @private
+     */
     _destructInstance(element) {
         const instance = this._instanceMap.get(element);
-        if(instance) {
-            if(typeof instance.destruct === 'function') {
+        if (instance) {
+            if (typeof instance.destruct === 'function') {
                 instance.destruct();
             }
             this._instanceMap.delete(element);
         }
     }
 
+    /**
+     * bind controllers from signatures
+     * @param {Element} elements
+     * @param {ModuleSignature} signature
+     * @return {Promise.<void>}
+     * @private
+     */
     async _bindController(elements, signature) {
 
-        if(elements.length) {
+        if (elements.length) {
             const controller = await signature.importController();
 
-            if(!this._stylesLoaded.has(signature.name)) {
+            if (!this._stylesLoaded.has(signature.name)) {
                 this._addStyles(signature.name, signature.importStyles);
             }
 
-            for(let i = 0, l = elements.length; i < l; i++) {
+            for (let i = 0, l = elements.length; i < l; i++) {
                 const element = elements[i];
-                if(!this._instanceMap.has(element)) {
+                if (!this._instanceMap.has(element)) {
                     this._addInstance(element, new controller(element, this._dataObserver, this._elementBuilder));
                 }
             }
@@ -87,13 +119,19 @@ class ModuleLauncher {
 
     }
 
+    /**
+     * launch matching elements
+     * @param {Element} node
+     * @return {Promise.<void>}
+     * @private
+     */
     async _launchMatchingElements(node) {
-        this._eachModule(async(signature) => {
-            for(let i = 0, l = this._modules.length; i < l; i++) {
+        this._eachModule(async (signature) => {
+            for (let i = 0, l = this._modules.length; i < l; i++) {
                 let elements = Array.from(node.querySelectorAll(signature.selector));
                 const matchingRootElement = node.matches(signature.selector);
 
-                if(matchingRootElement) {
+                if (matchingRootElement) {
                     elements = [node];
                 }
 
@@ -103,34 +141,49 @@ class ModuleLauncher {
         });
     }
 
+    /**
+     * bootstrap module instance iterator
+     * @return {Promise.<void>}
+     * @private
+     */
     async _bootstrap() {
 
-        this._eachModule(async(signature) => {
-            const elements = Array.from(document.querySelectorAll(signature.selector));
-            this._bindController(elements, signature);
-        }
+        this._eachModule(
+            async (signature) => {
+                const elements = Array.from(document.querySelectorAll(signature.selector));
+                this._bindController(elements, signature);
+            },
         );
 
     }
 
+    /**
+     * handle removed item
+     * @param {Element} node
+     */
     removedElement(node) {
         this._destructInstance(node);
     }
 
+    /**
+     * add observe DOM changes
+     * @param {NodeList} mutations
+     * @private
+     */
     _observeDomMutation(mutations) {
 
-        for(let i = 0, l = mutations.length; i < l; i++) {
+        for (let i = 0, l = mutations.length; i < l; i++) {
             const mutation = mutations[i];
 
             switch (mutation.type) {
                 case 'childList':
                     Array.from(mutation.addedNodes).forEach((node) => {
-                        if(typeof node.querySelectorAll === 'function') {
+                        if (typeof node.querySelectorAll === 'function') {
                             this._launchMatchingElements(node);
                         }
                     });
                     Array.from(mutation.removedNodes).forEach((node) => {
-                        if(typeof node.querySelectorAll === 'function') {
+                        if (typeof node.querySelectorAll === 'function') {
                             this.removedElement(node);
                         }
                     });
@@ -141,9 +194,16 @@ class ModuleLauncher {
         }
     }
 
+    /**
+     * extract and add stylesheet
+     * @param {string} name
+     * @param {function} importer
+     * @return {Promise.<ModuleLauncher>}
+     * @private
+     */
     async _addStyles(name, importer) {
         this._stylesLoaded.add(name);
-        if(typeof importer === 'function') {
+        if (typeof importer === 'function') {
             const styles = await importer();
             const styleElement = document.createElement('style');
             styleElement.innerText = styles.toString();

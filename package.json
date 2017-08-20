@@ -6,7 +6,8 @@
     "test": "npm run lint",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "./node_modules/.bin/eslint src --fix",
-    "build": "./node_modules/.bin/babel src --out-dir dist"
+    "build": "./node_modules/.bin/babel src --out-dir dist",
+    "doc": "jsdoc -c ./jsdoc.config.json"
   },
   "main": "./dist/gluebert.js",
   "dependencies": {
@@ -45,8 +46,8 @@
     "babel-preset-stage-1": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
-    "del": "^3.0.0",
     "eslint": "^4.5.0",
-    "rollup": "^0.47.6"
+    "jsdoc": "^3.5.3",
+    "docdash": "^0.4.0"
   }
 }
