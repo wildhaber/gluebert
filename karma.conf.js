@@ -15,8 +15,12 @@ module.exports = config => {
         },
         reporters: [`spec`, `coverage`],
         coverageReporter: {
-            type: `html`,
+            type: `lcov`,
             dir: `./coverage/`,
+            subdir: function(browser, platform) {
+                // normalization process to keep a consistent browser name
+                return browser.toLowerCase().split(' ')[0];
+            },
             reporters: [
                 {
                     type: `html`,
@@ -25,6 +29,9 @@ module.exports = config => {
                 {
                     type: `text-summary`,
                 },
+                {
+                    type: `lcovonly`,
+                }
             ],
         },
         webpack: {
