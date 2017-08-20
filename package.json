@@ -6,7 +6,7 @@
     "test": "npm run lint",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "./node_modules/.bin/eslint src --fix",
-    "build": "./node_modules/.bin/babel src -out-dir dist",
+    "build": "./node_modules/.bin/babel src --out-dir dist",
     "publish": "npm run build && npm publish"
   },
   "main": "./dist/gluebert.js",
