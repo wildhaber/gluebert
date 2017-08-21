@@ -1,3 +1,17 @@
+JavaScript: true
+Ruby: false
+Python: false
+PHP: false
+
+engines:
+  eslint:
+    enabled: true
+
+ratings:
+   paths:
+   - "**.js"
+
 exclude_paths:
-- "dist/"
-- "/src/**/*.spec.js"
+- src/**/*.spec.js
+- docs/**/*
+- dist/**/*
