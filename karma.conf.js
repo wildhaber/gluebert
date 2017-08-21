@@ -3,34 +3,34 @@
 
 module.exports = config => {
     config.set({
-        frameworks: [`jasmine`],
+        frameworks: ['jasmine'],
         files: [
-            `./node_modules/babel-polyfill/dist/polyfill.js`,
-            `src/**/*.spec.js`,
+            './node_modules/babel-polyfill/dist/polyfill.js',
+            'src/**/*.spec.js',
         ],
-        browsers: [`PhantomJS`],
+        browsers: ['PhantomJS'],
         logLevel: config.LOG_ERROR,
         preprocessors: {
-            [`src/**/*.js`]: [`webpack`],
+            ['src/**/*.js']: ['webpack'],
         },
-        reporters: [`spec`, `coverage`],
+        reporters: ['spec', 'coverage'],
         coverageReporter: {
-            type: `lcov`,
-            dir: `./coverage/`,
+            type: 'lcov',
+            dir: './coverage/',
             subdir: function(browser, platform) {
                 // normalization process to keep a consistent browser name
                 return browser.toLowerCase().split(' ')[0];
             },
             reporters: [
                 {
-                    type: `html`,
-                    subdir: `report-html`,
+                    type: 'html',
+                    subdir: 'report-html',
                 },
                 {
-                    type: `text-summary`,
+                    type: 'text-summary',
                 },
                 {
-                    type: `lcovonly`,
+                    type: 'lcovonly',
                 }
             ],
         },
@@ -41,7 +41,7 @@ module.exports = config => {
                     {
                         test: /\.js?$/,
                         exclude: /(node_modules)/,
-                        loader: `babel-loader`,
+                        loader: 'babel-loader',
                         options: {
                             cacheDirectory: true,
                         },
@@ -49,7 +49,7 @@ module.exports = config => {
                     {
                         test: /\.js?$/,
                         exclude: /(node_modules|(\.spec\.js$))/,
-                        loader: `istanbul-instrumenter-loader`,
+                        loader: 'istanbul-instrumenter-loader',
                         options: {
                             cacheDirectory: true,
                             esModules: true,
