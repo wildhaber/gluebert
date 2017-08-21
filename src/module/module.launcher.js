@@ -69,6 +69,25 @@ class ModuleLauncher {
     }
 
     /**
+     * iterator for each element from a nodes list
+     * @param {NodeList} nodesList
+     * @param {function} callback
+     * @private
+     */
+    _eachElement(nodesList, callback = null) {
+        if(
+            nodesList &&
+            callback
+        ) {
+            Array.from(nodesList).forEach((node) => {
+                if(typeof node.querySelectorAll === 'function') {
+                    callback(node);
+                }
+            });
+        }
+    }
+
+    /**
      * register a controller instance to element
      * @param {Element} element
      * @param {function} instance - controller instance
@@ -177,15 +196,11 @@ class ModuleLauncher {
 
             switch (mutation.type) {
                 case 'childList':
-                    Array.from(mutation.addedNodes).forEach((node) => {
-                        if(typeof node.querySelectorAll === 'function') {
-                            this._launchMatchingElements(node);
-                        }
+                    this._eachElement(mutation.addedNodes, (node) => {
+                        this._launchMatchingElements(node);
                     });
-                    Array.from(mutation.removedNodes).forEach((node) => {
-                        if(typeof node.querySelectorAll === 'function') {
-                            this.removedElement(node);
-                        }
+                    this._eachElement(mutation.removedNodes, (node) => {
+                        this.removedElement(node);
                     });
                     break;
                 default:

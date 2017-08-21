@@ -95,6 +95,27 @@ var ModuleLauncher = function () {
         }
 
         /**
+         * iterator for each element from a nodes list
+         * @param {NodeList} nodesList
+         * @param {function} callback
+         * @private
+         */
+
+    }, {
+        key: '_eachElement',
+        value: function _eachElement(nodesList) {
+            var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+            if (nodesList && callback) {
+                Array.from(nodesList).forEach(function (node) {
+                    if (typeof node.querySelectorAll === 'function') {
+                        callback(node);
+                    }
+                });
+            }
+        }
+
+        /**
          * register a controller instance to element
          * @param {Element} element
          * @param {function} instance - controller instance
@@ -174,7 +195,7 @@ var ModuleLauncher = function () {
                 }, _callee, this);
             }));
 
-            function _bindController(_x3, _x4) {
+            function _bindController(_x4, _x5) {
                 return _ref.apply(this, arguments);
             }
 
@@ -225,7 +246,7 @@ var ModuleLauncher = function () {
                                         }, _callee2, _this);
                                     }));
 
-                                    return function (_x6) {
+                                    return function (_x7) {
                                         return _ref3.apply(this, arguments);
                                     };
                                 }());
@@ -238,7 +259,7 @@ var ModuleLauncher = function () {
                 }, _callee3, this);
             }));
 
-            function _launchMatchingElements(_x5) {
+            function _launchMatchingElements(_x6) {
                 return _ref2.apply(this, arguments);
             }
 
@@ -281,7 +302,7 @@ var ModuleLauncher = function () {
                                         }, _callee4, _this2);
                                     }));
 
-                                    return function (_x7) {
+                                    return function (_x8) {
                                         return _ref5.apply(this, arguments);
                                     };
                                 }());
@@ -328,15 +349,11 @@ var ModuleLauncher = function () {
 
                 switch (mutation.type) {
                     case 'childList':
-                        Array.from(mutation.addedNodes).forEach(function (node) {
-                            if (typeof node.querySelectorAll === 'function') {
-                                _this3._launchMatchingElements(node);
-                            }
+                        this._eachElement(mutation.addedNodes, function (node) {
+                            _this3._launchMatchingElements(node);
                         });
-                        Array.from(mutation.removedNodes).forEach(function (node) {
-                            if (typeof node.querySelectorAll === 'function') {
-                                _this3.removedElement(node);
-                            }
+                        this._eachElement(mutation.removedNodes, function (node) {
+                            _this3.removedElement(node);
                         });
                         break;
                     default:
@@ -390,7 +407,7 @@ var ModuleLauncher = function () {
                 }, _callee6, this);
             }));
 
-            function _addStyles(_x8, _x9) {
+            function _addStyles(_x9, _x10) {
                 return _ref6.apply(this, arguments);
             }
 
