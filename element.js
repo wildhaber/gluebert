@@ -4,4 +4,4 @@ import { ElementSignature } from './dist/element/element.signature';
 export {
     ElementAbstract,
     ElementSignature,
-}
+};

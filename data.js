@@ -4,4 +4,4 @@ import { DataSignature } from './dist/data/data.signature';
 export {
     DataSignature,
     DataAbstract,
-}
+};

@@ -4,4 +4,4 @@ import { Message } from './dist/message/message';
 export {
     MessageDispatcher,
     Message,
-}
+};

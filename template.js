@@ -8,4 +8,4 @@ export {
     MustacheTemplate,
     TemplateAbstract,
     TwigTemplate,
-}
+};
