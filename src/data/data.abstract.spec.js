@@ -39,10 +39,7 @@ describe('DataAbstract', () => {
     describe('#getObservable()', () => {
 
         it('should return an RxJS Subject by default', () => {
-
-            it('should return observableSubject to this._observableSubject', () => {
-                expect(DA.getObservable()).toEqual(DA._observableSubject);
-            });
+            expect(DA.getObservable()).toEqual(DA._observableSubject);
         });
     });
 
