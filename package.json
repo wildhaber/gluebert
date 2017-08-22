@@ -5,6 +5,7 @@
   "scripts": {
     "test": "npm run lint && npm run test:karma",
     "test:karma": "./node_modules/karma/bin/karma start karma.conf.js --single-run",
+    "test:karma:watch": "./node_modules/karma/bin/karma start karma.conf.js",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "./node_modules/.bin/eslint src --fix",
     "build": "rm -rf dist && ./node_modules/.bin/babel src --out-dir dist --ignore '**/*.spec.js'",

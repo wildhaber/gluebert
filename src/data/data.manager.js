@@ -33,7 +33,7 @@ class DataManager {
      */
     _registerData() {
         this._data.forEach((data) => {
-            this._registry.addSignatures(data);
+            this._registry.addSignature(data);
         });
         return this;
     }

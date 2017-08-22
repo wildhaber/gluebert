@@ -1,7 +1,9 @@
+/*global module:true*/
+
 // Karma configuration
 // Generated on Sun Aug 20 2017 20:38:14 GMT+0200 (CEST)
 
-module.exports = config => {
+module.exports = (config) => {
     config.set({
         frameworks: ['jasmine'],
         files: [
@@ -31,7 +33,7 @@ module.exports = config => {
                 },
                 {
                     type: 'lcovonly',
-                }
+                },
             ],
         },
         webpack: {
@@ -56,7 +58,7 @@ module.exports = config => {
                         },
                     },
                 ],
-            }
+            },
         },
         webpackMiddleware: {
             noInfo: true,

@@ -37,7 +37,7 @@ class DataObserver {
      * @param {DataSignature} signature
      * @returns {DataObserver}
      */
-    addSignatures(signature) {
+    addSignature(signature) {
         this._signatures[signature.key] = Object.assign({}, signature, { busy: false });
         return this;
     }
@@ -69,7 +69,9 @@ class DataObserver {
      * @returns {DataObserver}
      */
     setSignatureBusy(key) {
-        this._signatures[key].busy = true;
+        if(typeof this._signatures[key] === 'object') {
+            this._signatures[key].busy = true;
+        }
         return this;
     }
 
@@ -79,7 +81,9 @@ class DataObserver {
      * @returns {boolean}
      */
     isSignatureBusy(key) {
-        return this._signatures[key].busy;
+        return (typeof this._signatures[key] === 'object')
+            ? this._signatures[key].busy
+            : false;
     }
 
     /**
@@ -219,7 +223,7 @@ class DataObserver {
             const subscription = this._observables[to].observable.subscribe(
                 nextMethod,
                 error,
-                complete
+                complete,
             );
 
             this._addSubscription(origin, to, subscription);
