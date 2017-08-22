@@ -37,8 +37,8 @@ class DataObserver {
      * @param {DataSignature} signature
      * @returns {DataObserver}
      */
-    addSignatures(signature) {
-        this._signatures[signature.key] = Object.assign({}, signature, { busy: false });
+    addSignature(signature) {
+        this._signatures[signature.key] = Object.assign({}, signature, {busy: false});
         return this;
     }
 
@@ -69,7 +69,9 @@ class DataObserver {
      * @returns {DataObserver}
      */
     setSignatureBusy(key) {
-        this._signatures[key].busy = true;
+        if (typeof this._signatures[key] === 'object') {
+            this._signatures[key].busy = true;
+        }
         return this;
     }
 
@@ -79,7 +81,9 @@ class DataObserver {
      * @returns {boolean}
      */
     isSignatureBusy(key) {
-        return this._signatures[key].busy;
+        return (typeof this._signatures[key] === 'object')
+            ? this._signatures[key].busy
+            : false;
     }
 
     /**
@@ -139,7 +143,7 @@ class DataObserver {
      * @private
      */
     _addSubscription(origin, key, subscription) {
-        if(!this._subscriptions.has(origin)) {
+        if (!this._subscriptions.has(origin)) {
             this._subscriptions.set(origin, new Set());
         }
 
@@ -200,7 +204,7 @@ class DataObserver {
      */
     subscribe(origin, to, next, error, complete, filter = null) {
 
-        if(this._observableExists(to)) {
+        if (this._observableExists(to)) {
 
             let nextMethod = (typeof next === 'function')
                 ? next
@@ -210,21 +214,21 @@ class DataObserver {
                         : null
                 );
 
-            if(!nextMethod) {
+            if (!nextMethod) {
                 throw new Error('No next method declared calling .subscribe()');
-            } else if(nextMethod instanceof MessageDispatcher) {
+            } else if (nextMethod instanceof MessageDispatcher) {
                 nextMethod = nextMethod.onMessage.bind(nextMethod);
             }
 
             const subscription = this._observables[to].observable.subscribe(
                 nextMethod,
                 error,
-                complete
+                complete,
             );
 
             this._addSubscription(origin, to, subscription);
 
-        } else if(
+        } else if (
             this._signatureExists(to) &&
             !this.isSignatureBusy(to)
         ) {
@@ -239,7 +243,7 @@ class DataObserver {
                         this.addObservable(to, observableModule);
                         this.removeSignature(to);
 
-                        if(this._observableExists(to)) {
+                        if (this._observableExists(to)) {
                             this.subscribe(origin, to, next, error, complete, filter);
                         } else {
                             throw new Error('Observable could not be instanciated. (' + to + ')');
@@ -250,7 +254,7 @@ class DataObserver {
                     }
                 });
 
-        } else if(
+        } else if (
             this._signatureExists(to) &&
             this.isSignatureBusy(to)
         ) {
@@ -271,7 +275,7 @@ class DataObserver {
      */
     unsubscribeFrom(origin, key) {
         const subscription = this.getSubscription(origin, key);
-        if(
+        if (
             subscription &&
             typeof subscription.unsubscribe === 'function'
         ) {
@@ -288,7 +292,7 @@ class DataObserver {
     unsubscribeAll(origin) {
         const subscriptions = this.getSubscriptions(origin);
 
-        if(
+        if (
             subscriptions &&
             subscriptions instanceof Set &&
             subscriptions.size
@@ -309,9 +313,9 @@ class DataObserver {
      */
     unsubscribe(origin, from = null) {
 
-        if(from && this.subscriptionExists(origin, from)) {
+        if (from && this.subscriptionExists(origin, from)) {
             this.unsubscribeFrom(origin, from);
-        } else if(!from) {
+        } else if (!from) {
             this.unsubscribeAll(origin);
         }
 
@@ -324,8 +328,8 @@ class DataObserver {
      * @param {Message} message
      */
     pushTo(key, message) {
-        if(this._observableExists(key)) {
-            if(typeof this._observables[key].push === 'function') {
+        if (this._observableExists(key)) {
+            if (typeof this._observables[key].push === 'function') {
                 this._observables[key].push(message);
             } else {
                 throw new Error('Observable (' + key + ') does not provide a .push() method.');

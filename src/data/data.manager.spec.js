@@ -3,7 +3,7 @@ import { DataManager } from './data.manager';
 describe('DataManager', () => {
 
     const registry = {
-        addSignatures: (r) => {
+        addSignature: (r) => {
         },
     };
 

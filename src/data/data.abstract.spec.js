@@ -43,4 +43,11 @@ describe('DataAbstract', () => {
         });
     });
 
+    describe('#push()', () => {
+
+        it('should return da instance', () => {
+            expect(DA.push({})).toEqual(DA);
+        });
+    });
+
 });
