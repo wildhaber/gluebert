@@ -4,19 +4,25 @@
   "description": "gluebert.js is a tiny helper orchestrating interactive html elements with on demand dynamic import Edit",
   "scripts": {
     "test": "npm run lint && npm run test:karma && npm run test:e2e",
-    "test:master": "npm run test && npm run test:e2e:testcafe:saucelabs",
+    "test:master": "npm run test && npm run test:e2e:saucelabs",
     "test:karma": "./node_modules/karma/bin/karma start karma.conf.js --single-run",
     "test:karma:watch": "./node_modules/karma/bin/karma start karma.conf.js",
     "test:e2e": "npm run build && npm run build:demo && npm run test:e2e:testcafe",
     "test:e2e:server": "./node_modules/.bin/http-server ./e2e/demo -p 3000",
     "test:e2e:testcafe": "./node_modules/.bin/testcafe chrome,firefox ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay 4000",
-    "test:e2e:testcafe:saucelabs": "./node_modules/.bin/testcafe 'saucelabs:Chrome@60:Windows 10,Firefox@55:Windows 10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay 4000",
+    "test:e2e:saucelabs": "export SAUCE_BUILD=$npm_package_config_sauce_build && npm run test:e2e:saucelabs:coolguys && npm run test:e2e:saucelabs:iefamily",
+    "test:e2e:saucelabs:local_backup": "export SAUCE_BUILD=$npm_package_config_sauce_build && ./node_modules/.bin/env-cmd ./saucelabs.env npm run test:e2e:saucelabs:coolguys && ./node_modules/.bin/env-cmd ./saucelabs.env npm run test:e2e:saucelabs:iefamily",
+    "test:e2e:saucelabs:coolguys": "export SAUCE_BUILD=$npm_package_config_sauce_build && ./node_modules/.bin/testcafe 'saucelabs:firefox,saucelabs:chrome:Windows 7,saucelabs:safari:OS X 10.10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay 10000",
+    "test:e2e:saucelabs:iefamily": "export SAUCE_BUILD=$npm_package_config_sauce_build && ./node_modules/.bin/testcafe 'saucelabs:internet explorer@9:Windows 7,saucelabs:internet explorer@10:Windows 8,saucelabs:internet explorer@11:Windows 8.1,saucelabs:MicrosoftEdge:Windows 10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay 10000",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "./node_modules/.bin/eslint src --fix",
     "build": "rm -rf dist && ./node_modules/.bin/babel src --out-dir dist --ignore '**/*.spec.js'",
     "build:demo": "npm run build:demo:balls",
     "build:demo:balls": "cd e2e/src/balls/ && npm install",
     "doc": "jsdoc -c ./jsdoc.config.json"
+  },
+  "config": {
+    "sauce_build": "gluebert-0-0-5.3"
   },
   "main": "./dist/gluebert.js",
   "dependencies": {

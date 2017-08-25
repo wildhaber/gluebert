@@ -19,9 +19,9 @@ test('Balls are generated when pressing button', async t => {
     const GeneratorElement = Selector(`[data-ball-machine]`);
 
     await t
-        .wait(2000)
+        .wait(15000)
         .click(GeneratorElement.find(`[data-add-ball]`))
-        .wait(1000)
+        .wait(2000)
         .expect(GeneratorElement.find(`.ball`).count)
         .eql(1);
 });
