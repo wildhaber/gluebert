@@ -1,5 +1,6 @@
 # IDE
 .idea
+.DS_Store
 
 # Build
 doc
@@ -61,4 +62,4 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+*.env

@@ -1,5 +1,6 @@
-# gluebert
-gluebert.js is a tiny helper orchestrating interactive html elements with on demand dynamic import
+# gluebert.js
+a tiny helper orchestrating interactive html elements with on demand dynamic import
+![gluebert.js](https://github.com/wildhaber/gluebert/blob/master/assets/gluebert_readme.png)
 
 [![CircleCI](https://circleci.com/gh/wildhaber/gluebert/tree/master.svg?style=svg)](https://circleci.com/gh/wildhaber/gluebert/tree/master) 
 [![Code Climate](https://codeclimate.com/github/wildhaber/gluebert/badges/gpa.svg)](https://codeclimate.com/github/wildhaber/gluebert)
@@ -7,3 +8,5 @@ gluebert.js is a tiny helper orchestrating interactive html elements with on dem
 [![Test Coverage](https://codeclimate.com/github/wildhaber/gluebert/badges/coverage.svg)](https://codeclimate.com/github/wildhaber/gluebert/coverage)
 [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 [![npm](https://img.shields.io/npm/dm/gluebert.svg?maxAge=2592000)](https://www.npmjs.com/package/gluebert)
+
+(WIP)
