@@ -10,6 +10,7 @@ jobs:
       - image: circleci/node:8.4-browsers
         environment:
             CHROME_BIN: "/usr/bin/google-chrome"
+            FIREFOX_BIN: "/usr/bin/firefox"
 
     working_directory: ~/gluebert
 
