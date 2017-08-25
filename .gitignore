@@ -1,5 +1,6 @@
 # IDE
 .idea
+.DS_Store
 
 # Build
 doc
