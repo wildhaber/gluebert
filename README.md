@@ -8,4 +8,6 @@ a tiny helper orchestrating interactive html elements with on demand dynamic imp
 [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
 [![npm](https://img.shields.io/npm/dm/gluebert.svg?maxAge=2592000)](https://www.npmjs.com/package/gluebert)
 
-(WIP)
+[![Build Status](https://saucelabs.com/browser-matrix/wildhaber.svg)](https://saucelabs.com/beta/builds/358f54933e1a4ae4987011e5f80f3c85)
+
+(Work in progress - getting started documentation is following soon.)
