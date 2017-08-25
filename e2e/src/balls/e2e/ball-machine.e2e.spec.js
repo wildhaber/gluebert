@@ -21,7 +21,7 @@ test('Balls are generated when pressing button', async t => {
     await t
         .wait(2000)
         .click(GeneratorElement.find(`[data-add-ball]`))
-        .wait(500)
+        .wait(1000)
         .expect(GeneratorElement.find(`.ball`).count)
         .eql(1);
 });

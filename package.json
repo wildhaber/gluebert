@@ -10,7 +10,7 @@
     "test:e2e": "npm run build && npm run build:demo && npm run test:e2e:testcafe",
     "test:e2e:server": "./node_modules/.bin/http-server ./e2e/demo -p 3000",
     "test:e2e:testcafe": "./node_modules/.bin/testcafe chrome,firefox ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay 4000",
-    "test:e2e:testcafe:saucelabs": "./node_modules/.bin/testcafe 'saucelabs:Chrome@60:Windows 10,saucelabs:Firefox@55:Windows 10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay 10000",
+    "test:e2e:testcafe:saucelabs": "./node_modules/.bin/testcafe 'saucelabs:Chrome@60:Windows 10,Firefox@55:Windows 10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay 4000",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "./node_modules/.bin/eslint src --fix",
     "build": "rm -rf dist && ./node_modules/.bin/babel src --out-dir dist --ignore '**/*.spec.js'",
