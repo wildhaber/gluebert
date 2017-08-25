@@ -2,3 +2,4 @@ tools/
 .idea/
 src/
 assets/
+e2e/

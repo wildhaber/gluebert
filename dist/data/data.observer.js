@@ -54,8 +54,8 @@ var DataObserver = function () {
 
 
     _createClass(DataObserver, [{
-        key: 'addSignatures',
-        value: function addSignatures(signature) {
+        key: 'addSignature',
+        value: function addSignature(signature) {
             this._signatures[signature.key] = Object.assign({}, signature, { busy: false });
             return this;
         }
@@ -96,7 +96,9 @@ var DataObserver = function () {
     }, {
         key: 'setSignatureBusy',
         value: function setSignatureBusy(key) {
-            this._signatures[key].busy = true;
+            if (_typeof(this._signatures[key]) === 'object') {
+                this._signatures[key].busy = true;
+            }
             return this;
         }
 
@@ -109,7 +111,7 @@ var DataObserver = function () {
     }, {
         key: 'isSignatureBusy',
         value: function isSignatureBusy(key) {
-            return this._signatures[key].busy;
+            return _typeof(this._signatures[key]) === 'object' ? this._signatures[key].busy : false;
         }
 
         /**

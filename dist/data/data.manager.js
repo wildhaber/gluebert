@@ -56,7 +56,7 @@ var DataManager = function () {
             var _this = this;
 
             this._data.forEach(function (data) {
-                _this._registry.addSignatures(data);
+                _this._registry.addSignature(data);
             });
             return this;
         }
