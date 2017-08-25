@@ -124,10 +124,15 @@ var DataObserver = function () {
     }, {
         key: 'addObservable',
         value: function addObservable(key, observableModule) {
+            if (!key || typeof key !== 'string' || !observableModule || !~['function', 'object'].indexOf(typeof observableModule === 'undefined' ? 'undefined' : _typeof(observableModule))) {
+                return this;
+            }
+
             this._observables[key] = {
                 observable: observableModule.getObservable(),
                 push: typeof observableModule.push === 'function' ? observableModule.push.bind(observableModule) : null
             };
+
             return this;
         }
 
@@ -154,7 +159,7 @@ var DataObserver = function () {
     }, {
         key: '_observableExists',
         value: function _observableExists(key) {
-            return _typeof(this._observables[key]) === 'object' && typeof this._observables[key].observable.subscribe === 'function';
+            return !!key && typeof key === 'string' && !!this._observables[key] && _typeof(this._observables[key]) === 'object' && !!this._observables[key].observable && _typeof(this._observables[key].observable) === 'object' && typeof this._observables[key].observable.subscribe === 'function';
         }
 
         /**
@@ -220,10 +225,10 @@ var DataObserver = function () {
     }, {
         key: 'getSubscription',
         value: function getSubscription(origin, key) {
-            var subscriptions = this.getSubscriptions(origin);
-            var foundSubscription = subscriptions.filter(function (subscription) {
+            var subscriptions = origin ? this.getSubscriptions(origin) : null;
+            var foundSubscription = subscriptions && subscriptions instanceof Set ? Array.from(subscriptions).filter(function (subscription) {
                 return subscription.key === key;
-            });
+            }) : [];
 
             return foundSubscription.length ? foundSubscription[0].subscription : null;
         }
@@ -250,6 +255,7 @@ var DataObserver = function () {
          * @param {function} error - callback function on error
          * @param {function} complete - callback function on complete queue
          * @param {function} filter - filter messages by
+         * @returns {DataObserver}
          */
 
     }, {
@@ -299,8 +305,10 @@ var DataObserver = function () {
                     _this.subscribe(origin, to, next, error, complete, filter);
                 }, 100);
             } else {
-                throw new Error('Datapool with key: ' + to + ' not exists.');
+                return this;
             }
+
+            return this;
         }
 
         /**

@@ -238,43 +238,32 @@ var ElementBuilder = function () {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 if (!this._elementExists(name)) {
-                                    _context.next = 20;
+                                    _context.next = 10;
                                     break;
                                 }
 
                                 if (!this._validate(name, data)) {
-                                    _context.next = 16;
+                                    _context.next = 7;
                                     break;
                                 }
 
-                                console.log('1');
-                                console.log('2');
-                                console.log('3');
                                 element = this.getElement(name, data);
-
-                                console.log(element);
-
-                                console.log('5');
                                 elementInstance = new element.module(data, this.getTemplateElement(element.template, data));
 
-                                console.log(elementInstance);
-                                console.log(data);
-                                console.log(elementInstance.create);
+                                // IE >= 11 has problems somewhere here. - any help welcome.
 
-                                console.log('6');
                                 return _context.abrupt('return', elementInstance.create());
 
-                            case 16:
-                                console.log('7');
+                            case 7:
                                 throw new Error('Create Element ' + name + ' failed. Given data do not match given schema.');
 
-                            case 18:
-                                _context.next = 33;
+                            case 8:
+                                _context.next = 23;
                                 break;
 
-                            case 20:
+                            case 10:
                                 if (!(this._signatureExists(name) && !this.isBusySignature(name))) {
-                                    _context.next = 28;
+                                    _context.next = 18;
                                     break;
                                 }
 
@@ -282,30 +271,26 @@ var ElementBuilder = function () {
 
                                 this.setBusySignature(name);
 
-                                _context.next = 25;
+                                _context.next = 15;
                                 return Promise.all([signature.schemaImport(), signature.templateImport(), signature.elementImport()]).then(function (imports) {
                                     _this.addElement(name, imports[0], imports[1], imports[2]);
 
                                     if (_this._elementExists(name)) {
                                         _this.removeSignature(name);
-                                        console.log(_this.create);
                                         return _this.create(name, data);
                                     } else {
                                         throw new Error('Unfortunately Element ' + name + ' could not have been instanciated.');
                                     }
                                 }).catch(function (err) {
-                                    console.log(err.stack);
-                                    console.log(err.description);
-                                    console.log(err.message);
                                     throw new Error('Unfortunately Element ' + name + ' could not have been instanciated. ' + err);
                                 });
 
-                            case 25:
+                            case 15:
                                 return _context.abrupt('return', _context.sent);
 
-                            case 28:
+                            case 18:
                                 if (!(this._signatureExists(name) && this.isBusySignature(name))) {
-                                    _context.next = 32;
+                                    _context.next = 22;
                                     break;
                                 }
 
@@ -315,10 +300,10 @@ var ElementBuilder = function () {
                                     }, 100);
                                 }));
 
-                            case 32:
+                            case 22:
                                 throw new Error('Element ' + name + ' is not have registered.');
 
-                            case 33:
+                            case 23:
                             case 'end':
                                 return _context.stop();
                         }

@@ -93,10 +93,20 @@ class DataObserver {
      * @returns {DataObserver}
      */
     addObservable(key, observableModule) {
+        if(
+            !key ||
+            typeof key !== 'string' ||
+            !observableModule ||
+            !~['function', 'object'].indexOf(typeof observableModule)
+        ) {
+            return this;
+        }
+
         this._observables[key] = {
             observable: observableModule.getObservable(),
             push: (typeof observableModule.push === 'function') ? observableModule.push.bind(observableModule) : null,
         };
+
         return this;
     }
 
@@ -118,7 +128,12 @@ class DataObserver {
      */
     _observableExists(key) {
         return (
+            !!key &&
+            typeof key === 'string' &&
+            !!this._observables[key] &&
             typeof this._observables[key] === 'object' &&
+            !!this._observables[key].observable &&
+            typeof this._observables[key].observable === 'object' &&
             typeof this._observables[key].observable.subscribe === 'function'
         );
     }
@@ -174,10 +189,12 @@ class DataObserver {
      * @returns {Subscription|null}
      */
     getSubscription(origin, key) {
-        const subscriptions = this.getSubscriptions(origin);
-        const foundSubscription = subscriptions.filter((subscription) => {
-            return subscription.key === key;
-        });
+        const subscriptions = (origin) ? this.getSubscriptions(origin) : null;
+        const foundSubscription = (subscriptions && subscriptions instanceof Set)
+            ? Array.from(subscriptions).filter((subscription) => {
+                return subscription.key === key;
+            })
+            : [];
 
         return (foundSubscription.length) ? foundSubscription[0].subscription : null;
     }
@@ -201,6 +218,7 @@ class DataObserver {
      * @param {function} error - callback function on error
      * @param {function} complete - callback function on complete queue
      * @param {function} filter - filter messages by
+     * @returns {DataObserver}
      */
     subscribe(origin, to, next, error, complete, filter = null) {
 
@@ -263,8 +281,10 @@ class DataObserver {
                 this.subscribe(origin, to, next, error, complete, filter);
             }, 100);
         } else {
-            throw new Error('Datapool with key: ' + to + ' not exists.');
+            return this;
         }
+
+        return this;
     }
 
     /**
