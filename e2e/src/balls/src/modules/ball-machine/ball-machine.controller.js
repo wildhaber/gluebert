@@ -37,7 +37,7 @@ class BallMachineController extends ControllerAbstract {
      * @private
      */
     _init() {
-        this._ballAddTriggerElement = this._element.querySelector('[data-add-ball]');
+        this._ballAddTriggerElement = (this._element) ? this._element.querySelector('[data-add-ball]') : null;
         this._bindEvents();
         return this;
     }

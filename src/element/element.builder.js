@@ -189,6 +189,7 @@ class ElementBuilder {
     async create(name, data) {
         if(this._elementExists(name)) {
             if(this._validate(name, data)) {
+
                 const element = this.getElement(name, data);
 
                 const elementInstance = new element.module(
@@ -196,6 +197,7 @@ class ElementBuilder {
                     this.getTemplateElement(element.template, data)
                 );
 
+                // IE >= 11 has problems somewhere here. - any help welcome.
                 return elementInstance.create();
             } else {
                 throw new Error(`Create Element ${name} failed. Given data do not match given schema.`);
@@ -217,12 +219,16 @@ class ElementBuilder {
 
                     if(this._elementExists(name)) {
                         this.removeSignature(name);
+                        console.log(this.create);
                         return this.create(name, data);
                     } else {
                         throw new Error(`Unfortunately Element ${name} could not have been instanciated.`);
                     }
                 })
                 .catch((err) => {
+                    console.log(err.stack);
+                    console.log(err.description);
+                    console.log(err.message);
                     throw new Error(`Unfortunately Element ${name} could not have been instanciated. ${err}`);
                 });
         } else if(

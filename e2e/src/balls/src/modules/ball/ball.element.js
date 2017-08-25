@@ -14,8 +14,8 @@ class BallElement extends ElementAbstract {
     constructor(data, template) {
         super(data, template);
 
-        this._numberElement = this._template.querySelector('slot');
-        this._ballElement = this._template.querySelector('.ball');
+        this._numberElement = (this._template) ? this._template.querySelector('slot') : null;
+        this._ballElement = (this._template) ? this._template.querySelector('.ball') : null;
         this._number = this._data.number;
     }
 

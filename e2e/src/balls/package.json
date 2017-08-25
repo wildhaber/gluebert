@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "npm run build",
-    "build": "rm -rf ../../demo/balls/ && ./node_modules/.bin/webpack --config=webpack.config.js"
+    "build": "rm -rf ../../demo/balls/ && ./node_modules/.bin/webpack --config=webpack.config.js --watch"
   },
   "author": "Raphael Wildhaber",
   "license": "MIT",

@@ -15,7 +15,7 @@ class BallBucketController extends ControllerAbstract {
     constructor(element = null, data, elements) {
         super(element, data, elements);
 
-        this._ballsListElement = this._element.querySelector('.balls');
+        this._ballsListElement = (this._element) ? this._element.querySelector('.balls') : null;
 
         this._dataKeyBalls = 'balls.data';
 

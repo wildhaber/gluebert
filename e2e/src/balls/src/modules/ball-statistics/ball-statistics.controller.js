@@ -58,11 +58,13 @@ class BallStatisticsController extends ControllerAbstract {
         }
 
         window.requestAnimationFrame(() => {
-            numberCounterBar.dataset.value = number.counter;
-            if(updateAll) {
-                this._updateBars();
-            } else {
-                this._updateBar(numberCounterBar, number.max);
+            if(numberCounterBar) {
+                numberCounterBar.dataset.value = number.counter;
+                if(updateAll) {
+                    this._updateBars();
+                } else {
+                    this._updateBar(numberCounterBar, number.max);
+                }
             }
         });
 
@@ -87,12 +89,14 @@ class BallStatisticsController extends ControllerAbstract {
     }
 
     _updateBars() {
-        const max = parseInt(this._ticklist.dataset.max);
-        const bars = Array.from(this._ticklist.querySelectorAll(`.c-ball-statistics__counter-bar`));
+        if(this._ticklist) {
+            const max = parseInt(this._ticklist.dataset.max);
+            const bars = Array.from(this._ticklist.querySelectorAll(`.c-ball-statistics__counter-bar`));
 
-        bars.forEach((bar) => {
-            this._updateBar(bar, max);
-        });
+            bars.forEach((bar) => {
+                this._updateBar(bar, max);
+            });
+        }
     }
 
     _subscribeToBalls() {
