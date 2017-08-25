@@ -23,7 +23,7 @@
     "doc": "jsdoc -c ./jsdoc.config.json"
   },
   "config": {
-    "sauce_build": "gluebert-0-0-5.3"
+    "sauce_build": "gluebert-0-0-5.4"
   },
   "main": "./dist/gluebert.js",
   "dependencies": {
