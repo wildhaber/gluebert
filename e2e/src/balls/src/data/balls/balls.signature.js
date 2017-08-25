@@ -1,4 +1,4 @@
-import {DataAbstract} from './../../../../../../data';
+import {DataSignature} from './../../../../../../data';
 
 /**
  * DataSignature for BallsData

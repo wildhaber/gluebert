@@ -39,9 +39,6 @@ class BallMachineController extends ControllerAbstract {
     _init() {
         this._ballAddTriggerElement = this._element.querySelector('[data-add-ball]');
         this._bindEvents();
-
-        window.setInterval(this._addNewBall.bind(this), 500);
-
         return this;
     }
 
