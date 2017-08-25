@@ -1,5 +1,5 @@
-import {ModuleSignature} from './../../../../../../module';
-import {BALL_ELEMENT_SIGNATURE} from './ball.element.signature';
+import { ModuleSignature } from './../../../../../../module';
+import { BALL_ELEMENT_SIGNATURE } from './ball.element.signature';
 
 /**
  * ElementSignature for ball.controller
@@ -11,7 +11,7 @@ const MODULE = new ModuleSignature('Ball')
     .setSelector(`li.ball`)
 
     // set ball controller
-    .setControllerImport(() => import(/* webpackChunkName: "ball.controller" */ './ball.controller').then((controller) => controller.BallController ))
+    .setControllerImport(() => import(/* webpackChunkName: "ball.controller" */ './ball.controller').then((controller) => controller.BallController))
 
     // set styles import
     .setStylesImport(() => import(/* webpackChunkName: "ball.styles" */ './ball.styles.scss'))
@@ -21,4 +21,4 @@ const MODULE = new ModuleSignature('Ball')
 
 export {
     MODULE,
-}
+};

@@ -1,5 +1,5 @@
-import {Message} from './../../../../../../message';
-import {ControllerAbstract} from './../../../../../../controller';
+import { Message } from './../../../../../../message';
+import { ControllerAbstract } from './../../../../../../controller';
 
 /**
  * Class represents BallStatisticsController
@@ -80,9 +80,9 @@ class BallStatisticsController extends ControllerAbstract {
             bar.style.height = `${pc}%`;
 
             if(pc === 100) {
-                bar.classList.add(leaderClass)
+                bar.classList.add(leaderClass);
             } else if(bar.classList.contains(leaderClass)) {
-                bar.classList.remove(leaderClass)
+                bar.classList.remove(leaderClass);
             }
 
         });
@@ -106,13 +106,15 @@ class BallStatisticsController extends ControllerAbstract {
             {
                 add: this._plusNumber.bind(this),
             },
-            () => {},
-            () => {}
-        )
+            () => {
+            },
+            () => {
+            },
+        );
     }
 
 }
 
 export {
     BallStatisticsController,
-}
+};

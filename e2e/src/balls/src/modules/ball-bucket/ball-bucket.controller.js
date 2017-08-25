@@ -1,4 +1,4 @@
-import {ControllerAbstract} from './../../../../../../controller';
+import { ControllerAbstract } from './../../../../../../controller';
 
 /**
  * Class represents BallBucketController
@@ -65,7 +65,7 @@ class BallBucketController extends ControllerAbstract {
             },
             this._onBallDataError.bind(this),
             this._onBallDataComplete.bind(this),
-            null
+            null,
         );
         return this;
     }
@@ -92,7 +92,7 @@ class BallBucketController extends ControllerAbstract {
                 number: number.number,
                 // for mustache example
                 evenOddClass: () => {
-                    switch(number.number % 2) {
+                    switch (number.number % 2) {
                         case 1 :
                             return 'even';
                         case 0 :
@@ -119,7 +119,7 @@ class BallBucketController extends ControllerAbstract {
      */
     _isNumberApplicable(number) {
 
-        if (!this._numberFilterKey) {
+        if(!this._numberFilterKey) {
             return true;
         }
 
@@ -172,4 +172,4 @@ class BallBucketController extends ControllerAbstract {
 
 export {
     BallBucketController,
-}
+};
