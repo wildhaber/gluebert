@@ -1,6 +1,7 @@
+![gluebert.js](https://github.com/wildhaber/gluebert/blob/master/assets/gluebert_readme.png)
+
 # gluebert.js
 a tiny helper orchestrating interactive html elements with on demand dynamic import
-![gluebert.js](https://github.com/wildhaber/gluebert/blob/master/assets/gluebert_readme.png)
 
 [![CircleCI](https://circleci.com/gh/wildhaber/gluebert/tree/master.svg?style=svg)](https://circleci.com/gh/wildhaber/gluebert/tree/master) 
 [![Code Climate](https://codeclimate.com/github/wildhaber/gluebert/badges/gpa.svg)](https://codeclimate.com/github/wildhaber/gluebert)
