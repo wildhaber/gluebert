@@ -1,5 +1,7 @@
 /*global module:true*/
 
 module.exports = {
-    baseLocation: 'http://localhost:3030',
+    root: 'http://localhost',
+    port: '3000',
+    src: './e2e/**/*.e2e.spec.js',
 };
