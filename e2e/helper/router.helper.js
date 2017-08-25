@@ -3,7 +3,7 @@
 const CONFIG = require('./../../e2e.conf');
 
 function browseRelative(path) {
-    return CONFIG.baseLocation + '/' + path;
+    return `${CONFIG.root}:${CONFIG.port}/${path}`;
 }
 
 module.exports = browseRelative;

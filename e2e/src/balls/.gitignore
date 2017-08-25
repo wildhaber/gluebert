@@ -1,8 +1,8 @@
 # IDE
 .idea
-.DS_Store
 
 # Build
+dist
 doc
 
 # Logs
@@ -62,8 +62,5 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-*.env
+.env
 
-# E2E Test Compile
-e2e/demo/*
-e2e/**/node_modules/

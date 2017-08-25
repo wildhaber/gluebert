@@ -7,7 +7,10 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10
+      - image: circleci/node:8.4-browsers
+        environment:
+            CHROME_BIN: "/usr/bin/google-chrome"
+            FIREFOX_BIN: "/usr/bin/firefox"
 
     working_directory: ~/gluebert
 
@@ -29,7 +32,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: yarn test
+      - run: yarn test:master
 
       # coverage
       - run: npm install codeclimate-test-reporter

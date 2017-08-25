@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "definitions": {},
+  "id": "ball.json",
+  "properties": {
+    "number": {
+      "id": "/properties/number",
+      "type": "number"
+    }
+  },
+  "type": "object"
+}

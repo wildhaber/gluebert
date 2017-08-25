@@ -23,4 +23,4 @@ class Server {
     }
 }
 
-module.exports = new Server(CONFIG.rootPath);
+module.exports = new Server(CONFIG.root);
