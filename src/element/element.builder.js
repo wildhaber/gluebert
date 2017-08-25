@@ -219,16 +219,12 @@ class ElementBuilder {
 
                     if(this._elementExists(name)) {
                         this.removeSignature(name);
-                        console.log(this.create);
                         return this.create(name, data);
                     } else {
                         throw new Error(`Unfortunately Element ${name} could not have been instanciated.`);
                     }
                 })
                 .catch((err) => {
-                    console.log(err.stack);
-                    console.log(err.description);
-                    console.log(err.message);
                     throw new Error(`Unfortunately Element ${name} could not have been instanciated. ${err}`);
                 });
         } else if(
