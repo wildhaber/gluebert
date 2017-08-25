@@ -1,5 +1,7 @@
+/*global fixture test:true*/
+
 import { Selector } from 'testcafe';
-import { Router, Server } from './helper';
+import { Router } from './helper';
 
 /**
  * Define Fixture for TestSet
