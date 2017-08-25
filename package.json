@@ -8,7 +8,7 @@
     "test:karma:watch": "./node_modules/karma/bin/karma start karma.conf.js",
     "test:e2e:server": "./node_modules/.bin/http-server ./e2e/demo -p 3030",
     "test:e2e:testcafe": "./node_modules/.bin/testcafe chrome ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay 4000",
-    "test:e2e:testcafe:saucelabs": "./node_modules/.bin/env-cmd ./saucelabs.env ./node_modules/.bin/testcafe 'saucelabs:Chrome@beta:Windows 10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay 4000",
+    "test:e2e:testcafe:saucelabs": "./node_modules/.bin/testcafe 'saucelabs:Chrome@beta:Windows 10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay 4000",
     "test:e2e:testcafe:saucelabs:local": "./node_modules/.bin/env-cmd ./saucelabs.env npm run test:e2e:testcafe:saucelabs",
     "test:e2e:testcafe:help": "./node_modules/.bin/testcafe --help",
     "test:e2e": "npm run test:e2e:testcafe",
