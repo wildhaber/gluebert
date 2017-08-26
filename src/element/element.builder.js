@@ -279,7 +279,7 @@ class ElementBuilder {
                 }, 100);
             });
         } else {
-            throw new Error(`Element ${name} is not have registered.`);
+            return null;
         }
     }
 

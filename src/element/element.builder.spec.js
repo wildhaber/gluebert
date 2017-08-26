@@ -4,6 +4,9 @@ import { ElementSignature} from './element.signature';
 describe('ElementBuilder', () => {
 
     const EB = new ElementBuilder();
+    const EBTemplate = new ElementBuilder(null, () => {});
+    const EBTemplateSchema = new ElementBuilder(null, () => {}, () => {});
+    const EBInvalidTemplateSchema = new ElementBuilder(null, null, undefined);
 
     it('should exist', () => {
         expect(typeof ElementBuilder).toBe('function');
@@ -306,6 +309,26 @@ describe('ElementBuilder', () => {
             expect(EB2._validate('element.name', {})).toBe(true);
             expect(EB2._validate('inexistingElement', {})).toBe(false);
             expect(EB2._validate('invalidElement2', {})).toBe(false);
+        });
+
+    });
+
+
+    describe(`#create()`, () => {
+        // Todo: Rewrite create method to reduce complexity level
+
+        const EB2 = new ElementBuilder();
+        EB2.addElement('element.name',() => true,'template', (module) => {});
+        EB2._signatures['brand.new.element'] = new ElementSignature('brand.new.element');
+
+        it(`should return an element instance or null if element does not exist`, () => {
+            expect(EB2.create('element.name') instanceof Promise).toBe(true);
+
+            // Check initialize and busy state (that's why there are two calls just after each other
+            expect(EB2.create('brand.new.element') instanceof Promise).toBe(true);
+            expect(EB2.create('brand.new.element') instanceof Promise).toBe(true);
+
+            expect(EB2.create('inexisting element') instanceof Promise).toBe(true);
         });
 
     });
