@@ -10,8 +10,13 @@ class ElementAbstract {
      * @param {DocumentFragment} template - shadow dom template reference
      */
     constructor(data, template) {
-        this._data = data;
-        this._template = template;
+        this._data = (data)
+            ? data
+            : null;
+
+        this._template = (template instanceof DocumentFragment)
+            ? template
+            : null;
     }
 
     /**
@@ -26,6 +31,10 @@ class ElementAbstract {
      * @return {Node}
      */
     create() {
+        if(!this._template) {
+            return null;
+        }
+
         this.bindData();
         return document.importNode(this._template, true);
     }
