@@ -145,7 +145,7 @@ class ModuleLauncher {
      * @private
      */
     async _launchMatchingElements(node) {
-        this._eachModule(async(signature) => {
+        this._eachModule(async (signature) => {
             for(let i = 0, l = this._modules.length; i < l; i++) {
                 let elements = Array.from(node.querySelectorAll(signature.selector));
                 const matchingRootElement = node.matches(signature.selector);
@@ -168,7 +168,7 @@ class ModuleLauncher {
     async _bootstrap() {
 
         this._eachModule(
-            async(signature) => {
+            async (signature) => {
                 const elements = Array.from(document.querySelectorAll(signature.selector));
                 this._bindController(elements, signature);
             },

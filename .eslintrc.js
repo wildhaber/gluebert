@@ -106,7 +106,11 @@ module.exports = {
         ],
         'space-before-function-paren': [
             2,
-            'never',
+            {
+                'anonymous': 'never',
+                'named': 'never',
+                'asyncArrow': 'always',
+            },
         ],
         'space-in-parens': [
             2,

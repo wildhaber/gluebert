@@ -14,7 +14,10 @@ class ElementSignature {
      * @param {function|null} template - callback function for template import
      */
     constructor(name, template = null) {
-        this.name = name;
+        this.name = (typeof name === 'string')
+            ? name
+            : null;
+
         this.schemaImport = () => Promise.resolve();
         this.templateImport = () => Promise.resolve(`<div>Missing template specification for ${name}.</div>`);
         this.elementImport = () => Promise.resolve(ElementAbstract);
@@ -32,7 +35,9 @@ class ElementSignature {
      * @example signature.setImportSchema(() => import('./xyz.schema.json'));
      */
     setImportSchema(schema) {
-        this.schemaImport = schema;
+        if(typeof schema === 'function') {
+            this.schemaImport = schema;
+        }
         return this;
     }
 
@@ -52,7 +57,9 @@ class ElementSignature {
      * @example signature.setTemplateImport(() => import('./xyz.template.twig'));
      */
     setTemplateImport(template) {
-        this.templateImport = template;
+        if(typeof template === 'function') {
+            this.templateImport = template;
+        }
         return this;
     }
 
@@ -71,7 +78,9 @@ class ElementSignature {
      * @example signature.setElementImport(() => import('./xyz.element').then((element) => element.XyzElement));
      */
     setElementImport(element) {
-        this.elementImport = element;
+        if(typeof element === 'function') {
+            this.elementImport = element;
+        }
         return this;
     }
 

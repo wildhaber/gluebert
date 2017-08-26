@@ -1,4 +1,4 @@
-import {ControllerAbstract} from './../../../../../../controller';
+import { ControllerAbstract } from './../../../../../../controller';
 
 /**
  * Class represents BallController
@@ -48,4 +48,4 @@ class BallController extends ControllerAbstract {
 
 export {
     BallController,
-}
+};

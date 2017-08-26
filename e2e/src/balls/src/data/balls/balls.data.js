@@ -1,4 +1,4 @@
-import {DataAbstract} from './../../../../../../data';
+import { DataAbstract } from './../../../../../../data';
 
 /**
  * Class represents BallsData
@@ -17,5 +17,5 @@ class BallsData extends DataAbstract {
 }
 
 export {
-    BallsData
-}
+    BallsData,
+};

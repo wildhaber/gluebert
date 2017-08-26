@@ -1,5 +1,5 @@
-import {Message} from './../../../../../../message';
-import {ControllerAbstract} from './../../../../../../controller';
+import { Message } from './../../../../../../message';
+import { ControllerAbstract } from './../../../../../../controller';
 
 /**
  * Class represents BallMachineController
@@ -60,7 +60,7 @@ class BallMachineController extends ControllerAbstract {
     _bindAddBallEvent() {
         this._ballAddTriggerElement.addEventListener(
             `click`,
-            this._addNewBall.bind(this)
+            this._addNewBall.bind(this),
         );
         return this;
     }
@@ -86,7 +86,7 @@ class BallMachineController extends ControllerAbstract {
      */
     _addNewBall() {
 
-        if (this._currentBalls.size === this._ballsLimit) {
+        if(this._currentBalls.size === this._ballsLimit) {
             this._resetBalls();
         } else {
             const number = this._getUniqueBall();
@@ -100,8 +100,8 @@ class BallMachineController extends ControllerAbstract {
                         number,
                         counter,
                         max: this._ballsStatsMax,
-                    }
-                )
+                    },
+                ),
             );
 
             this._currentBalls.add(number);
@@ -119,7 +119,7 @@ class BallMachineController extends ControllerAbstract {
     _resetBalls() {
         this._data.pushTo(
             this._dataKeyBalls,
-            new Message('reset')
+            new Message('reset'),
         );
 
         this._currentBalls.clear();
@@ -145,4 +145,4 @@ class BallMachineController extends ControllerAbstract {
 
 export {
     BallMachineController,
-}
+};

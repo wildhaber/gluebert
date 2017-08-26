@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -20,8 +20,9 @@ var DataSignature =
 function DataSignature(key, importModule) {
     _classCallCheck(this, DataSignature);
 
-    this.key = key;
-    this.importModule = importModule;
+    this.key = typeof key === 'string' ? key : null;
+
+    this.importModule = this.key && typeof importModule === 'function' ? importModule : null;
 };
 
 exports.DataSignature = DataSignature;

@@ -1,4 +1,4 @@
-import {ElementSignature} from './../../../../../../element';
+import { ElementSignature } from './../../../../../../element';
 
 /**
  * Ball Element
@@ -10,4 +10,4 @@ const BALL_ELEMENT_SIGNATURE = new ElementSignature('ball.element', () => import
 
 export {
     BALL_ELEMENT_SIGNATURE,
-}
+};

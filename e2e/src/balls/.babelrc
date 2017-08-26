@@ -11,6 +11,8 @@
         "react"
     ],
     "plugins": [
-        "transform-es2015-classes"
+        ["transform-es2015-classes", {
+            "loose": true
+        }]
     ]
 }

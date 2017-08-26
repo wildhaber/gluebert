@@ -9,7 +9,10 @@ class Message {
      * @param {object|null} data
      */
     constructor(action, data = null) {
-        this.action = action;
+        this.action = (action && typeof action === 'string')
+            ? action
+            : null;
+
         this.data = data;
     }
 
@@ -34,7 +37,7 @@ class Message {
      * @return {boolean}
      */
     hasData() {
-        return !!this.data;
+        return (this.data !== null);
     }
 }
 

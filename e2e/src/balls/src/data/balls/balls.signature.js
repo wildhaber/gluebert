@@ -1,4 +1,4 @@
-import {DataSignature} from './../../../../../../data';
+import { DataSignature } from './../../../../../../data';
 
 /**
  * DataSignature for BallsData
@@ -11,9 +11,9 @@ const SIGNATURE = new DataSignature(
             .then((module) => {
                 return new module.BallsData(dataPool);
             });
-    }
+    },
 );
 
 export {
     SIGNATURE,
-}
+};

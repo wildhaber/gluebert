@@ -1,4 +1,4 @@
-import {ModuleSignature} from './../../../../../../module';
+import { ModuleSignature } from './../../../../../../module';
 
 /**
  * ModuleSignature for BallMachine
@@ -10,7 +10,7 @@ const MODULE = new ModuleSignature(`BallMachine`)
     .setSelector(`[data-ball-machine]`)
 
     // Set ModuleImport
-    .setControllerImport(() => import(/* webpackChunkName: "ball.machine.controller" */ './ball-machine.controller').then((controller) => controller.BallMachineController ))
+    .setControllerImport(() => import(/* webpackChunkName: "ball.machine.controller" */ './ball-machine.controller').then((controller) => controller.BallMachineController))
 
     // Set StylesImport
     .setStylesImport(() => import(/* webpackChunkName: "ball.machine.styles" */ './ball-machine.styles.scss'));
@@ -18,4 +18,4 @@ const MODULE = new ModuleSignature(`BallMachine`)
 
 export {
     MODULE,
-}
+};

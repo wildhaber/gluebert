@@ -10,8 +10,13 @@ class DataSignature {
      * @param {function} importModule
      */
     constructor(key, importModule) {
-        this.key = key;
-        this.importModule = importModule;
+        this.key = (typeof key === 'string')
+            ? key
+            : null;
+
+        this.importModule = (this.key && typeof importModule === 'function')
+            ? importModule
+            : null;
     }
 
 }

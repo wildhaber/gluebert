@@ -17,6 +17,11 @@ describe('DataManager', () => {
         data,
     );
 
+    const DM2 = new DataManager(
+        registry,
+        {},
+    );
+
     it('should exist', () => {
         expect(typeof DataManager).toBe('function');
     });
@@ -40,8 +45,9 @@ describe('DataManager', () => {
         expect(DM._registry).toEqual(registry);
     });
 
-    it('should return data to this._data', () => {
+    it('should return data to this._data ignore given _data', () => {
         expect(DM._data).toEqual(data);
+        expect(DM2._data).toEqual([]);
     });
 
     describe('#_init()', () => {

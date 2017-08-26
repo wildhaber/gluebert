@@ -50,7 +50,7 @@ var DataAbstract = function () {
     }, {
         key: 'push',
         value: function push(data) {
-            if (this._observableSubject) {
+            if (this._observableSubject && !!data) {
                 this._observableSubject.next(data);
             }
             return this;

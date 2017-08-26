@@ -1,4 +1,4 @@
-import {ElementAbstract} from './../../../../../../element';
+import { ElementAbstract } from './../../../../../../element';
 
 /**
  * Class represents BallStatisticsElement
@@ -26,4 +26,4 @@ class BallStatisticsElement extends ElementAbstract {
 
 export {
     BallStatisticsElement,
-}
+};

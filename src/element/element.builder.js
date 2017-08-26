@@ -11,10 +11,23 @@ class ElementBuilder {
      * @param {function} schemaValidator
      */
     constructor(signatures, templateEngine, schemaValidator) {
-        this._schemaValidator = (schemaValidator) ? new schemaValidator() : null;
-        this._templateEngine = (typeof templateEngine === 'object') ? templateEngine : null;
-        this._signatures = this._transformToObject(signatures);
+        this._schemaValidator = (
+            schemaValidator &&
+            typeof schemaValidator === 'function'
+        )
+            ? new schemaValidator()
+            : null;
+
+        this._templateEngine = (typeof templateEngine === 'object')
+            ? templateEngine
+            : null;
+
+        this._signatures = (signatures instanceof Array)
+            ? this._transformToObject(signatures)
+            : {};
+
         this._elements = {};
+
     }
 
     /**
@@ -25,9 +38,15 @@ class ElementBuilder {
      */
     _transformToObject(signatures) {
         let obj = {};
-        signatures.forEach((signature) => {
-            obj[signature.name] = signature;
-        });
+
+        if(signatures instanceof Array) {
+            signatures.forEach((signature) => {
+                if(signature && typeof signature.name === 'string') {
+                    obj[signature.name] = signature;
+                }
+            });
+        }
+
         return obj;
     }
 
@@ -38,7 +57,12 @@ class ElementBuilder {
      * @private
      */
     _elementExists(name) {
-        return (typeof this._elements[name] === 'object');
+        return (
+            !!name &&
+            typeof name === 'string' &&
+            typeof this._elements[name] === 'object' &&
+            !!this._elements[name]
+        );
     }
 
     /**
@@ -47,7 +71,9 @@ class ElementBuilder {
      * @return {object|null}
      */
     getElement(name) {
-        return (typeof this._elements[name] === 'object') ? this._elements[name] : null;
+        return (this._elementExists(name))
+            ? this._elements[name]
+            : null;
     }
 
     /**
@@ -56,7 +82,9 @@ class ElementBuilder {
      * @return {object|null}
      */
     getSignature(name) {
-        return (typeof this._signatures[name] === 'object') ? this._signatures[name] : null;
+        return (this._signatureExists(name))
+            ? this._signatures[name]
+            : null;
     }
 
     /**
@@ -78,7 +106,11 @@ class ElementBuilder {
      * @private
      */
     _signatureExists(name) {
-        return (typeof this._signatures[name] === 'object');
+        return (
+            typeof this._signatures[name] === 'object' &&
+            !!this._signatures[name] &&
+            typeof this._signatures[name].name === 'string'
+        );
     }
 
     /**
@@ -131,7 +163,13 @@ class ElementBuilder {
      */
     getSchema(name) {
         const element = this.getElement(name);
-        return (element) ? element.schema : null;
+        return (
+            element &&
+            typeof element === 'object' &&
+            typeof element.schema !== 'undefined'
+        )
+            ? element.schema
+            : null;
     }
 
     /**
@@ -142,6 +180,10 @@ class ElementBuilder {
      * @private
      */
     _validate(elementName, data) {
+        if(!this._elementExists(elementName)) {
+            return false;
+        }
+
         const schema = this.getSchema(elementName);
 
         if(
@@ -194,7 +236,7 @@ class ElementBuilder {
 
                 const elementInstance = new element.module(
                     data,
-                    this.getTemplateElement(element.template, data)
+                    this.getTemplateElement(element.template, data),
                 );
 
                 // IE >= 11 has problems somewhere here. - any help welcome.
@@ -237,7 +279,7 @@ class ElementBuilder {
                 }, 100);
             });
         } else {
-            throw new Error(`Element ${name} is not have registered.`);
+            return null;
         }
     }
 

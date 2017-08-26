@@ -124,10 +124,15 @@ var DataObserver = function () {
     }, {
         key: 'addObservable',
         value: function addObservable(key, observableModule) {
+            if (!key || typeof key !== 'string' || !observableModule || !~['function', 'object'].indexOf(typeof observableModule === 'undefined' ? 'undefined' : _typeof(observableModule))) {
+                return this;
+            }
+
             this._observables[key] = {
                 observable: observableModule.getObservable(),
                 push: typeof observableModule.push === 'function' ? observableModule.push.bind(observableModule) : null
             };
+
             return this;
         }
 
@@ -154,7 +159,7 @@ var DataObserver = function () {
     }, {
         key: '_observableExists',
         value: function _observableExists(key) {
-            return _typeof(this._observables[key]) === 'object' && typeof this._observables[key].observable.subscribe === 'function';
+            return !!key && typeof key === 'string' && !!this._observables[key] && _typeof(this._observables[key]) === 'object' && !!this._observables[key].observable && _typeof(this._observables[key].observable) === 'object' && typeof this._observables[key].observable.subscribe === 'function';
         }
 
         /**
@@ -220,10 +225,10 @@ var DataObserver = function () {
     }, {
         key: 'getSubscription',
         value: function getSubscription(origin, key) {
-            var subscriptions = this.getSubscriptions(origin);
-            var foundSubscription = subscriptions.filter(function (subscription) {
+            var subscriptions = origin ? this.getSubscriptions(origin) : null;
+            var foundSubscription = subscriptions && subscriptions instanceof Set ? Array.from(subscriptions).filter(function (subscription) {
                 return subscription.key === key;
-            });
+            }) : [];
 
             return foundSubscription.length ? foundSubscription[0].subscription : null;
         }
@@ -250,6 +255,7 @@ var DataObserver = function () {
          * @param {function} error - callback function on error
          * @param {function} complete - callback function on complete queue
          * @param {function} filter - filter messages by
+         * @returns {DataObserver}
          */
 
     }, {
@@ -258,7 +264,7 @@ var DataObserver = function () {
             var _this = this;
 
             var filter = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
-
+            // eslint-disable-line complexity
 
             if (this._observableExists(to)) {
 
@@ -277,30 +283,40 @@ var DataObserver = function () {
 
                 this.setSignatureBusy(to);
 
-                this.getSignature(to).importModule(this).then(function (observableModule) {
+                var signature = this.getSignature(to);
 
-                    try {
-                        _this.addObservable(to, observableModule);
-                        _this.removeSignature(to);
+                if (signature && typeof signature.importModule === 'function') {
+                    signature.importModule(this).then(function (observableModule) {
 
-                        if (_this._observableExists(to)) {
-                            _this.subscribe(origin, to, next, error, complete, filter);
-                        } else {
-                            throw new Error('Observable could not be instanciated. (' + to + ')');
+                        try {
+                            _this.addObservable(to, observableModule);
+                            _this.removeSignature(to);
+
+                            if (_this._observableExists(to)) {
+                                _this.subscribe(origin, to, next, error, complete, filter);
+                            } else {
+                                throw new Error('Observable could not be instanciated. (' + to + ')');
+                            }
+                        } catch (err) {
+                            _this.removeSignature(to);
+                            throw new Error(err);
                         }
-                    } catch (err) {
-                        _this.removeSignature(to);
-                        throw new Error(err);
-                    }
-                });
+                    }).catch(function (err) {
+                        return _this;
+                    });
+                } else {
+                    return this;
+                }
             } else if (this._signatureExists(to) && this.isSignatureBusy(to)) {
                 // Retry
                 window.setTimeout(function () {
-                    _this.subscribe(origin, to, next, error, complete, filter);
+                    return _this.subscribe(origin, to, next, error, complete, filter);
                 }, 100);
             } else {
-                throw new Error('Datapool with key: ' + to + ' not exists.');
+                return this;
             }
+
+            return this;
         }
 
         /**
@@ -333,7 +349,9 @@ var DataObserver = function () {
 
             if (subscriptions && subscriptions instanceof Set && subscriptions.size) {
                 subscriptions.forEach(function (subscription) {
-                    subscription.subscription.unsubscribe();
+                    if (subscription && (typeof subscription === 'undefined' ? 'undefined' : _typeof(subscription)) === 'object' && _typeof(subscription.subscription) === 'object' && subscription.subscription && typeof subscription.subscription.unsubscribe === 'function') {
+                        subscription.subscription.unsubscribe();
+                    }
                 });
             }
 
@@ -378,6 +396,8 @@ var DataObserver = function () {
                     throw new Error('Observable (' + key + ') does not provide a .push() method.');
                 }
             }
+
+            return this;
         }
     }]);
 

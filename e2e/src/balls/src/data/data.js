@@ -1,4 +1,4 @@
-import {SIGNATURE as BALLS_DATA} from "./balls/balls.signature"
+import { SIGNATURE as BALLS_DATA } from './balls/balls.signature';
 
 /**
  * List of DataSignatures
@@ -9,5 +9,5 @@ const DATA = [
 ];
 
 export {
-    DATA
+    DATA,
 };
