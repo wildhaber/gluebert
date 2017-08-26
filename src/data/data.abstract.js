@@ -30,7 +30,10 @@ class DataAbstract {
      * @returns {DataAbstract}
      */
     push(data) {
-        if(this._observableSubject) {
+        if(
+            this._observableSubject &&
+            !!data
+        ) {
             this._observableSubject.next(data);
         }
         return this;

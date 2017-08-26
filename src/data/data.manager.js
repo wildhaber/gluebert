@@ -10,8 +10,12 @@ class DataManager {
      * @param {DataSignature[]} data
      */
     constructor(dataRegistry, data = []) {
-        this._data = data;
         this._registry = dataRegistry;
+
+        this._data = (data instanceof Array)
+            ? data
+            : [];
+
         this._init();
     }
 

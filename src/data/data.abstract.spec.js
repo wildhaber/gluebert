@@ -9,6 +9,10 @@ describe('DataAbstract', () => {
         dataPool,
     );
 
+    const DA2 = new DataAbstract(
+        dataPool,
+    );
+
     it('should exist', () => {
         expect(typeof DataAbstract).toBe('function');
     });
@@ -47,7 +51,14 @@ describe('DataAbstract', () => {
 
         it('should return da instance', () => {
             expect(DA.push({})).toEqual(DA);
+            expect(DA.push()).toEqual(DA);
         });
+
+        it('should just ignore push execution if no observableObject available', () => {
+            DA2._observableSubject = null;
+            expect(DA2.push()).toEqual(DA2);
+        });
+
     });
 
 });
