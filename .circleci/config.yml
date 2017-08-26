@@ -32,7 +32,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests!
-      - run: yarn test:master
+#      - run: yarn test:master
 
       # coverage
       - run: npm install codeclimate-test-reporter
