@@ -29,7 +29,8 @@ var ElementSignature = function () {
 
         _classCallCheck(this, ElementSignature);
 
-        this.name = name;
+        this.name = typeof name === 'string' ? name : null;
+
         this.schemaImport = function () {
             return Promise.resolve();
         };
@@ -56,7 +57,9 @@ var ElementSignature = function () {
     _createClass(ElementSignature, [{
         key: 'setImportSchema',
         value: function setImportSchema(schema) {
-            this.schemaImport = schema;
+            if (typeof schema === 'function') {
+                this.schemaImport = schema;
+            }
             return this;
         }
 
@@ -82,7 +85,9 @@ var ElementSignature = function () {
     }, {
         key: 'setTemplateImport',
         value: function setTemplateImport(template) {
-            this.templateImport = template;
+            if (typeof template === 'function') {
+                this.templateImport = template;
+            }
             return this;
         }
 
@@ -107,7 +112,9 @@ var ElementSignature = function () {
     }, {
         key: 'setElementImport',
         value: function setElementImport(element) {
-            this.elementImport = element;
+            if (typeof element === 'function') {
+                this.elementImport = element;
+            }
             return this;
         }
 

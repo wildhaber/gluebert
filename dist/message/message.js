@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -23,7 +23,8 @@ var Message = function () {
 
         _classCallCheck(this, Message);
 
-        this.action = action;
+        this.action = action && typeof action === 'string' ? action : null;
+
         this.data = data;
     }
 
@@ -34,7 +35,7 @@ var Message = function () {
 
 
     _createClass(Message, [{
-        key: "getAction",
+        key: 'getAction',
         value: function getAction() {
             return this.action;
         }
@@ -45,7 +46,7 @@ var Message = function () {
          */
 
     }, {
-        key: "getData",
+        key: 'getData',
         value: function getData() {
             return this.data;
         }
@@ -56,9 +57,9 @@ var Message = function () {
          */
 
     }, {
-        key: "hasData",
+        key: 'hasData',
         value: function hasData() {
-            return !!this.data;
+            return this.data !== null;
         }
     }]);
 

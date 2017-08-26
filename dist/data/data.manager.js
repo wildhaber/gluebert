@@ -24,8 +24,10 @@ var DataManager = function () {
 
         _classCallCheck(this, DataManager);
 
-        this._data = data;
         this._registry = dataRegistry;
+
+        this._data = data instanceof Array ? data : [];
+
         this._init();
     }
 

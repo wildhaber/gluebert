@@ -27,9 +27,12 @@ var ElementBuilder = function () {
     function ElementBuilder(signatures, templateEngine, schemaValidator) {
         _classCallCheck(this, ElementBuilder);
 
-        this._schemaValidator = schemaValidator ? new schemaValidator() : null;
+        this._schemaValidator = schemaValidator && typeof schemaValidator === 'function' ? new schemaValidator() : null;
+
         this._templateEngine = (typeof templateEngine === 'undefined' ? 'undefined' : _typeof(templateEngine)) === 'object' ? templateEngine : null;
-        this._signatures = this._transformToObject(signatures);
+
+        this._signatures = signatures instanceof Array ? this._transformToObject(signatures) : {};
+
         this._elements = {};
     }
 
@@ -45,9 +48,15 @@ var ElementBuilder = function () {
         key: '_transformToObject',
         value: function _transformToObject(signatures) {
             var obj = {};
-            signatures.forEach(function (signature) {
-                obj[signature.name] = signature;
-            });
+
+            if (signatures instanceof Array) {
+                signatures.forEach(function (signature) {
+                    if (signature && typeof signature.name === 'string') {
+                        obj[signature.name] = signature;
+                    }
+                });
+            }
+
             return obj;
         }
 
@@ -61,7 +70,7 @@ var ElementBuilder = function () {
     }, {
         key: '_elementExists',
         value: function _elementExists(name) {
-            return _typeof(this._elements[name]) === 'object';
+            return !!name && typeof name === 'string' && _typeof(this._elements[name]) === 'object' && !!this._elements[name];
         }
 
         /**
@@ -73,7 +82,7 @@ var ElementBuilder = function () {
     }, {
         key: 'getElement',
         value: function getElement(name) {
-            return _typeof(this._elements[name]) === 'object' ? this._elements[name] : null;
+            return this._elementExists(name) ? this._elements[name] : null;
         }
 
         /**
@@ -85,7 +94,7 @@ var ElementBuilder = function () {
     }, {
         key: 'getSignature',
         value: function getSignature(name) {
-            return _typeof(this._signatures[name]) === 'object' ? this._signatures[name] : null;
+            return this._signatureExists(name) ? this._signatures[name] : null;
         }
 
         /**
@@ -113,7 +122,7 @@ var ElementBuilder = function () {
     }, {
         key: '_signatureExists',
         value: function _signatureExists(name) {
-            return _typeof(this._signatures[name]) === 'object';
+            return _typeof(this._signatures[name]) === 'object' && !!this._signatures[name] && typeof this._signatures[name].name === 'string';
         }
 
         /**
@@ -172,7 +181,7 @@ var ElementBuilder = function () {
         key: 'getSchema',
         value: function getSchema(name) {
             var element = this.getElement(name);
-            return element ? element.schema : null;
+            return element && (typeof element === 'undefined' ? 'undefined' : _typeof(element)) === 'object' && typeof element.schema !== 'undefined' ? element.schema : null;
         }
 
         /**
@@ -186,6 +195,10 @@ var ElementBuilder = function () {
     }, {
         key: '_validate',
         value: function _validate(elementName, data) {
+            if (!this._elementExists(elementName)) {
+                return false;
+            }
+
             var schema = this.getSchema(elementName);
 
             if (this._schemaValidator && schema) {
@@ -301,7 +314,7 @@ var ElementBuilder = function () {
                                 }));
 
                             case 22:
-                                throw new Error('Element ' + name + ' is not have registered.');
+                                return _context.abrupt('return', null);
 
                             case 23:
                             case 'end':
