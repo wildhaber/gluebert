@@ -31,9 +31,9 @@ var Gluebert = function () {
     function Gluebert(modules, data) {
         _classCallCheck(this, Gluebert);
 
-        this._modules = modules;
-        this._elements = this._extractElements(modules);
-        this._data = data;
+        this._modules = modules instanceof Array ? modules : null;
+        this._elements = this._modules ? this._extractElements(modules) : null;
+        this._data = data instanceof Array ? data : null;
         this._schemaValidator = null;
         this._templateEngine = null;
     }
@@ -78,16 +78,30 @@ var Gluebert = function () {
                 return a;
             }, []);
         }
+
+        /**
+         * set JSON Schema validator Gluebert uses for elements
+         * @param schemaValidator
+         * @return {Gluebert}
+         */
+
     }, {
         key: 'setSchemaValidator',
         value: function setSchemaValidator(schemaValidator) {
-            this._schemaValidator = schemaValidator;
+            this._schemaValidator = typeof schemaValidator === 'function' ? schemaValidator : null;
             return this;
         }
+
+        /**
+         * set template engine
+         * @param templateEngine
+         * @return {Gluebert}
+         */
+
     }, {
         key: 'setTemplateEngine',
         value: function setTemplateEngine(templateEngine) {
-            this._templateEngine = templateEngine;
+            this._templateEngine = typeof templateEngine === 'function' ? templateEngine : null;
             return this;
         }
     }]);
