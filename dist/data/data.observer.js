@@ -264,7 +264,7 @@ var DataObserver = function () {
             var _this = this;
 
             var filter = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
-
+            // eslint-disable-line complexity
 
             if (this._observableExists(to)) {
 
@@ -283,26 +283,34 @@ var DataObserver = function () {
 
                 this.setSignatureBusy(to);
 
-                this.getSignature(to).importModule(this).then(function (observableModule) {
+                var signature = this.getSignature(to);
 
-                    try {
-                        _this.addObservable(to, observableModule);
-                        _this.removeSignature(to);
+                if (signature && typeof signature.importModule === 'function') {
+                    signature.importModule(this).then(function (observableModule) {
 
-                        if (_this._observableExists(to)) {
-                            _this.subscribe(origin, to, next, error, complete, filter);
-                        } else {
-                            throw new Error('Observable could not be instanciated. (' + to + ')');
+                        try {
+                            _this.addObservable(to, observableModule);
+                            _this.removeSignature(to);
+
+                            if (_this._observableExists(to)) {
+                                _this.subscribe(origin, to, next, error, complete, filter);
+                            } else {
+                                throw new Error('Observable could not be instanciated. (' + to + ')');
+                            }
+                        } catch (err) {
+                            _this.removeSignature(to);
+                            throw new Error(err);
                         }
-                    } catch (err) {
-                        _this.removeSignature(to);
-                        throw new Error(err);
-                    }
-                });
+                    }).catch(function (err) {
+                        return _this;
+                    });
+                } else {
+                    return this;
+                }
             } else if (this._signatureExists(to) && this.isSignatureBusy(to)) {
                 // Retry
                 window.setTimeout(function () {
-                    _this.subscribe(origin, to, next, error, complete, filter);
+                    return _this.subscribe(origin, to, next, error, complete, filter);
                 }, 100);
             } else {
                 return this;
@@ -341,7 +349,9 @@ var DataObserver = function () {
 
             if (subscriptions && subscriptions instanceof Set && subscriptions.size) {
                 subscriptions.forEach(function (subscription) {
-                    subscription.subscription.unsubscribe();
+                    if (subscription && (typeof subscription === 'undefined' ? 'undefined' : _typeof(subscription)) === 'object' && _typeof(subscription.subscription) === 'object' && subscription.subscription && typeof subscription.subscription.unsubscribe === 'function') {
+                        subscription.subscription.unsubscribe();
+                    }
                 });
             }
 
@@ -386,6 +396,8 @@ var DataObserver = function () {
                     throw new Error('Observable (' + key + ') does not provide a .push() method.');
                 }
             }
+
+            return this;
         }
     }]);
 

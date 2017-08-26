@@ -1,6 +1,13 @@
 import { DataObserver } from './data.observer';
 import { DataSignature } from './data.signature';
 import { Subject } from 'rxjs/Subject';
+import { DataAbstract } from './data.abstract';
+
+class DummyObservableModule extends DataAbstract {
+    constructor(data) {
+        super(data);
+    }
+}
 
 describe('DataObserver', () => {
 
@@ -24,7 +31,6 @@ describe('DataObserver', () => {
     it('should have an _signatures variable defined', () => {
         expect(DO._signatures).toBeDefined();
         expect(typeof DO._signatures).toBe('object');
-        expect(DO._signatures).toEqual({});
     });
 
     it('should have an _subscriptions variable defined', () => {
@@ -332,7 +338,8 @@ describe('DataObserver', () => {
     describe('#_addSubscription()', () => {
 
         let subject = new Subject();
-        let subscription = subject.subscribe((next) => {});
+        let subscription = subject.subscribe((next) => {
+        });
 
         it('should exist', () => {
             expect(typeof DO._addSubscription).toBe('function');
@@ -364,7 +371,8 @@ describe('DataObserver', () => {
     describe('#getSubscription()', () => {
 
         let subject = new Subject();
-        let subscription = subject.subscribe((next) => {});
+        let subscription = subject.subscribe((next) => {
+        });
 
         it('should exist', () => {
             expect(typeof DO.getSubscription).toBe('function');
@@ -390,7 +398,8 @@ describe('DataObserver', () => {
 
         let dummySubscription = null;
         let subject = new Subject();
-        let subscription = subject.subscribe((next) => {});
+        let subscription = subject.subscribe((next) => {
+        });
         DO._addSubscription('originX', 'mykey2', subscription);
 
         beforeAll(() => {
@@ -411,7 +420,7 @@ describe('DataObserver', () => {
 
         it('should return true if valid subscription exists', () => {
             expect(DO.subscriptionExists(null)).toBe(false);
-            expect(DO.subscriptionExists(null,{})).toBe(false);
+            expect(DO.subscriptionExists(null, {})).toBe(false);
             expect(DO.subscriptionExists()).toBe(false);
             expect(DO.subscriptionExists('observable.key')).toBe(false);
             expect(DO.subscriptionExists('originX', 'mykey2')).toBe(true);
@@ -423,8 +432,25 @@ describe('DataObserver', () => {
 
         let dummySubscription = null;
         let subject = new Subject();
-        let subscription = subject.subscribe((next) => {});
+        let subscription = subject.subscribe((next) => {
+        });
+
         DO._addSubscription('originX', 'mykey2', subscription);
+
+        let signature = new DataSignature('signature.key');
+        DO.addSignature(signature);
+
+        /* eslint-disable space-before-function-paren */
+        let validSignature = new DataSignature('signature.valid', async () => {
+            return new DummyObservableModule({});
+        });
+
+        let validSignature2 = new DataSignature('signature.valid', async () => {
+            return new DummyObservableModule({});
+        });
+        /* eslint-enable space-before-function-paren */
+
+        DO.addSignature(validSignature);
 
         beforeAll(() => {
             dummySubscription = DO.getSubscription('originX');
@@ -434,9 +460,87 @@ describe('DataObserver', () => {
             expect(typeof DO.subscribe).toBe('function');
         });
 
-        it('should return boolean', () => {
+        it('should return this', () => {
             expect(DO.subscribe('a')).toEqual(DO);
-            expect(DO.subscribe('originX', 'mkey2', () => null, () => null, () => null)).toEqual(DO);
+            expect(DO.subscribe('originX', 'signature.key', () => null, () => null, () => null)).toEqual(DO);
+            expect(DO.subscribe('originY', 'signature.valid', (next) => {
+            })).toEqual(DO);
+            expect(DO.subscribe('originX', 'signature.valid')).toEqual(DO);
+            expect(DO.subscribe('originZ', 'signature.valid.two', {
+                cool: () => {
+                },
+            }, (error) => {
+            }, (complete) => {
+            }, {})).toEqual(DO);
+        });
+
+    });
+
+    describe(`#unsubscribeFrom()`, () => {
+
+        it('should exist', () => {
+            expect(typeof DO.unsubscribeFrom).toBe('function');
+        });
+
+        it('should return this', () => {
+            expect(DO.unsubscribeFrom()).toEqual(DO);
+            expect(DO.unsubscribeFrom('a')).toEqual(DO);
+            expect(DO.unsubscribeFrom('originX', 'signature.key', () => null, () => null, () => null)).toEqual(DO);
+            expect(DO.unsubscribeFrom('originX', 'signature.valid')).toEqual(DO);
+            expect(DO.unsubscribeFrom('originY', 'signature.valid')).toEqual(DO);
+            expect(DO.unsubscribeFrom('originZ', 'signature.valid')).toEqual(DO);
+        });
+
+    });
+
+
+    describe(`#unsubscribeAll()`, () => {
+
+        it('should exist', () => {
+            expect(typeof DO.unsubscribeAll).toBe('function');
+        });
+
+        it('should return this', () => {
+            expect(DO.unsubscribeAll()).toEqual(DO);
+            expect(DO.unsubscribeAll('asdfklauriasldkfjasldf')).toEqual(DO);
+            expect(DO.unsubscribeAll('originX', 'signature.key', () => null, () => null, () => null)).toEqual(DO);
+            expect(DO.unsubscribeAll('originX', 'signature.valid')).toEqual(DO);
+            expect(DO.unsubscribeAll('originY', 'signature.valid')).toEqual(DO);
+            expect(DO.unsubscribeAll('originZ', 'signature.valid')).toEqual(DO);
+        });
+
+    });
+
+
+    describe(`#unsubscribe()`, () => {
+
+        it('should exist', () => {
+            expect(typeof DO.unsubscribe).toBe('function');
+        });
+
+        it('should return this', () => {
+            expect(DO.unsubscribe()).toEqual(DO);
+            expect(DO.unsubscribe('asdfklauriasldkfjasldf')).toEqual(DO);
+            expect(DO.unsubscribe('originX', 'signature.key', () => null, () => null, () => null)).toEqual(DO);
+            expect(DO.unsubscribe('originX', 'signature.valid')).toEqual(DO);
+            expect(DO.unsubscribe('originY', 'signature.valid')).toEqual(DO);
+            expect(DO.unsubscribe('originZ', 'signature.valid')).toEqual(DO);
+        });
+
+    });
+
+
+    describe(`#pushTo()`, () => {
+
+        it('should exist', () => {
+            expect(typeof DO.pushTo).toBe('function');
+        });
+
+        it('should return this', () => {
+            expect(DO.pushTo()).toEqual(DO);
+            expect(DO.pushTo('signature.valid', 'message')).toEqual(DO);
+            expect(DO.pushTo('originX', 'signature.valid')).toEqual(DO);
+            expect(DO.pushTo(undefined, 'signature.valid')).toEqual(DO);
         });
 
     });

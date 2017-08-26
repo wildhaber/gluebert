@@ -220,7 +220,7 @@ class DataObserver {
      * @param {function} filter - filter messages by
      * @returns {DataObserver}
      */
-    subscribe(origin, to, next, error, complete, filter = null) {
+    subscribe(origin, to, next, error, complete, filter = null) { // eslint-disable-line complexity
 
         if(this._observableExists(to)) {
 
@@ -253,24 +253,36 @@ class DataObserver {
 
             this.setSignatureBusy(to);
 
-            this.getSignature(to)
-                .importModule(this)
-                .then((observableModule) => {
+            const signature = this.getSignature(to);
 
-                    try {
-                        this.addObservable(to, observableModule);
-                        this.removeSignature(to);
+            if(
+                signature &&
+                typeof signature.importModule === 'function'
+            ) {
+                signature
+                    .importModule(this)
+                    .then((observableModule) => {
 
-                        if(this._observableExists(to)) {
-                            this.subscribe(origin, to, next, error, complete, filter);
-                        } else {
-                            throw new Error('Observable could not be instanciated. (' + to + ')');
+                        try {
+                            this.addObservable(to, observableModule);
+                            this.removeSignature(to);
+
+                            if(this._observableExists(to)) {
+                                this.subscribe(origin, to, next, error, complete, filter);
+                            } else {
+                                throw new Error('Observable could not be instanciated. (' + to + ')');
+                            }
+                        } catch (err) {
+                            this.removeSignature(to);
+                            throw new Error(err);
                         }
-                    } catch (err) {
-                        this.removeSignature(to);
-                        throw new Error(err);
-                    }
-                });
+                    })
+                    .catch((err) => {
+                        return this;
+                    });
+            } else {
+                return this;
+            }
 
         } else if(
             this._signatureExists(to) &&
@@ -278,7 +290,7 @@ class DataObserver {
         ) {
             // Retry
             window.setTimeout(() => {
-                this.subscribe(origin, to, next, error, complete, filter);
+                return this.subscribe(origin, to, next, error, complete, filter);
             }, 100);
         } else {
             return this;
@@ -318,7 +330,15 @@ class DataObserver {
             subscriptions.size
         ) {
             subscriptions.forEach((subscription) => {
-                subscription.subscription.unsubscribe();
+                if(
+                    subscription &&
+                    typeof subscription === 'object' &&
+                    typeof subscription.subscription === 'object' &&
+                    subscription.subscription &&
+                    typeof subscription.subscription.unsubscribe === 'function'
+                ) {
+                    subscription.subscription.unsubscribe();
+                }
             });
         }
 
@@ -355,6 +375,8 @@ class DataObserver {
                 throw new Error('Observable (' + key + ') does not provide a .push() method.');
             }
         }
+
+        return this;
     }
 }
 
