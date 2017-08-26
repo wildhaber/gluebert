@@ -1,11 +1,14 @@
 import { ElementBuilder } from './element.builder';
-import { ElementSignature} from './element.signature';
+import { ElementSignature } from './element.signature';
 
 describe('ElementBuilder', () => {
 
     const EB = new ElementBuilder();
-    const EBTemplate = new ElementBuilder(null, () => {});
-    const EBTemplateSchema = new ElementBuilder(null, () => {}, () => {});
+    const EBTemplate = new ElementBuilder(null, () => {
+    });
+    const EBTemplateSchema = new ElementBuilder(null, () => {
+    }, () => {
+    });
     const EBInvalidTemplateSchema = new ElementBuilder(null, null, undefined);
 
     it('should exist', () => {
@@ -287,7 +290,8 @@ describe('ElementBuilder', () => {
     describe(`#getSchema()`, () => {
 
         const EB2 = new ElementBuilder();
-        EB2.addElement('element.name','schema','template', (module) => {});
+        EB2.addElement('element.name', 'schema', 'template', (module) => {
+        });
         EB2._elements.invalidElement = null;
         EB2._elements.invalidElement2 = {};
 
@@ -302,7 +306,8 @@ describe('ElementBuilder', () => {
     describe(`#_validate()`, () => {
 
         const EB2 = new ElementBuilder();
-        EB2.addElement('element.name',() => true,'template', (module) => {});
+        EB2.addElement('element.name', () => true, 'template', (module) => {
+        });
         EB2._elements.invalidElement = null;
 
         it(`should validate data schema against of existing elements`, () => {
@@ -318,7 +323,8 @@ describe('ElementBuilder', () => {
         // Todo: Rewrite create method to reduce complexity level
 
         const EB2 = new ElementBuilder();
-        EB2.addElement('element.name',() => true,'template', (module) => {});
+        EB2.addElement('element.name', () => true, 'template', (module) => {
+        });
         EB2._signatures['brand.new.element'] = new ElementSignature('brand.new.element');
 
         it(`should return an element instance or null if element does not exist`, () => {
