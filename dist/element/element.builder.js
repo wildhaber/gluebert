@@ -164,6 +164,24 @@ var ElementBuilder = function () {
     }, {
         key: 'getTemplateElement',
         value: function getTemplateElement(template, data) {
+            if ('content' in document.createElement('template')) {
+                return this._getTemplateElementShadow(template, data);
+            } else {
+                return this._getTemplateElementClassic(template, data);
+            }
+        }
+    }, {
+        key: '_getTemplateElementClassic',
+        value: function _getTemplateElementClassic(template, data) {
+            var templateElement = document.createElement('div');
+
+            templateElement.innerHTML = this._templateEngine && _typeof(this._templateEngine) === 'object' && typeof this._templateEngine.render === 'function' ? this._templateEngine.render(template, data) : template;
+
+            return templateElement.firstChild;
+        }
+    }, {
+        key: '_getTemplateElementShadow',
+        value: function _getTemplateElementShadow(template, data) {
             var templateElement = document.createElement('template');
 
             templateElement.innerHTML = this._templateEngine && _typeof(this._templateEngine) === 'object' && typeof this._templateEngine.render === 'function' ? this._templateEngine.render(template, data) : template;
@@ -231,60 +249,35 @@ var ElementBuilder = function () {
 
             return this;
         }
-
-        /**
-         * loads dependency creates element by name and data
-         * @param {ElementSignature.<name>} name
-         * @param {*} data
-         * @return {Promise}
-         */
-
     }, {
-        key: 'create',
+        key: '_generateElement',
+        value: function _generateElement(name, data) {
+            if (this._validate(name, data)) {
+                var element = this.getElement(name, data);
+
+                var elementInstance = new element.module(data, this.getTemplateElement(element.template, data));
+
+                return elementInstance.create();
+            } else {
+                throw new Error('Create Element ' + name + ' failed. Given data do not match given schema.');
+            }
+        }
+    }, {
+        key: '_loadElementModule',
         value: function () {
             var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(name, data) {
                 var _this = this;
 
-                var element, elementInstance, signature;
+                var signature;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                if (!this._elementExists(name)) {
-                                    _context.next = 10;
-                                    break;
-                                }
-
-                                if (!this._validate(name, data)) {
-                                    _context.next = 7;
-                                    break;
-                                }
-
-                                element = this.getElement(name, data);
-                                elementInstance = new element.module(data, this.getTemplateElement(element.template, data));
-
-                                // IE >= 11 has problems somewhere here. - any help welcome.
-
-                                return _context.abrupt('return', elementInstance.create());
-
-                            case 7:
-                                throw new Error('Create Element ' + name + ' failed. Given data do not match given schema.');
-
-                            case 8:
-                                _context.next = 23;
-                                break;
-
-                            case 10:
-                                if (!(this._signatureExists(name) && !this.isBusySignature(name))) {
-                                    _context.next = 18;
-                                    break;
-                                }
-
                                 signature = this.getSignature(name);
 
                                 this.setBusySignature(name);
 
-                                _context.next = 15;
+                                _context.next = 4;
                                 return Promise.all([signature.schemaImport(), signature.templateImport(), signature.elementImport()]).then(function (imports) {
                                     _this.addElement(name, imports[0], imports[1], imports[2]);
 
@@ -298,25 +291,10 @@ var ElementBuilder = function () {
                                     throw new Error('Unfortunately Element ' + name + ' could not have been instanciated. ' + err);
                                 });
 
-                            case 15:
+                            case 4:
                                 return _context.abrupt('return', _context.sent);
 
-                            case 18:
-                                if (!(this._signatureExists(name) && this.isBusySignature(name))) {
-                                    _context.next = 22;
-                                    break;
-                                }
-
-                                return _context.abrupt('return', new Promise(function (resolve) {
-                                    window.setTimeout(function () {
-                                        resolve(_this.create(name, data));
-                                    }, 100);
-                                }));
-
-                            case 22:
-                                return _context.abrupt('return', null);
-
-                            case 23:
+                            case 5:
                             case 'end':
                                 return _context.stop();
                         }
@@ -324,8 +302,79 @@ var ElementBuilder = function () {
                 }, _callee, this);
             }));
 
-            function create(_x, _x2) {
+            function _loadElementModule(_x, _x2) {
                 return _ref.apply(this, arguments);
+            }
+
+            return _loadElementModule;
+        }()
+    }, {
+        key: '_retryCreate',
+        value: function _retryCreate(name, data) {
+            var _this2 = this;
+
+            return new Promise(function (resolve, reject) {
+                window.setTimeout(function () {
+                    try {
+                        resolve(_this2.create(name, data));
+                    } catch (err) {
+                        reject(err);
+                    }
+                }, 100);
+            });
+        }
+
+        /**
+         * loads dependency creates element by name and data
+         * @param {ElementSignature.<name>} name
+         * @param {*} data
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'create',
+        value: function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(name, data) {
+                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                if (!this._elementExists(name)) {
+                                    _context2.next = 4;
+                                    break;
+                                }
+
+                                return _context2.abrupt('return', this._generateElement(name, data));
+
+                            case 4:
+                                if (!(this._signatureExists(name) && !this.isBusySignature(name))) {
+                                    _context2.next = 8;
+                                    break;
+                                }
+
+                                return _context2.abrupt('return', this._loadElementModule(name, data));
+
+                            case 8:
+                                if (!(this._signatureExists(name) && this.isBusySignature(name))) {
+                                    _context2.next = 12;
+                                    break;
+                                }
+
+                                return _context2.abrupt('return', this._retryCreate(name, data));
+
+                            case 12:
+                                return _context2.abrupt('return', null);
+
+                            case 13:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function create(_x3, _x4) {
+                return _ref2.apply(this, arguments);
             }
 
             return create;

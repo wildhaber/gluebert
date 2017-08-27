@@ -17,6 +17,7 @@ class BallElement extends ElementAbstract {
         this._numberElement = (this._template) ? this._template.querySelector('slot') : null;
         this._ballElement = (this._template) ? this._template.querySelector('.ball') : null;
         this._number = this._data.number;
+
     }
 
     /**
