@@ -90,7 +90,6 @@ class BallBucketController extends ControllerAbstract {
         window.requestAnimationFrame(async () => {
             const el = await this._elements.create('ball.element', {
                 number: number.number,
-                // for mustache example
                 evenOddClass: () => {
                     switch (number.number % 2) {
                         case 1 :

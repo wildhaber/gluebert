@@ -143,6 +143,28 @@ class ElementBuilder {
      * @return {Node}
      */
     getTemplateElement(template, data) {
+        if('content' in document.createElement('template')) {
+            return this._getTemplateElementShadow(template, data);
+        } else {
+            return this._getTemplateElementClassic(template, data);
+        }
+    }
+
+    _getTemplateElementClassic(template, data) {
+        const templateElement = document.createElement('div');
+
+        templateElement.innerHTML = (
+            this._templateEngine &&
+            typeof this._templateEngine === 'object' &&
+            typeof this._templateEngine.render === 'function'
+        )
+            ? this._templateEngine.render(template, data)
+            : template;
+
+        return templateElement.firstChild;
+    }
+
+    _getTemplateElementShadow(template, data) {
         const templateElement = document.createElement('template');
 
         templateElement.innerHTML = (
@@ -222,6 +244,57 @@ class ElementBuilder {
         return this;
     }
 
+    _generateElement(name, data) {
+        if(this._validate(name, data)) {
+            const element = this.getElement(name, data);
+
+            const elementInstance = new element.module(
+                data,
+                this.getTemplateElement(element.template, data),
+            );
+
+            return elementInstance.create();
+        } else {
+            throw new Error(`Create Element ${name} failed. Given data do not match given schema.`);
+        }
+    }
+
+    async _loadElementModule(name, data) {
+        const signature = this.getSignature(name);
+        this.setBusySignature(name);
+
+        return await Promise.all([
+            signature.schemaImport(),
+            signature.templateImport(),
+            signature.elementImport(),
+        ])
+            .then((imports) => {
+                this.addElement(name, imports[0], imports[1], imports[2]);
+
+                if(this._elementExists(name)) {
+                    this.removeSignature(name);
+                    return this.create(name, data);
+                } else {
+                    throw new Error(`Unfortunately Element ${name} could not have been instanciated.`);
+                }
+            })
+            .catch((err) => {
+                throw new Error(`Unfortunately Element ${name} could not have been instanciated. ${err}`);
+            });
+    }
+
+    _retryCreate(name, data) {
+        return new Promise((resolve, reject) => {
+            window.setTimeout(() => {
+                try {
+                    resolve(this.create(name, data));
+                } catch (err) {
+                    reject(err);
+                }
+            }, 100);
+        });
+    }
+
     /**
      * loads dependency creates element by name and data
      * @param {ElementSignature.<name>} name
@@ -229,55 +302,19 @@ class ElementBuilder {
      * @return {Promise}
      */
     async create(name, data) {
+
         if(this._elementExists(name)) {
-            if(this._validate(name, data)) {
-
-                const element = this.getElement(name, data);
-
-                const elementInstance = new element.module(
-                    data,
-                    this.getTemplateElement(element.template, data),
-                );
-
-                // IE >= 11 has problems somewhere here. - any help welcome.
-                return elementInstance.create();
-            } else {
-                throw new Error(`Create Element ${name} failed. Given data do not match given schema.`);
-            }
+            return this._generateElement(name, data);
         } else if(
             this._signatureExists(name) &&
             !this.isBusySignature(name)
         ) {
-            const signature = this.getSignature(name);
-            this.setBusySignature(name);
-
-            return await Promise.all([
-                signature.schemaImport(),
-                signature.templateImport(),
-                signature.elementImport(),
-            ])
-                .then((imports) => {
-                    this.addElement(name, imports[0], imports[1], imports[2]);
-
-                    if(this._elementExists(name)) {
-                        this.removeSignature(name);
-                        return this.create(name, data);
-                    } else {
-                        throw new Error(`Unfortunately Element ${name} could not have been instanciated.`);
-                    }
-                })
-                .catch((err) => {
-                    throw new Error(`Unfortunately Element ${name} could not have been instanciated. ${err}`);
-                });
+            return this._loadElementModule(name, data);
         } else if(
             this._signatureExists(name) &&
             this.isBusySignature(name)
         ) {
-            return new Promise((resolve) => {
-                window.setTimeout(() => {
-                    resolve(this.create(name, data));
-                }, 100);
-            });
+            return this._retryCreate(name, data);
         } else {
             return null;
         }

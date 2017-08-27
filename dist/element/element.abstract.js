@@ -24,7 +24,7 @@ var ElementAbstract = function () {
 
         this._data = data ? data : null;
 
-        this._template = template instanceof DocumentFragment ? template : null;
+        this._template = template instanceof DocumentFragment ? template : template ? template : null;
     }
 
     /**
@@ -44,6 +44,7 @@ var ElementAbstract = function () {
     }, {
         key: "create",
         value: function create() {
+
             if (!this._template) {
                 return null;
             }
