@@ -14,9 +14,9 @@ class ElementAbstract {
             ? data
             : null;
 
-        this._template = (template instanceof DocumentFragment)
+        this._template = (template instanceof DocumentFragment || template instanceof Element)
             ? template
-            : (template) ? template : null;
+            : null;
     }
 
     /**

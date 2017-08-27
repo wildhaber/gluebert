@@ -24,7 +24,7 @@ var ElementAbstract = function () {
 
         this._data = data ? data : null;
 
-        this._template = template instanceof DocumentFragment ? template : template ? template : null;
+        this._template = template instanceof DocumentFragment || template instanceof Element ? template : null;
     }
 
     /**
