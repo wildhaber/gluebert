@@ -16,12 +16,10 @@ fixture(`balls.ball-machine`)
  */
 test('Balls are generated when pressing button', async t => {
 
-    const GeneratorElement = Selector(`[data-ball-machine]`);
-
     await t
         .wait(15000)
-        .click(GeneratorElement.find(`[data-add-ball]`))
-        .wait(1000)
-        .expect(GeneratorElement.find(`.ball`).count)
+        .click(Selector(`[data-ball-machine]`).find(`[data-add-ball]`))
+        .wait(2000)
+        .expect(Selector(`[data-ball-machine]`).find(`.ball`).count)
         .eql(1);
 });

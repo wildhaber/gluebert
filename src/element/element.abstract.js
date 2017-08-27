@@ -14,7 +14,7 @@ class ElementAbstract {
             ? data
             : null;
 
-        this._template = (template instanceof DocumentFragment)
+        this._template = (template instanceof DocumentFragment || template instanceof Element)
             ? template
             : null;
     }
@@ -31,12 +31,14 @@ class ElementAbstract {
      * @return {Node}
      */
     create() {
+
         if(!this._template) {
             return null;
         }
 
         this.bindData();
         return document.importNode(this._template, true);
+
     }
 
 }
