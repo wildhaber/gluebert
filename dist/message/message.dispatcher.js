@@ -19,7 +19,9 @@ var MessageDispatcher = function () {
      * creates new MessageDispatcher instance
      * @param {object} actionAllocator
      */
-    function MessageDispatcher(actionAllocator) {
+    function MessageDispatcher() {
+        var actionAllocator = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
         _classCallCheck(this, MessageDispatcher);
 
         this._actionAllocator = actionAllocator;
@@ -35,8 +37,12 @@ var MessageDispatcher = function () {
     _createClass(MessageDispatcher, [{
         key: 'onMessage',
         value: function onMessage(message) {
+            if (!message) {
+                return false;
+            }
+
             var action = message.getAction();
-            var allocatorType = _typeof(this._actionAllocator[action]);
+            var allocatorType = this._actionAllocator && _typeof(this._actionAllocator) === 'object' ? _typeof(this._actionAllocator[action]) : null;
 
             if (!allocatorType || typeof this._filter === 'function' && !this._filter(message.getData())) {
                 return;
@@ -67,7 +73,7 @@ var MessageDispatcher = function () {
             var hasFilter = typeof allocator.filter === 'function';
 
             if (!hasFn || hasFilter && !allocator.filter(data)) {
-                return;
+                return null;
             } else {
                 return allocator.fn(data);
             }

@@ -2,9 +2,9 @@ import { ElementSignature } from './element.signature';
 
 describe('ElementSignature', () => {
 
-    const ES = new ElementSignature('signature.test', async () => null);
-    const ESInvalid = new ElementSignature(undefined, async () => null);
-    const ESInvalid2 = new ElementSignature(async () => null);
+    const ES = new ElementSignature('signature.test',  () => Promise.resolve());
+    const ESInvalid = new ElementSignature(undefined, () => Promise.resolve());
+    const ESInvalid2 = new ElementSignature(() => Promise.resolve());
     const ESInvalid3 = new ElementSignature();
 
     it('should exist', () => {
