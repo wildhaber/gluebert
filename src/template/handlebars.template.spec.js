@@ -8,7 +8,7 @@ describe(`HandlebarsTemplate`, () => {
         },
         render: (view, data) => {
             return view;
-        }
+        },
     };
 
     const TPL = new HandlebarsTemplate(MOCK_ENGINE);

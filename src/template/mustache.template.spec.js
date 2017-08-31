@@ -3,7 +3,7 @@ import { MustacheTemplate } from './mustache.template';
 describe(`MustacheTemplate`, () => {
 
     const MOCK_ENGINE = {
-        render: (tpl) => tpl
+        render: (tpl) => tpl,
     };
 
     const TPL = new MustacheTemplate(MOCK_ENGINE);

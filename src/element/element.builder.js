@@ -10,7 +10,7 @@ class ElementBuilder {
      * @param {function} templateEngine
      * @param {function} schemaValidator
      */
-    constructor(signatures, templateEngine, schemaValidator) {
+    constructor(signatures = [], templateEngine = null, schemaValidator = null) {
         this._schemaValidator = (
             schemaValidator &&
             typeof schemaValidator === 'function'
