@@ -170,6 +170,15 @@ var ElementBuilder = function () {
                 return this._getTemplateElementClassic(template, data);
             }
         }
+
+        /**
+         * get template without shadow dom support
+         * @param {string} template
+         * @param {object} data
+         * @return {Node}
+         * @private
+         */
+
     }, {
         key: '_getTemplateElementClassic',
         value: function _getTemplateElementClassic(template, data) {
@@ -179,6 +188,16 @@ var ElementBuilder = function () {
 
             return templateElement.firstChild;
         }
+
+        /**
+         * create elemetn with shadow dom
+         * document fragment
+         * @param {string} template
+         * @param {object} data
+         * @returns {DocumentFragment}
+         * @private
+         */
+
     }, {
         key: '_getTemplateElementShadow',
         value: function _getTemplateElementShadow(template, data) {
@@ -249,6 +268,14 @@ var ElementBuilder = function () {
 
             return this;
         }
+
+        /**
+         * generate element instance
+         * @param {ElementSignature.<name>} name
+         * @param {object} data
+         * @private
+         */
+
     }, {
         key: '_generateElement',
         value: function _generateElement(name, data) {
@@ -262,6 +289,15 @@ var ElementBuilder = function () {
                 throw new Error('Create Element ' + name + ' failed. Given data do not match given schema.');
             }
         }
+
+        /**
+         * load element module
+         * @param {ElementSignature.<name>} name
+         * @param {object} data
+         * @return {Promise.<TResult>}
+         * @private
+         */
+
     }, {
         key: '_loadElementModule',
         value: function () {
@@ -308,6 +344,17 @@ var ElementBuilder = function () {
 
             return _loadElementModule;
         }()
+
+        /**
+         * retry create element loop when
+         * same element signature has to load
+         * multiple times at the same time
+         * @param {Elementsignature.<name>} name
+         * @param {object} data
+         * @return {Promise}
+         * @private
+         */
+
     }, {
         key: '_retryCreate',
         value: function _retryCreate(name, data) {
@@ -339,38 +386,49 @@ var ElementBuilder = function () {
                     while (1) {
                         switch (_context2.prev = _context2.next) {
                             case 0:
+                                _context2.prev = 0;
+
                                 if (!this._elementExists(name)) {
-                                    _context2.next = 4;
+                                    _context2.next = 5;
                                     break;
                                 }
 
                                 return _context2.abrupt('return', this._generateElement(name, data));
 
-                            case 4:
+                            case 5:
                                 if (!(this._signatureExists(name) && !this.isBusySignature(name))) {
-                                    _context2.next = 8;
+                                    _context2.next = 9;
                                     break;
                                 }
 
                                 return _context2.abrupt('return', this._loadElementModule(name, data));
 
-                            case 8:
+                            case 9:
                                 if (!(this._signatureExists(name) && this.isBusySignature(name))) {
-                                    _context2.next = 12;
+                                    _context2.next = 13;
                                     break;
                                 }
 
                                 return _context2.abrupt('return', this._retryCreate(name, data));
 
-                            case 12:
+                            case 13:
                                 return _context2.abrupt('return', null);
 
-                            case 13:
+                            case 14:
+                                _context2.next = 19;
+                                break;
+
+                            case 16:
+                                _context2.prev = 16;
+                                _context2.t0 = _context2['catch'](0);
+                                return _context2.abrupt('return', null);
+
+                            case 19:
                             case 'end':
                                 return _context2.stop();
                         }
                     }
-                }, _callee2, this);
+                }, _callee2, this, [[0, 16]]);
             }));
 
             function create(_x3, _x4) {

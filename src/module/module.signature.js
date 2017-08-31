@@ -9,8 +9,19 @@ class ModuleSignature {
      * @param {string|null} selector
      */
     constructor(name, selector = null) {
-        this.name = name;
-        this.selector = selector;
+        this.name = (
+            name && typeof name === 'string'
+        )
+            ? name
+            : null;
+
+        this.selector = (
+            selector &&
+            typeof selector === 'string'
+        )
+            ? selector
+            : null;
+
         this.importController = null;
         this.importStyles = null;
         this.elements = new Set();
@@ -23,7 +34,13 @@ class ModuleSignature {
      * @return {ModuleSignature}
      */
     setSelector(selector) {
-        this.selector = selector;
+        this.selector = (
+            selector &&
+            typeof selector === 'string'
+        )
+            ? selector
+            : null;
+
         return this;
     }
 
@@ -45,7 +62,10 @@ class ModuleSignature {
      * @return {AbstractController}
      */
     setControllerImport(controller) {
-        this.importController = controller;
+        this.importController = (typeof controller === 'function')
+            ? controller
+            : null;
+
         return this;
     }
 
@@ -63,7 +83,10 @@ class ModuleSignature {
      * @return {ModuleSignature}
      */
     setStylesImport(styles) {
-        this.importStyles = styles;
+        this.importStyles = (typeof styles === 'function')
+            ? styles
+            : null;
+
         return this;
     }
 

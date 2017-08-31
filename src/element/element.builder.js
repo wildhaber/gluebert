@@ -10,7 +10,7 @@ class ElementBuilder {
      * @param {function} templateEngine
      * @param {function} schemaValidator
      */
-    constructor(signatures, templateEngine, schemaValidator) {
+    constructor(signatures = [], templateEngine = null, schemaValidator = null) {
         this._schemaValidator = (
             schemaValidator &&
             typeof schemaValidator === 'function'
@@ -150,6 +150,13 @@ class ElementBuilder {
         }
     }
 
+    /**
+     * get template without shadow dom support
+     * @param {string} template
+     * @param {object} data
+     * @return {Node}
+     * @private
+     */
     _getTemplateElementClassic(template, data) {
         const templateElement = document.createElement('div');
 
@@ -164,6 +171,14 @@ class ElementBuilder {
         return templateElement.firstChild;
     }
 
+    /**
+     * create elemetn with shadow dom
+     * document fragment
+     * @param {string} template
+     * @param {object} data
+     * @returns {DocumentFragment}
+     * @private
+     */
     _getTemplateElementShadow(template, data) {
         const templateElement = document.createElement('template');
 
@@ -244,6 +259,12 @@ class ElementBuilder {
         return this;
     }
 
+    /**
+     * generate element instance
+     * @param {ElementSignature.<name>} name
+     * @param {object} data
+     * @private
+     */
     _generateElement(name, data) {
         if(this._validate(name, data)) {
             const element = this.getElement(name, data);
@@ -259,6 +280,13 @@ class ElementBuilder {
         }
     }
 
+    /**
+     * load element module
+     * @param {ElementSignature.<name>} name
+     * @param {object} data
+     * @return {Promise.<TResult>}
+     * @private
+     */
     async _loadElementModule(name, data) {
         const signature = this.getSignature(name);
         this.setBusySignature(name);
@@ -283,6 +311,15 @@ class ElementBuilder {
             });
     }
 
+    /**
+     * retry create element loop when
+     * same element signature has to load
+     * multiple times at the same time
+     * @param {Elementsignature.<name>} name
+     * @param {object} data
+     * @return {Promise}
+     * @private
+     */
     _retryCreate(name, data) {
         return new Promise((resolve, reject) => {
             window.setTimeout(() => {
@@ -302,24 +339,26 @@ class ElementBuilder {
      * @return {Promise}
      */
     async create(name, data) {
-
-        if(this._elementExists(name)) {
-            return this._generateElement(name, data);
-        } else if(
-            this._signatureExists(name) &&
-            !this.isBusySignature(name)
-        ) {
-            return this._loadElementModule(name, data);
-        } else if(
-            this._signatureExists(name) &&
-            this.isBusySignature(name)
-        ) {
-            return this._retryCreate(name, data);
-        } else {
+        try {
+            if(this._elementExists(name)) {
+                return this._generateElement(name, data);
+            } else if(
+                this._signatureExists(name) &&
+                !this.isBusySignature(name)
+            ) {
+                return this._loadElementModule(name, data);
+            } else if(
+                this._signatureExists(name) &&
+                this.isBusySignature(name)
+            ) {
+                return this._retryCreate(name, data);
+            } else {
+                return null;
+            }
+        } catch (err) {
             return null;
         }
     }
-
 }
 
 export {

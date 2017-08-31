@@ -7,7 +7,7 @@ class MessageDispatcher {
      * creates new MessageDispatcher instance
      * @param {object} actionAllocator
      */
-    constructor(actionAllocator) {
+    constructor(actionAllocator = null) {
         this._actionAllocator = actionAllocator;
         this._filter = null;
     }
@@ -17,8 +17,17 @@ class MessageDispatcher {
      * @param {Message} message
      */
     onMessage(message) {
+        if(!message) {
+            return false;
+        }
+
         const action = message.getAction();
-        const allocatorType = typeof this._actionAllocator[action];
+        const allocatorType = (
+            this._actionAllocator &&
+            typeof this._actionAllocator === 'object'
+        )
+            ? typeof this._actionAllocator[action]
+            : null;
 
         if(
             !allocatorType ||
@@ -59,7 +68,7 @@ class MessageDispatcher {
                 !allocator.filter(data)
             )
         ) {
-            return;
+            return null;
         } else {
             return allocator.fn(data);
         }

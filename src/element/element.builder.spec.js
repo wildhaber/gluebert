@@ -222,7 +222,6 @@ describe('ElementBuilder', () => {
 
     });
 
-
     describe(`#isBusySignature()`, () => {
 
         const EB2 = new ElementBuilder();
@@ -318,13 +317,10 @@ describe('ElementBuilder', () => {
 
     });
 
-
     describe(`#create()`, () => {
-        // Todo: Rewrite create method to reduce complexity level
 
         const EB2 = new ElementBuilder();
-        EB2.addElement('element.name', () => true, 'template', (module) => {
-        });
+        EB2.addElement('element.name', () => true, 'template', (module) => {});
         EB2._signatures['brand.new.element'] = new ElementSignature('brand.new.element');
 
         it(`should return an element instance or null if element does not exist`, () => {
