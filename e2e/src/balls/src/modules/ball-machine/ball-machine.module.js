@@ -10,10 +10,10 @@ const MODULE = new ModuleSignature(`BallMachine`)
     .setSelector(`[data-ball-machine]`)
 
     // Set ModuleImport
-    .setControllerImport(() => import(/* webpackChunkName: "ball.machine.controller" */ './ball-machine.controller').then((controller) => controller.BallMachineController))
+    .setImportController(() => import(/* webpackChunkName: "ball.machine.controller" */ './ball-machine.controller').then((controller) => controller.BallMachineController))
 
     // Set StylesImport
-    .setStylesImport(() => import(/* webpackChunkName: "ball.machine.styles" */ './ball-machine.styles.scss'));
+    .setImportStyles(() => import(/* webpackChunkName: "ball.machine.styles" */ './ball-machine.styles.scss'));
 
 
 export {

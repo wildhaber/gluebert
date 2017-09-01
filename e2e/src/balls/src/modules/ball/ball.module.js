@@ -11,10 +11,10 @@ const MODULE = new ModuleSignature('Ball')
     .setSelector(`li.ball`)
 
     // set ball controller
-    .setControllerImport(() => import(/* webpackChunkName: "ball.controller" */ './ball.controller').then((controller) => controller.BallController))
+    .setImportController(() => import(/* webpackChunkName: "ball.controller" */ './ball.controller').then((controller) => controller.BallController))
 
     // set styles import
-    .setStylesImport(() => import(/* webpackChunkName: "ball.styles" */ './ball.styles.scss'))
+    .setImportStyles(() => import(/* webpackChunkName: "ball.styles" */ './ball.styles.scss'))
 
     // add Ball Element signature
     .addElementSignature(BALL_ELEMENT_SIGNATURE);

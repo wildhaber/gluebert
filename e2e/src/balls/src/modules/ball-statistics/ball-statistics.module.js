@@ -12,10 +12,10 @@ const MODULE = new ModuleSignature(`BallStatistics`)
     .setSelector(`[data-ball-statistics]`)
 
     // Set ModuleImport
-    .setControllerImport(() => import('./ball-statistics.controller').then((controller) => controller.BallStatisticsController))
+    .setImportController(() => import('./ball-statistics.controller').then((controller) => controller.BallStatisticsController))
 
     // Set StylesImport
-    .setStylesImport(() => import('./ball-statistics.styles.scss'))
+    .setImportStyles(() => import('./ball-statistics.styles.scss'))
 
     // Add Ball Statistics Element
     .addElementSignature(BALL_STATISTICS_ELEMENT_SIGNATURE)
