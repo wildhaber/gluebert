@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -23,8 +23,10 @@ var ModuleSignature = function () {
 
         _classCallCheck(this, ModuleSignature);
 
-        this.name = name;
-        this.selector = selector;
+        this.name = name && typeof name === 'string' ? name : null;
+
+        this.selector = selector && typeof selector === 'string' ? selector : null;
+
         this.importController = null;
         this.importStyles = null;
         this.elements = new Set();
@@ -39,9 +41,10 @@ var ModuleSignature = function () {
 
 
     _createClass(ModuleSignature, [{
-        key: "setSelector",
+        key: 'setSelector',
         value: function setSelector(selector) {
-            this.selector = selector;
+            this.selector = selector && typeof selector === 'string' ? selector : null;
+
             return this;
         }
 
@@ -51,7 +54,7 @@ var ModuleSignature = function () {
          */
 
     }, {
-        key: "getSelector",
+        key: 'getSelector',
         value: function getSelector() {
             return this.selector;
         }
@@ -61,14 +64,15 @@ var ModuleSignature = function () {
          * @param {function} controller
          * @example
          * new ModuleSignature('example')
-         *  .setModuleImport(() => import('./example.controller'));
+         *  .setImportController(() => import('./example.controller'));
          * @return {AbstractController}
          */
 
     }, {
-        key: "setControllerImport",
-        value: function setControllerImport(controller) {
-            this.importController = controller;
+        key: 'setImportController',
+        value: function setImportController(controller) {
+            this.importController = typeof controller === 'function' ? controller : null;
+
             return this;
         }
 
@@ -78,8 +82,8 @@ var ModuleSignature = function () {
          */
 
     }, {
-        key: "getControllerImport",
-        value: function getControllerImport() {
+        key: 'getImportController',
+        value: function getImportController() {
             return this.importController;
         }
 
@@ -90,9 +94,10 @@ var ModuleSignature = function () {
          */
 
     }, {
-        key: "setStylesImport",
-        value: function setStylesImport(styles) {
-            this.importStyles = styles;
+        key: 'setImportStyles',
+        value: function setImportStyles(styles) {
+            this.importStyles = typeof styles === 'function' ? styles : null;
+
             return this;
         }
 
@@ -102,8 +107,8 @@ var ModuleSignature = function () {
          */
 
     }, {
-        key: "getStylesImport",
-        value: function getStylesImport() {
+        key: 'getImportStyles',
+        value: function getImportStyles() {
             return this.importStyles;
         }
 
@@ -114,7 +119,7 @@ var ModuleSignature = function () {
          */
 
     }, {
-        key: "addElementSignature",
+        key: 'addElementSignature',
         value: function addElementSignature(elementSignature) {
             this.elements.add(elementSignature);
             return this;
@@ -126,7 +131,7 @@ var ModuleSignature = function () {
          */
 
     }, {
-        key: "getElementSignatures",
+        key: 'getElementSignatures',
         value: function getElementSignatures() {
             return this.elements;
         }

@@ -24,7 +24,11 @@ var ElementBuilder = function () {
      * @param {function} templateEngine
      * @param {function} schemaValidator
      */
-    function ElementBuilder(signatures, templateEngine, schemaValidator) {
+    function ElementBuilder() {
+        var signatures = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+        var templateEngine = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+        var schemaValidator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
         _classCallCheck(this, ElementBuilder);
 
         this._schemaValidator = schemaValidator && typeof schemaValidator === 'function' ? new schemaValidator() : null;
@@ -314,7 +318,7 @@ var ElementBuilder = function () {
                                 this.setBusySignature(name);
 
                                 _context.next = 4;
-                                return Promise.all([signature.schemaImport(), signature.templateImport(), signature.elementImport()]).then(function (imports) {
+                                return Promise.all([signature.importSchema(), signature.importTemplate(), signature.importElement()]).then(function (imports) {
                                     _this.addElement(name, imports[0], imports[1], imports[2]);
 
                                     if (_this._elementExists(name)) {
@@ -338,7 +342,7 @@ var ElementBuilder = function () {
                 }, _callee, this);
             }));
 
-            function _loadElementModule(_x, _x2) {
+            function _loadElementModule(_x4, _x5) {
                 return _ref.apply(this, arguments);
             }
 
@@ -431,7 +435,7 @@ var ElementBuilder = function () {
                 }, _callee2, this, [[0, 16]]);
             }));
 
-            function create(_x3, _x4) {
+            function create(_x6, _x7) {
                 return _ref2.apply(this, arguments);
             }
 

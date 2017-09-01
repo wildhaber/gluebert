@@ -60,14 +60,14 @@ describe('ElementSignature', () => {
 
         let testCallback = () => {};
 
-        it('should set given TemplateImport callback or ignore if not callback', () => {
-            ES.setTemplateImport(testCallback);
+        it('should set given ImportTemplate callback or ignore if not callback', () => {
+            ES.setImportTemplate(testCallback);
             expect(ES.getImportTemplate()).toEqual(testCallback);
 
-            ES.setTemplateImport('invalid');
+            ES.setImportTemplate('invalid');
             expect(ES.getImportTemplate()).toEqual(testCallback);
 
-            ES.setTemplateImport(null);
+            ES.setImportTemplate(null);
             expect(ES.getImportTemplate()).toEqual(testCallback);
         });
 
