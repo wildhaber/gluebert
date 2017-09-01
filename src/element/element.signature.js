@@ -18,12 +18,12 @@ class ElementSignature {
             ? name
             : null;
 
-        this.schemaImport = () => Promise.resolve();
-        this.templateImport = () => Promise.resolve(`<div>Missing template specification for ${name}.</div>`);
-        this.elementImport = () => Promise.resolve(ElementAbstract);
+        this.importSchema = () => Promise.resolve();
+        this.importTemplate = () => Promise.resolve(`<div>Missing template specification for ${name}.</div>`);
+        this.importElement = () => Promise.resolve(ElementAbstract);
 
         if(template) {
-            this.setTemplateImport(template);
+            this.setImportTemplate(template);
         }
 
     }
@@ -36,7 +36,7 @@ class ElementSignature {
      */
     setImportSchema(schema) {
         if(typeof schema === 'function') {
-            this.schemaImport = schema;
+            this.importSchema = schema;
         }
         return this;
     }
@@ -46,19 +46,19 @@ class ElementSignature {
      * @return {function|null}
      */
     getImportSchema() {
-        return this.schemaImport;
+        return this.importSchema;
     }
 
     /**
      * set template import callback
      * @param {function} template
      * @return {ElementSignature}
-     * @example signature.setTemplateImport(() => import('./xyz.template.html'));
-     * @example signature.setTemplateImport(() => import('./xyz.template.twig'));
+     * @example signature.setImportTemplate(() => import('./xyz.template.html'));
+     * @example signature.setImportTemplate(() => import('./xyz.template.twig'));
      */
-    setTemplateImport(template) {
+    setImportTemplate(template) {
         if(typeof template === 'function') {
-            this.templateImport = template;
+            this.importTemplate = template;
         }
         return this;
     }
@@ -67,19 +67,19 @@ class ElementSignature {
      * get template import promise
      * @return {function|null}
      */
-    getTemplateImport() {
-        return this.templateImport;
+    getImportTemplate() {
+        return this.importTemplate;
     }
 
     /**
      * set element import callback
      * @param {function} element
      * @return {ElementSignature}
-     * @example signature.setElementImport(() => import('./xyz.element').then((element) => element.XyzElement));
+     * @example signature.setImportElement(() => import('./xyz.element').then((element) => element.XyzElement));
      */
-    setElementImport(element) {
+    setImportElement(element) {
         if(typeof element === 'function') {
-            this.elementImport = element;
+            this.importElement = element;
         }
         return this;
     }
@@ -88,8 +88,8 @@ class ElementSignature {
      * get element import callback
      * @return {function|null}
      */
-    getElementImport() {
-        return this.elementImport;
+    getImportElement() {
+        return this.importElement;
     }
 }
 

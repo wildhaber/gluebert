@@ -16,18 +16,18 @@ describe('ElementSignature', () => {
     });
 
     it('should expose a .schemaImport property', () => {
-        expect(ES.schemaImport).toBeDefined();
-        expect(ES.schemaImport() instanceof Promise).toBe(true);
+        expect(ES.importSchema).toBeDefined();
+        expect(ES.importSchema() instanceof Promise).toBe(true);
     });
 
     it('should expose a .templateImport property', () => {
-        expect(ES.templateImport).toBeDefined();
-        expect(ES.templateImport() instanceof Promise).toBe(true);
+        expect(ES.importTemplate).toBeDefined();
+        expect(ES.importTemplate() instanceof Promise).toBe(true);
     });
 
     it('should expose a .elementImport property', () => {
-        expect(ES.elementImport).toBeDefined();
-        expect(ES.elementImport() instanceof Promise).toBe(true);
+        expect(ES.importElement).toBeDefined();
+        expect(ES.importElement() instanceof Promise).toBe(true);
     });
 
     it('should bind given name when string or ignore if invalid', () => {
@@ -56,36 +56,36 @@ describe('ElementSignature', () => {
     });
 
 
-    describe('#setTemplateImport()', () => {
+    describe('#setImportTemplate()', () => {
 
         let testCallback = () => {};
 
         it('should set given TemplateImport callback or ignore if not callback', () => {
             ES.setTemplateImport(testCallback);
-            expect(ES.getTemplateImport()).toEqual(testCallback);
+            expect(ES.getImportTemplate()).toEqual(testCallback);
 
             ES.setTemplateImport('invalid');
-            expect(ES.getTemplateImport()).toEqual(testCallback);
+            expect(ES.getImportTemplate()).toEqual(testCallback);
 
             ES.setTemplateImport(null);
-            expect(ES.getTemplateImport()).toEqual(testCallback);
+            expect(ES.getImportTemplate()).toEqual(testCallback);
         });
 
     });
 
-    describe('#setElementImport()', () => {
+    describe('#setImportElement()', () => {
 
         let testCallback = () => {};
 
-        it('should set given ElementImport callback or ignore if not callback', () => {
-            ES.setElementImport(testCallback);
-            expect(ES.getElementImport()).toEqual(testCallback);
+        it('should set given ImportElement callback or ignore if not callback', () => {
+            ES.setImportElement(testCallback);
+            expect(ES.getImportElement()).toEqual(testCallback);
 
-            ES.setElementImport('invalid');
-            expect(ES.getElementImport()).toEqual(testCallback);
+            ES.setImportElement('invalid');
+            expect(ES.getImportElement()).toEqual(testCallback);
 
-            ES.setElementImport(null);
-            expect(ES.getElementImport()).toEqual(testCallback);
+            ES.setImportElement(null);
+            expect(ES.getImportElement()).toEqual(testCallback);
         });
 
     });

@@ -292,9 +292,9 @@ class ElementBuilder {
         this.setBusySignature(name);
 
         return await Promise.all([
-            signature.schemaImport(),
-            signature.templateImport(),
-            signature.elementImport(),
+            signature.importSchema(),
+            signature.importTemplate(),
+            signature.importElement(),
         ])
             .then((imports) => {
                 this.addElement(name, imports[0], imports[1], imports[2]);

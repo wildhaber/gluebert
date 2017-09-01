@@ -58,10 +58,10 @@ class ModuleSignature {
      * @param {function} controller
      * @example
      * new ModuleSignature('example')
-     *  .setModuleImport(() => import('./example.controller'));
+     *  .setImportController(() => import('./example.controller'));
      * @return {AbstractController}
      */
-    setControllerImport(controller) {
+    setImportController(controller) {
         this.importController = (typeof controller === 'function')
             ? controller
             : null;
@@ -73,7 +73,7 @@ class ModuleSignature {
      * get controller import method
      * @return {function|null}
      */
-    getControllerImport() {
+    getImportController() {
         return this.importController;
     }
 
@@ -82,7 +82,7 @@ class ModuleSignature {
      * @param {function} styles
      * @return {ModuleSignature}
      */
-    setStylesImport(styles) {
+    setImportStyles(styles) {
         this.importStyles = (typeof styles === 'function')
             ? styles
             : null;
@@ -94,7 +94,7 @@ class ModuleSignature {
      * get styles import method
      * @return {function|null}
      */
-    getStylesImport() {
+    getImportStyles() {
         return this.importStyles;
     }
 

@@ -31,26 +31,26 @@ describe('ModuleSignature', () => {
         expect(typeof MS.getSelector).toBe('function');
     });
 
-    it('should expose a .setControllerImport property', () => {
-        expect(MS.setControllerImport).toBeDefined();
-        expect(typeof MS.setControllerImport).toBe('function');
-        expect(MS.setControllerImport()).toEqual(MS);
+    it('should expose a .setImportController property', () => {
+        expect(MS.setImportController).toBeDefined();
+        expect(typeof MS.setImportController).toBe('function');
+        expect(MS.setImportController()).toEqual(MS);
     });
 
-    it('should expose a .getControllerImport property', () => {
-        expect(MS.getControllerImport).toBeDefined();
-        expect(typeof MS.getControllerImport).toBe('function');
+    it('should expose a .getImportController property', () => {
+        expect(MS.getImportController).toBeDefined();
+        expect(typeof MS.getImportController).toBe('function');
     });
 
-    it('should expose a .setStylesImport property', () => {
-        expect(MS.setStylesImport).toBeDefined();
-        expect(typeof MS.setStylesImport).toBe('function');
-        expect(MS.setStylesImport()).toEqual(MS);
+    it('should expose a .setImportStyles property', () => {
+        expect(MS.setImportStyles).toBeDefined();
+        expect(typeof MS.setImportStyles).toBe('function');
+        expect(MS.setImportStyles()).toEqual(MS);
     });
 
-    it('should expose a .getStylesImport property', () => {
-        expect(MS.getStylesImport).toBeDefined();
-        expect(typeof MS.getStylesImport).toBe('function');
+    it('should expose a .getImportStyles property', () => {
+        expect(MS.getImportStyles).toBeDefined();
+        expect(typeof MS.getImportStyles).toBe('function');
     });
 
     it('should expose a .addElementSignature property', () => {
@@ -98,36 +98,36 @@ describe('ModuleSignature', () => {
     });
 
 
-    describe('#setControllerImport()', () => {
+    describe('#setImportController()', () => {
 
         let testCallback = () => {};
 
-        it('should set given ControllerImport callback or ignore if not callback', () => {
-            MS.setControllerImport(testCallback);
-            expect(MS.getControllerImport()).toEqual(testCallback);
+        it('should set given ImportController callback or ignore if not callback', () => {
+            MS.setImportController(testCallback);
+            expect(MS.getImportController()).toEqual(testCallback);
 
-            MS.setControllerImport('invalid');
-            expect(MS.getControllerImport()).toEqual(null);
+            MS.setImportController('invalid');
+            expect(MS.getImportController()).toEqual(null);
 
-            MS.setControllerImport(null);
-            expect(MS.getControllerImport()).toEqual(null);
+            MS.setImportController(null);
+            expect(MS.getImportController()).toEqual(null);
         });
 
     });
 
-    describe('#setStylesImport()', () => {
+    describe('#setImportStyles()', () => {
 
         let testCallback = () => {};
 
-        it('should set given StylesImport callback or ignore if not callback', () => {
-            MS.setStylesImport(testCallback);
-            expect(MS.getStylesImport()).toEqual(testCallback);
+        it('should set given ImportStyles callback or ignore if not callback', () => {
+            MS.setImportStyles(testCallback);
+            expect(MS.getImportStyles()).toEqual(testCallback);
 
-            MS.setStylesImport('invalid');
-            expect(MS.getStylesImport()).toEqual(null);
+            MS.setImportStyles('invalid');
+            expect(MS.getImportStyles()).toEqual(null);
 
-            MS.setStylesImport(null);
-            expect(MS.getStylesImport()).toEqual(null);
+            MS.setImportStyles(null);
+            expect(MS.getImportStyles()).toEqual(null);
         });
 
     });
