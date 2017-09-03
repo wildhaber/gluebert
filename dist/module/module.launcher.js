@@ -228,7 +228,7 @@ var ModuleLauncher = function () {
                                                     case 0:
                                                         for (i = 0, l = _this._modules.length; i < l; i++) {
                                                             elements = Array.from(node.querySelectorAll(signature.selector));
-                                                            matchingRootElement = node.matches(signature.selector);
+                                                            matchingRootElement = typeof node.matches === 'function' ? node.matches(signature.selector) : null;
 
 
                                                             if (matchingRootElement) {
@@ -382,7 +382,7 @@ var ModuleLauncher = function () {
                                 this._stylesLoaded.add(name);
 
                                 if (!(typeof importer === 'function')) {
-                                    _context6.next = 8;
+                                    _context6.next = 9;
                                     break;
                                 }
 
@@ -393,13 +393,20 @@ var ModuleLauncher = function () {
                                 styles = _context6.sent;
                                 styleElement = document.createElement('style');
 
-                                styleElement.innerText = styles.toString();
+
+                                styleElement.type = 'text/css';
+                                if (styleElement.styleSheet) {
+                                    styleElement.styleSheet.cssText = styles;
+                                } else {
+                                    styleElement.appendChild(document.createTextNode(styles));
+                                }
+
                                 document.head.appendChild(styleElement);
 
-                            case 8:
+                            case 9:
                                 return _context6.abrupt('return', this);
 
-                            case 9:
+                            case 10:
                             case 'end':
                                 return _context6.stop();
                         }
