@@ -85,20 +85,27 @@
      * @see https://www.webcomponents.org/polyfills/
      */
     (function() {
+
+        var appElement = document.createElement('script');
+        appElement.src = 'index.js';
+
+        var scriptElement = document.createElement('script');
+
         if ('registerElement' in document
             && 'import' in document.createElement('link')
             && 'content' in document.createElement('template')) {
+            document.body.appendChild(appElement);
         } else {
-// Necessary for IE11 - but automated e2e-tests are failing - needs investigation
-//            var e = document.createElement('script');
-//            e.src = 'https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.8/webcomponents-lite.js';
-//            document.body.appendChild(e);
+            // Necessary for IE11 - but automated e2e-tests are failing - needs investigation
+            scriptElement.src = 'https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.8/webcomponents-lite.js';
+            document.body.appendChild(scriptElement);
+
+            scriptElement.addEventListener('load', function() {
+                 document.body.appendChild(appElement);
+            });
         }
     })();
 </script>
-
-<script type="text/javascript" src="index.js" async></script>
-
 
 </body>
 </html>
