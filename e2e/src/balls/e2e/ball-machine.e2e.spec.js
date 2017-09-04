@@ -16,10 +16,22 @@ fixture(`balls.ball-machine`)
  */
 test('Balls are generated when pressing button', async t => {
 
+    const ballMachine = await Selector(`div[data-ball-machine].gb-ready`, {
+        timeout: 15000,
+        visibilityCheck: true,
+    });
+
+    const balls = await Selector(`div[data-ball-machine].gb-ready`, {
+        timeout: 15000,
+        visibilityCheck: true,
+    });
+
     await t
-        .wait(15000)
-        .click(Selector(`[data-ball-machine]`).find(`[data-add-ball]`))
+        .click(ballMachine.find(`button[data-add-ball]`));
+
+    await t
         .wait(2000)
-        .expect(Selector(`[data-ball-machine]`).find(`.ball`).count)
+        .expect(balls.find('.ball').count)
         .eql(1);
+
 });

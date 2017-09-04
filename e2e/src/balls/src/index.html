@@ -10,6 +10,7 @@
         body {
             background-color: #4271ae
         }
+
         .c-ball-machine {
             padding: 14px;
             width: 50vw;
@@ -17,14 +18,17 @@
             background-color: #fff;
             border: 14px solid deeppink;
         }
+
         .c-ball-bucket {
             background-color: #fff;
         }
+
         .balls {
-             -ms-transform: rotate(0deg);
-             transform: rotate(0deg);
-             transition: transform .6s;
-         }
+            -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+            transition: transform .6s;
+        }
+
         .ball {
             background-color: #adff2f;
             color: #fff;
@@ -35,16 +39,17 @@
             text-align: center;
             line-height: 40px;
             font-weight: 800;
-            font-family: Helvetica Neue,Arial,sans-serif;
+            font-family: Helvetica Neue, Arial, sans-serif;
             font-size: 24px;
             margin: 7px 0;
-            text-shadow: 0 0 4px rgba(0,0,0,.4);
-            will-change: transform,box-shadow;
+            text-shadow: 0 0 4px rgba(0, 0, 0, .4);
+            will-change: transform, box-shadow;
             animation: roll-in .8s;
         }
+
         .ball.even {
-             background-color: #23272a;
-         }
+            background-color: #23272a;
+        }
     </style>
 
 </head>
@@ -78,33 +83,35 @@
 </div>
 
 
-
 <script>
+
+    var appElement = document.createElement('script');
+    appElement.src = 'index.js';
+
+    var scriptElement = document.createElement('script');
+
     /**
      * Polyfill for DocumentFragment and custom elements
      * @see https://www.webcomponents.org/polyfills/
      */
-    (function() {
+    window.addEventListener('load', function() {
 
-        var appElement = document.createElement('script');
-        appElement.src = 'index.js';
-
-        var scriptElement = document.createElement('script');
-
-        if ('registerElement' in document
-            && 'import' in document.createElement('link')
+        if('MutationObserver' in window
             && 'content' in document.createElement('template')) {
             document.body.appendChild(appElement);
         } else {
             // Necessary for IE11 - but automated e2e-tests are failing - needs investigation
-            scriptElement.src = 'https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.8/webcomponents-lite.js';
+//            scriptElement.src = 'https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.10/webcomponents-loader.js';
+            scriptElement.src = 'https://cdn.polyfill.io/v2/polyfill.js?features=Element.prototype.classList,Array.from,Document&flags=gated';
             document.body.appendChild(scriptElement);
-
-            scriptElement.addEventListener('load', function() {
-                 document.body.appendChild(appElement);
-            });
         }
-    })();
+
+    });
+
+    window.addEventListener('WebComponentsReady', function () {
+        document.body.appendChild(appElement);
+    });
+
 </script>
 
 </body>

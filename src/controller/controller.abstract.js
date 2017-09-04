@@ -14,6 +14,7 @@ class ControllerAbstract {
         this._element = element;
         this._data = data;
         this._elements = elements;
+        this._element.classList.add(`gb-ready`);
     }
 
     /**
