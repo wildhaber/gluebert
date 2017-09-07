@@ -113,19 +113,19 @@ jobs:
       - run: yarn test
       - run: npm install codeclimate-test-reporter
 
-  workflows:
-    version: 2
-    test:
-      jobs:
-        - test
-      filters:
-        branches:
-          ignore:
-            - master
-    test_build:
-      jobs:
-        - test_build
-      filters:
-        branches:
-          only:
-            - master
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
+    filters:
+      branches:
+        ignore:
+          - master
+  test_build:
+    jobs:
+      - test_build
+    filters:
+      branches:
+        only:
+          - master
