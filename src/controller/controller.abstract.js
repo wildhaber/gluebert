@@ -15,7 +15,7 @@ class ControllerAbstract {
         this._data = data;
         this._elements = elements;
 
-        let elementReadyClass = (typeof elements === `function`)
+        let elementReadyClass = (typeof elements === `object`)
             ? elements.getElementReadyClass()
             : null;
 
