@@ -31,18 +31,18 @@ var ElementSignature = function () {
 
         this.name = typeof name === 'string' ? name : null;
 
-        this.schemaImport = function () {
+        this.importSchema = function () {
             return Promise.resolve();
         };
-        this.templateImport = function () {
+        this.importTemplate = function () {
             return Promise.resolve('<div>Missing template specification for ' + name + '.</div>');
         };
-        this.elementImport = function () {
+        this.importElement = function () {
             return Promise.resolve(_element.ElementAbstract);
         };
 
         if (template) {
-            this.setTemplateImport(template);
+            this.setImportTemplate(template);
         }
     }
 
@@ -58,7 +58,7 @@ var ElementSignature = function () {
         key: 'setImportSchema',
         value: function setImportSchema(schema) {
             if (typeof schema === 'function') {
-                this.schemaImport = schema;
+                this.importSchema = schema;
             }
             return this;
         }
@@ -71,22 +71,22 @@ var ElementSignature = function () {
     }, {
         key: 'getImportSchema',
         value: function getImportSchema() {
-            return this.schemaImport;
+            return this.importSchema;
         }
 
         /**
          * set template import callback
          * @param {function} template
          * @return {ElementSignature}
-         * @example signature.setTemplateImport(() => import('./xyz.template.html'));
-         * @example signature.setTemplateImport(() => import('./xyz.template.twig'));
+         * @example signature.setImportTemplate(() => import('./xyz.template.html'));
+         * @example signature.setImportTemplate(() => import('./xyz.template.twig'));
          */
 
     }, {
-        key: 'setTemplateImport',
-        value: function setTemplateImport(template) {
+        key: 'setImportTemplate',
+        value: function setImportTemplate(template) {
             if (typeof template === 'function') {
-                this.templateImport = template;
+                this.importTemplate = template;
             }
             return this;
         }
@@ -97,23 +97,23 @@ var ElementSignature = function () {
          */
 
     }, {
-        key: 'getTemplateImport',
-        value: function getTemplateImport() {
-            return this.templateImport;
+        key: 'getImportTemplate',
+        value: function getImportTemplate() {
+            return this.importTemplate;
         }
 
         /**
          * set element import callback
          * @param {function} element
          * @return {ElementSignature}
-         * @example signature.setElementImport(() => import('./xyz.element').then((element) => element.XyzElement));
+         * @example signature.setImportElement(() => import('./xyz.element').then((element) => element.XyzElement));
          */
 
     }, {
-        key: 'setElementImport',
-        value: function setElementImport(element) {
+        key: 'setImportElement',
+        value: function setImportElement(element) {
             if (typeof element === 'function') {
-                this.elementImport = element;
+                this.importElement = element;
             }
             return this;
         }
@@ -124,9 +124,9 @@ var ElementSignature = function () {
          */
 
     }, {
-        key: 'getElementImport',
-        value: function getElementImport() {
-            return this.elementImport;
+        key: 'getImportElement',
+        value: function getImportElement() {
+            return this.importElement;
         }
     }]);
 

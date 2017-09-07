@@ -26,6 +26,12 @@ var ControllerAbstract = function () {
         this._element = element;
         this._data = data;
         this._elements = elements;
+
+        var elementReadyClass = typeof elements === 'object' && typeof elements.getElementReadyClass === 'function' ? elements.getElementReadyClass() : null;
+
+        if (elementReadyClass) {
+            this._element.classList.add(elementReadyClass);
+        }
     }
 
     /**

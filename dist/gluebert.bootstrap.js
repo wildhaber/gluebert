@@ -19,17 +19,27 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var DEFAULT_OPTIONS = {
+    elementReadyClass: 'gb-ready'
+};
+
 /**
  * Class represents Gluebert
  */
+
 var Gluebert = function () {
 
     /**
      * @param {ModuleSignature[]} modules
      * @param {DataSignature[]} data
+     * @param {object} options
      */
     function Gluebert(modules, data) {
+        var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
         _classCallCheck(this, Gluebert);
+
+        this._options = Object.assign({}, DEFAULT_OPTIONS, options);
 
         this._modules = modules instanceof Array ? modules : null;
         this._elements = this._modules ? this._extractElements(modules) : null;
@@ -53,7 +63,9 @@ var Gluebert = function () {
     }, {
         key: '_init',
         value: function _init() {
-            this.elementBuilder = new _element.ElementBuilder(this._elements, this._templateEngine, this._schemaValidator);
+
+            this.elementBuilder = new _element.ElementBuilder(this._elements, this._templateEngine, this._schemaValidator, this._options);
+
             this.dataObserver = new _data.DataObserver();
             this.dataManager = new _data2.DataManager(this.dataObserver, this._data);
             this.moduleLauncher = new _module.ModuleLauncher(this._modules, this.dataObserver, this.elementBuilder);

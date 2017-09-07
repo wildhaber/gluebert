@@ -148,7 +148,9 @@ class ModuleLauncher {
         this._eachModule(async (signature) => {
             for(let i = 0, l = this._modules.length; i < l; i++) {
                 let elements = Array.from(node.querySelectorAll(signature.selector));
-                const matchingRootElement = node.matches(signature.selector);
+                const matchingRootElement = (typeof node.matches === 'function')
+                    ? node.matches(signature.selector)
+                    : null;
 
                 if(matchingRootElement) {
                     elements = [node];
@@ -218,12 +220,24 @@ class ModuleLauncher {
      */
     async _addStyles(name, importer) {
         this._stylesLoaded.add(name);
+
         if(typeof importer === 'function') {
+
             const styles = await importer();
             const styleElement = document.createElement('style');
-            styleElement.innerText = styles.toString();
+
+            styleElement.type = 'text/css';
+            if(styleElement.styleSheet) {
+                styleElement.styleSheet.cssText = styles;
+            } else {
+                styleElement.appendChild(
+                    document.createTextNode(styles),
+                );
+            }
+
             document.head.appendChild(styleElement);
         }
+
         return this;
     }
 

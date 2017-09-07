@@ -5,7 +5,7 @@ import { ElementSignature } from './../../../../../../element';
  */
 const BALL_ELEMENT_SIGNATURE = new ElementSignature('ball.element', () => import('./ball.template.html'))
     .setImportSchema(() => import('./ball.schema.json'))
-    .setElementImport(() => import('./ball.element').then((module) => module.BallElement))
+    .setImportElement(() => import('./ball.element').then((module) => module.BallElement))
 ;
 
 export {

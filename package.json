@@ -1,6 +1,6 @@
 {
   "name": "gluebert",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "gluebert.js is a tiny helper orchestrating interactive html elements with on demand dynamic import Edit",
   "scripts": {
     "test": "npm run lint && npm run test:karma && npm run test:e2e",
@@ -9,9 +9,9 @@
     "test:karma:watch": "./node_modules/karma/bin/karma start karma.conf.js",
     "test:e2e": "npm run build && npm run build:demo && npm run test:e2e:testcafe",
     "test:e2e:server": "./node_modules/.bin/http-server ./e2e/demo -p 3000",
-    "test:e2e:testcafe": "./node_modules/.bin/testcafe chrome,firefox ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server'  --app-init-delay $npm_package_config_sauce_app_init_delay --assertion-timeout $npm_package_config_sauce_assert_timeout --selector-timeout $npm_package_config_sauce_selector_timeout",
+    "test:e2e:testcafe": "./node_modules/.bin/testcafe chrome,firefox ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server'",
     "test:e2e:saucelabs": "npm run test:e2e:saucelabs:modern && npm run test:e2e:saucelabs:edge && npm run test:e2e:saucelabs:mobile && npm run test:e2e:saucelabs:tablet",
-    "test:e2e:saucelabs:local": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/env-cmd ./saucelabs.env npm run test:e2e:saucelabs:mobile",
+    "test:e2e:saucelabs:local": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/env-cmd ./saucelabs.env npm run test:e2e:saucelabs:modern",
     "test:e2e:saucelabs:modern": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:firefox,saucelabs:chrome:Windows 7,saucelabs:safari:OS X 10.10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay $npm_package_config_sauce_app_init_delay --assertion-timeout $npm_package_config_sauce_assert_timeout --selector-timeout $npm_package_config_sauce_selector_timeout",
     "test:e2e:saucelabs:edge": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:MicrosoftEdge@15:Windows 10,saucelabs:MicrosoftEdge@14:Windows 10,saucelabs:MicrosoftEdge@13:Windows 10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay $npm_package_config_sauce_app_init_delay --assertion-timeout $npm_package_config_sauce_assert_timeout --selector-timeout $npm_package_config_sauce_selector_timeout",
     "test:e2e:saucelabs:ie_old": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:internet explorer@11:Windows 8.1' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay $npm_package_config_sauce_app_init_delay --assertion-timeout $npm_package_config_sauce_assert_timeout --selector-timeout $npm_package_config_sauce_selector_timeout",

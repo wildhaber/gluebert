@@ -5,8 +5,8 @@ import { ModuleSignature } from './../../../../../../module';
  * @type {ModuleSignature}
  */
 const MODULE = new ModuleSignature(`BallBucket`, `[data-ball-bucket]`)
-    .setControllerImport(() => import('./ball-bucket.controller').then((controller) => controller.BallBucketController))
-    .setStylesImport(() => import('./ball-bucket.styles.scss'));
+    .setImportController(() => import('./ball-bucket.controller').then((controller) => controller.BallBucketController))
+    .setImportStyles(() => import('./ball-bucket.styles.scss'));
 
 export {
     MODULE,
