@@ -268,7 +268,11 @@ describe('DataObserver', () => {
         let fakeObserableModule = {
             getObservable: () => {
                 return {
-                    subscribe: () => null,
+                    subscribe: (next) => {
+                        return {
+                            next,
+                        };
+                    },
                 };
             },
             push: () => 1,
@@ -461,17 +465,20 @@ describe('DataObserver', () => {
         });
 
         it('should return this', () => {
-            expect(DO.subscribe('a')).toEqual(DO);
-            expect(DO.subscribe('originX', 'signature.key', () => null, () => null, () => null)).toEqual(DO);
             expect(DO.subscribe('originY', 'signature.valid', (next) => {
             })).toEqual(DO);
-            expect(DO.subscribe('originX', 'signature.valid')).toEqual(DO);
             expect(DO.subscribe('originZ', 'signature.valid.two', {
                 cool: () => {
                 },
             }, (error) => {
             }, (complete) => {
             }, {})).toEqual(DO);
+            expect(DO.subscribe('originX', 'signature.key', () => null, () => null, () => null)).toEqual(DO);
+            expect(DO.subscribe('a')).toEqual(DO);
+        });
+
+        it('should throw error when no next method is set', () => {
+            expect(() => DO.subscribe('originX', 'signature.valid')).toThrowError();
         });
 
     });
