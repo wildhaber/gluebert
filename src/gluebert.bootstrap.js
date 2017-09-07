@@ -17,7 +17,7 @@ class Gluebert {
      * @param {DataSignature[]} data
      * @param {object} options
      */
-    constructor(modules, data, options = {}) {
+    constructor(modules, data = [], options = {}) {
 
         this._options = Object.assign(
             {},

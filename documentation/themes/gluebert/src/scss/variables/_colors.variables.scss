@@ -1,0 +1,11 @@
+$color-transparency-factor: 0.3;
+
+$color-default: #222222;
+$color-accent: #cc3c3c;
+$color-primary: #d44342;
+$color-secondary: #071b28;
+$color-light: #ffffff;
+$color-dark: #000000;
+
+$color-dark-semi: rgba(0, 0, 0, $color-transparency-factor);
+$color-light-semi: rgba(255, 255, 255, $color-transparency-factor);

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ .Title }}</title>
+
+    <link rel="canonical" href="{{ .Permalink }}">
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="144x144">
+
+    <style>
+        {{ readFile "./themes/gluebert/static/critical.css" | safeCSS }}
+    </style>
+
+</head>
+<body class="c-body">

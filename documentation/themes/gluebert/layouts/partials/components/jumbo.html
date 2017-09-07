@@ -1,0 +1,16 @@
+<section class="c-jumbo c-jumbo--{{ .style | default " light"}}">
+
+    <div class="c-jumbo__logo">
+        {{ partial "components/logo.html" (dict "context" . "negative" true) }}
+    </div>
+
+    <div class="c-jumbo__message">
+        <h1>{{ .headline | safeHTML }}</h1>
+        <p>{{ .text | safeHTML }}</p>
+    </div>
+
+    <div class="c-jumbo__foot">
+        {{ partialCached "components/teaserboxgrid.html" (dict "context" .context "boxes" .teaser "cols" 3) "mainteaser" }}
+    </div>
+
+</section>

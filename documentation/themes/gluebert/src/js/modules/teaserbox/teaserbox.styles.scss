@@ -1,0 +1,34 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-teaserbox {
+    padding: $gutter-default $gutter-double;
+    margin: $gutter-double auto;
+
+    border-right: 1px solid $color-dark-semi;
+
+
+    &:last-child {
+        border-right: none;
+    }
+}
+
+.c-teaserbox__icon {
+    display: block;
+}
+
+.c-teaserbox__title {
+    @include font('h3');
+    display: block;
+    margin-bottom: $gutter-half;
+}
+
+.c-teaserbox__subtitle {
+    @include font('p');
+    display: block;
+}
+
+.c-teaserbox__text {
+    @include font('p');
+    display: block;
+}

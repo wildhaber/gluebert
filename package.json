@@ -12,12 +12,12 @@
     "test:e2e:server": "./node_modules/.bin/http-server ./e2e/demo -p 3000",
     "test:e2e:testcafe": "./node_modules/.bin/testcafe chrome,firefox ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server'",
     "test:e2e:saucelabs": "npm run test:e2e:build && npm run test:e2e:saucelabs:modern && npm run test:e2e:saucelabs:edge && npm run test:e2e:saucelabs:mobile && npm run test:e2e:saucelabs:tablet",
-    "test:e2e:saucelabs:local": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/env-cmd ./saucelabs.env npm run test:e2e:saucelabs:tablet",
-    "test:e2e:saucelabs:modern": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:firefox,saucelabs:chrome:Windows 7,saucelabs:safari:OS X 10.10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay $npm_package_config_sauce_app_init_delay --assertion-timeout $npm_package_config_sauce_assert_timeout --selector-timeout $npm_package_config_sauce_selector_timeout",
-    "test:e2e:saucelabs:edge": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:MicrosoftEdge@15:Windows 10,saucelabs:MicrosoftEdge@14:Windows 10,saucelabs:MicrosoftEdge@13:Windows 10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay $npm_package_config_sauce_app_init_delay --assertion-timeout $npm_package_config_sauce_assert_timeout --selector-timeout $npm_package_config_sauce_selector_timeout",
-    "test:e2e:saucelabs:ie_old": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:internet explorer@11:Windows 8.1' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay $npm_package_config_sauce_app_init_delay --assertion-timeout $npm_package_config_sauce_assert_timeout --selector-timeout $npm_package_config_sauce_selector_timeout",
-    "test:e2e:saucelabs:mobile": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:iPhone Simulator@10.2,saucelabs:iPhone Simulator@9.2,saucelabs:Android Emulator Phone@6.0,saucelabs:Android Emulator Phone@5.1,saucelabs:Android Emulator Phone@4.4' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay $npm_package_config_sauce_app_init_delay --assertion-timeout $npm_package_config_sauce_assert_timeout --selector-timeout $npm_package_config_sauce_selector_timeout",
-    "test:e2e:saucelabs:tablet": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:iPad Simulator@10.2,saucelabs:iPad Simulator@9.2' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' --app-init-delay $npm_package_config_sauce_app_init_delay --assertion-timeout $npm_package_config_sauce_assert_timeout --selector-timeout $npm_package_config_sauce_selector_timeout",
+    "test:e2e:saucelabs:local": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/env-cmd ./saucelabs.env npm run test:e2e:saucelabs:modern",
+    "test:e2e:saucelabs:modern": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:firefox,saucelabs:chrome:Windows 7,saucelabs:safari:OS X 10.10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' ",
+    "test:e2e:saucelabs:edge": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:MicrosoftEdge@15:Windows 10,saucelabs:MicrosoftEdge@14:Windows 10,saucelabs:MicrosoftEdge@13:Windows 10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' ",
+    "test:e2e:saucelabs:ie_old": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:internet explorer@11:Windows 8.1' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' ",
+    "test:e2e:saucelabs:mobile": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:iPhone Simulator@10.2,saucelabs:iPhone Simulator@9.2,saucelabs:Android Emulator Phone@6.0,saucelabs:Android Emulator Phone@5.1,saucelabs:Android Emulator Phone@4.4' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' ",
+    "test:e2e:saucelabs:tablet": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:iPad Simulator@10.2,saucelabs:iPad Simulator@9.2' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' ",
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "./node_modules/.bin/eslint src --fix",
     "build": "rm -rf dist && ./node_modules/.bin/babel src --out-dir dist --ignore '**/*.spec.js'",
@@ -35,8 +35,8 @@
   },
   "config": {
     "sauce": {
-      "app_init_delay": 8000,
-      "assert_timeout": 20000,
+      "app_init_delay": 4000,
+      "assert_timeout": 10000,
       "selector_timeout": 40000,
       "browsers": {
         "ie": "'saucelabs:internet explorer@9:Windows 7,saucelabs:internet explorer@10:Windows 8,saucelabs:internet explorer@11:Windows 8.1,saucelabs:MicrosoftEdge:Windows 10'",
@@ -73,6 +73,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-preset-minify": "^0.2.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
@@ -96,6 +97,6 @@
     "karma-webpack": "2.0.3",
     "testcafe": "^0.17.1",
     "testcafe-browser-provider-saucelabs": "^1.3.0",
-    "webpack": "^3.5.5"
+    "webpack": "^3.5.6"
   }
 }

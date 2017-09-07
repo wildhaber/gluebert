@@ -1,0 +1,5 @@
+baseURL = "https://gluebert.com/"
+languageCode = "en-us"
+title = "Gluebert Documentation"
+
+theme = "gluebert"

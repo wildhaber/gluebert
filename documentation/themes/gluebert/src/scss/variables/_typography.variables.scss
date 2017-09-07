@@ -1,0 +1,62 @@
+$typo-face-title: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+$typo-face-lead: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+$typo-face-text: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+$typo-face-code: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+$typo-size-default: 14px;
+$typo-size-small: $typo-size-default * 0.65;
+$typo-size-large: $typo-size-default * 1.65;
+$typo-size-title: $typo-size-default * 2;
+$typo-size-lead: $typo-size-default * 4;
+
+$typo-weight-bold: 500;
+$typo-weight-light: 200;
+$typo-weight-normal: 300;
+
+$typo-default-line-height: 1.24em;
+$typo-default-font-weight: $typo-weight-normal;
+$typo-default-font-size: $typo-size-default;
+$typo-default-font-face: $typo-face-text;
+
+$typo-matrix: (
+    h1: (
+        face: $typo-face-lead,
+        weight: $typo-weight-light,
+        size: $typo-size-lead,
+    ),
+    h2: (
+        face: $typo-face-title,
+        weight: $typo-weight-light,
+        size: $typo-size-title,
+    ),
+    h3: (
+        face: $typo-face-text,
+        weight: $typo-weight-light,
+        size: $typo-size-large,
+    ),
+    h4: (
+        face: $typo-face-text,
+        weight: $typo-weight-bold,
+        size: $typo-size-default,
+    ),
+    h5: (
+        face: $typo-face-text,
+        weight: $typo-weight-normal,
+        size: $typo-size-default,
+    ),
+    h6: (
+        face: $typo-face-text,
+        weight: $typo-weight-normal,
+        size: $typo-size-small,
+    ),
+    p: (
+        face: $typo-face-text,
+        weight: $typo-weight-normal,
+        size: $typo-size-default,
+    ),
+    large-p: (
+        face: $typo-face-text,
+        weight: $typo-weight-light,
+        size: $typo-size-title,
+    )
+);

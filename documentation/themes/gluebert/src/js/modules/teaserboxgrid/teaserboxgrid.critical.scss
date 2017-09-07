@@ -1,0 +1,20 @@
+$colsMax: 12;
+
+.c-teaserboxgrid {
+
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    place-items: stretch;
+}
+
+@for $i from 1 through $colsMax {
+    .c-teaserboxgrid--style-#{$i} {
+
+        > * {
+            width: 100 / $i * 1%;
+            flex-basis: 100 / $i * 1%;
+        }
+    }
+}

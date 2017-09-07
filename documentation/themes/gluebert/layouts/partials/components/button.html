@@ -1,0 +1,6 @@
+{{ if .text }}
+<a class="c-button c-button--{{ .style | default "secondary" }}"
+    href="{{ .link }}">
+    {{ .text }}
+</a>
+{{ end }}
