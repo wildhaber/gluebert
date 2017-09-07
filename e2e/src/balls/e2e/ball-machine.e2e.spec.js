@@ -27,9 +27,8 @@ test('Balls are generated when pressing button', async t => {
     });
 
     await t
-        .click(ballMachine.find(`button[data-add-ball]`));
-
-    await t
+        .wait(10000)
+        .click(ballMachine.find(`button[data-add-ball]`))
         .wait(2000)
         .expect(balls.find('.ball').count)
         .eql(1);
