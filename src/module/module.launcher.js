@@ -62,7 +62,7 @@ class ModuleLauncher {
      */
     _eachModule(callback = null) {
         if(typeof callback === 'function') {
-            for (let i = 0, l = this._modules.length; i < l; i++) {
+            for(let i = 0, l = this._modules.length; i < l; i++) {
                 callback(this._modules[i]);
             }
         }
@@ -128,7 +128,7 @@ class ModuleLauncher {
                 this._addStyles(signature.name, signature.importStyles);
             }
 
-            for (let i = 0, l = elements.length; i < l; i++) {
+            for(let i = 0, l = elements.length; i < l; i++) {
                 const element = elements[i];
                 if(!this._instanceMap.has(element)) {
                     this._addInstance(element, new controller(element, this._dataObserver, this._elementBuilder));
@@ -146,7 +146,7 @@ class ModuleLauncher {
      */
     async _launchMatchingElements(node) {
         this._eachModule(async (signature) => {
-            for (let i = 0, l = this._modules.length; i < l; i++) {
+            for(let i = 0, l = this._modules.length; i < l; i++) {
                 let elements = Array.from(node.querySelectorAll(signature.selector));
                 const matchingRootElement = (typeof node.matches === 'function')
                     ? node.matches(signature.selector)
@@ -193,7 +193,7 @@ class ModuleLauncher {
      */
     _observeDomMutation(mutations) {
 
-        for (let i = 0, l = mutations.length; i < l; i++) {
+        for(let i = 0, l = mutations.length; i < l; i++) {
             const mutation = mutations[i];
 
             switch (mutation.type) {

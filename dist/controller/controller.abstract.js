@@ -26,7 +26,12 @@ var ControllerAbstract = function () {
         this._element = element;
         this._data = data;
         this._elements = elements;
-        this._element.classList.add('gb-ready');
+
+        var elementReadyClass = elements.getElementReadyClass();
+
+        if (elementReadyClass) {
+            this._element.classList.add(elementReadyClass);
+        }
     }
 
     /**

@@ -23,11 +23,13 @@ var ElementBuilder = function () {
      * @param {ElementSignature[]} signatures
      * @param {function} templateEngine
      * @param {function} schemaValidator
+     * @param {object} options
      */
     function ElementBuilder() {
         var signatures = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
         var templateEngine = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
         var schemaValidator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+        var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
         _classCallCheck(this, ElementBuilder);
 
@@ -38,6 +40,8 @@ var ElementBuilder = function () {
         this._signatures = signatures instanceof Array ? this._transformToObject(signatures) : {};
 
         this._elements = {};
+
+        this._options = options;
     }
 
     /**
@@ -342,7 +346,7 @@ var ElementBuilder = function () {
                 }, _callee, this);
             }));
 
-            function _loadElementModule(_x4, _x5) {
+            function _loadElementModule(_x5, _x6) {
                 return _ref.apply(this, arguments);
             }
 
@@ -435,12 +439,34 @@ var ElementBuilder = function () {
                 }, _callee2, this, [[0, 16]]);
             }));
 
-            function create(_x6, _x7) {
+            function create(_x7, _x8) {
                 return _ref2.apply(this, arguments);
             }
 
             return create;
         }()
+
+        /**
+         * get options
+         * @return {Object}
+         */
+
+    }, {
+        key: 'getOptions',
+        value: function getOptions() {
+            return this._options;
+        }
+
+        /**
+         * get element ready class
+         * @return {string|null} elementReadyClass
+         */
+
+    }, {
+        key: 'getElementReadyClass',
+        value: function getElementReadyClass() {
+            return typeof this._options.elementReadyClass === 'string' ? this._options.elementReadyClass : null;
+        }
     }]);
 
     return ElementBuilder;

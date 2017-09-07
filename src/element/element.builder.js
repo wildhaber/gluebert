@@ -9,8 +9,10 @@ class ElementBuilder {
      * @param {ElementSignature[]} signatures
      * @param {function} templateEngine
      * @param {function} schemaValidator
+     * @param {object} options
      */
-    constructor(signatures = [], templateEngine = null, schemaValidator = null) {
+    constructor(signatures = [], templateEngine = null, schemaValidator = null, options = {}) {
+
         this._schemaValidator = (
             schemaValidator &&
             typeof schemaValidator === 'function'
@@ -27,6 +29,8 @@ class ElementBuilder {
             : {};
 
         this._elements = {};
+
+        this._options = options;
 
     }
 
@@ -359,6 +363,25 @@ class ElementBuilder {
             return null;
         }
     }
+
+    /**
+     * get options
+     * @return {Object}
+     */
+    getOptions() {
+        return this._options;
+    }
+
+    /**
+     * get element ready class
+     * @return {string|null} elementReadyClass
+     */
+    getElementReadyClass() {
+        return (typeof this._options.elementReadyClass === 'string')
+            ? this._options.elementReadyClass
+            : null;
+    }
+
 }
 
 export {
