@@ -1,133 +1,131 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
-version: 2
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:8.4-browsers
-        environment:
-            CHROME_BIN: "/usr/bin/google-chrome"
-            FIREFOX_BIN: "/usr/bin/firefox"
-
-    working_directory: ~/gluebert
-
-    steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      # run tests!
-      - run: yarn test
-
-      # coverage
-      - run: npm install codeclimate-test-reporter
-
-      - run:
-          name: code-coverage
-          command: './node_modules/.bin/codeclimate-test-reporter < ./coverage/phantomjs/lcov.info'
-#
-#
+## Javascript Node CircleCI 2.0 configuration file
+##
+## Check https://circleci.com/docs/2.0/language-javascript/ for more details
+##
 #version: 2
 #jobs:
 #  build:
 #    docker:
+#      # specify the version you desire here
 #      - image: circleci/node:8.4-browsers
 #        environment:
 #            CHROME_BIN: "/usr/bin/google-chrome"
 #            FIREFOX_BIN: "/usr/bin/firefox"
+#
 #    working_directory: ~/gluebert
+#
 #    steps:
 #      - checkout
+#
+#      # Download and cache dependencies
 #      - restore_cache:
 #          keys:
 #          - v1-dependencies-{{ checksum "package.json" }}
+#          # fallback to using the latest cache if no exact match is found
 #          - v1-dependencies-
+#
 #      - run: yarn install
+#
 #      - save_cache:
 #          paths:
 #            - node_modules
 #          key: v1-dependencies-{{ checksum "package.json" }}
-#  test:
-#    docker:
-#      - image: circleci/node:8.4-browsers
-#        environment:
-#            CHROME_BIN: "/usr/bin/google-chrome"
-#            FIREFOX_BIN: "/usr/bin/firefox"
-#    working_directory: ~/gluebert
-#    steps:
-#      - checkout
-#      - restore_cache:
-#          keys:
-#          - v1-dependencies-{{ checksum "package.json" }}
-#          - v1-dependencies-
-#      - run: yarn install
-#      - save_cache:
-#          paths:
-#            - node_modules
-#          key: v1-dependencies-{{ checksum "package.json" }}
+#
+#      # run tests!
 #      - run: yarn test
-#      - run: npm install codeclimate-test-reporter
-#      - run:
-#          name: code-coverage
-#          command: './node_modules/.bin/codeclimate-test-reporter < ./coverage/phantomjs/lcov.info'
-#      - run: yarn test
-#      - run: npm install codeclimate-test-reporter
-#  test_build:
-#    docker:
-#      - image: circleci/node:8.4-browsers
-#        environment:
-#            CHROME_BIN: "/usr/bin/google-chrome"
-#            FIREFOX_BIN: "/usr/bin/firefox"
-#    working_directory: ~/gluebert
-#    steps:
-#      - checkout
-#      - restore_cache:
-#          keys:
-#          - v1-dependencies-{{ checksum "package.json" }}
-#          - v1-dependencies-
-#      - run: yarn install
-#      - save_cache:
-#          paths:
-#            - node_modules
-#          key: v1-dependencies-{{ checksum "package.json" }}
-#      - run: yarn test:master
-#      - run: npm install codeclimate-test-reporter
-#      - run:
-#          name: code-coverage
-#          command: './node_modules/.bin/codeclimate-test-reporter < ./coverage/phantomjs/lcov.info'
-#      - run: yarn test
+#
+#      # coverage
 #      - run: npm install codeclimate-test-reporter
 #
-#workflows:
-#  version: 2
-#  test:
-#    jobs:
-#      - test
-#  filters:
-#    branches:
-#      ignore:
-#        - develop
-#        - master
-#  test_build:
-#    jobs:
-#      - test_build
-#    filters:
-#      branches:
-#        only:
-#          - develop
-#          - master
+#      - run:
+#          name: code-coverage
+#          command: './node_modules/.bin/codeclimate-test-reporter < ./coverage/phantomjs/lcov.info'
+##
+##
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.4-browsers
+        environment:
+            CHROME_BIN: "/usr/bin/google-chrome"
+            FIREFOX_BIN: "/usr/bin/firefox"
+    working_directory: ~/gluebert
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+  test:
+    docker:
+      - image: circleci/node:8.4-browsers
+        environment:
+            CHROME_BIN: "/usr/bin/google-chrome"
+            FIREFOX_BIN: "/usr/bin/firefox"
+    working_directory: ~/gluebert
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: yarn test
+      - run: npm install codeclimate-test-reporter
+      - run:
+          name: code-coverage
+          command: './node_modules/.bin/codeclimate-test-reporter < ./coverage/phantomjs/lcov.info'
+      - run: yarn test
+      - run: npm install codeclimate-test-reporter
+  test_build:
+    docker:
+      - image: circleci/node:8.4-browsers
+        environment:
+            CHROME_BIN: "/usr/bin/google-chrome"
+            FIREFOX_BIN: "/usr/bin/firefox"
+    working_directory: ~/gluebert
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: yarn test:master
+      - run: npm install codeclimate-test-reporter
+      - run:
+          name: code-coverage
+          command: './node_modules/.bin/codeclimate-test-reporter < ./coverage/phantomjs/lcov.info'
+      - run: yarn test
+      - run: npm install codeclimate-test-reporter
+
+  workflows:
+    version: 2
+    test:
+      jobs:
+        - test
+      filters:
+        branches:
+          ignore:
+            - master
+    test_build:
+      jobs:
+        - test_build
+      filters:
+        branches:
+          only:
+            - master
