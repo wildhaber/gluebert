@@ -12,12 +12,12 @@ import { LOGO_MODULE } from './modules/logo/logo.module';
  */
 const MODULES = [
     BODY_MODULE,
-    LOGO_MODULE,
     JUMBO_MODULE,
     NAVIGATION_MODULE,
     TEASERBOXGRID_MODULE,
     TEASERBOX_MODULE,
     BUTTON_MODULE,
+    LOGO_MODULE,
 ];
 
 export {

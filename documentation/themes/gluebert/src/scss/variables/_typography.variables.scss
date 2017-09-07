@@ -4,12 +4,12 @@ $typo-face-text: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-S
 $typo-face-code: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 
 $typo-size-default: 14px;
-$typo-size-small: $typo-size-default * 0.65;
+$typo-size-small: 10px;
 $typo-size-large: $typo-size-default * 1.65;
 $typo-size-title: $typo-size-default * 2;
 $typo-size-lead: $typo-size-default * 4;
 
-$typo-weight-bold: 500;
+$typo-weight-bold: 600;
 $typo-weight-light: 200;
 $typo-weight-normal: 300;
 
@@ -58,5 +58,10 @@ $typo-matrix: (
         face: $typo-face-text,
         weight: $typo-weight-light,
         size: $typo-size-title,
+    ),
+    a: (
+        face: $typo-face-text,
+        weight: $typo-weight-normal,
+        size: $typo-size-default,
     )
 );

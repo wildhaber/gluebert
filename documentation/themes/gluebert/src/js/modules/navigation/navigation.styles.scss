@@ -1,3 +1,49 @@
+@import './../../../scss/variables';
+
 .c-navigation {
-    background-color: purple;
+
+    color: $color-light-semi;
+    background-color: $color-primary;
+    display: flex;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid $color-light-semi;
+
+    a {
+        color: rgba($color-light, 0.8);
+        transition: color 0.4s;
+        padding: $gutter-default;
+        display: block;
+        text-decoration: none;
+
+        &:hover {
+            color: $color-light;
+        }
+    }
+
+    ul {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .c-navigation__left {
+        align-self: flex-start;
+        width: 50%;
+        justify-content: flex-start;
+
+        li {
+            border-right: 1px solid $color-light-semi;
+        }
+    }
+
+    .c-navigation__right {
+        align-self: flex-end;
+        width: 50%;
+        justify-content: flex-end;
+
+        li {
+            border-left: 1px solid $color-light-semi;
+        }
+    }
+
 }
+

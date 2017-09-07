@@ -1,4 +1,33 @@
+@import './../../../scss/variables';
+
 .c-navigation {
-    background-color: yellow;
-    transition: background 2s;
+    background-color: $color-accent;
+    color: $color-light-semi;
+    display: flex;
+    flex-wrap: nowrap;
+
+    a {
+        color: rgba($color-light, 0.8);
+        transition: color 0.4s;
+        padding: $gutter-half $gutter-default;
+        display: block;
+    }
+
+    ul {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .c-navigation__left {
+        align-self: flex-start;
+        width: 50%;
+        justify-content: flex-start;
+    }
+
+    .c-navigation__right {
+        align-self: flex-end;
+        width: 50%;
+        justify-content: flex-end;
+    }
+
 }
