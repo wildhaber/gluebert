@@ -45,6 +45,10 @@ module.exports = {
                         use: [
                             {
                                 loader: 'css-loader',
+                                options: {
+                                    importLoaders: 1,
+                                    minimize: true,
+                                },
                             },
                             {
                                 loader: 'postcss-loader',
@@ -61,12 +65,12 @@ module.exports = {
     plugins: [
         new webpack.optimize.UglifyJsPlugin({ mangle: true }),
         new ExtractTextPlugin('[name].css'),
-        new CompressionPlugin({
-            algorithm: 'gzip',
-            test: /\.(js|html)$/,
-            threshold: 0,
-            minRatio: 0.8,
-        }),
+        // new CompressionPlugin({
+        //     algorithm: 'gzip',
+        //     test: /\.(js|html)$/,
+        //     threshold: 0,
+        //     minRatio: 0.8,
+        // }),
     ],
     output: {
         filename: '[name].js',
