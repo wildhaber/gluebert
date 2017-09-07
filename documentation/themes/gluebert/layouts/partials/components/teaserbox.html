@@ -1,5 +1,7 @@
 <div class="c-teaserbox">
-    <i class="c-teaserbox__icon">{{ .icon }}</i>
+    <div class="c-teaserbox__icon">
+        {{ partial "components/icon.html" (dict "context" .context "icon" .icon) }}
+    </div>
     <strong class="c-teaserbox__title">{{ .title }}</strong>
     <p class="c-teaserbox__text">{{ .text }}</p>
     {{ if .link | default false }}

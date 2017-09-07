@@ -1,6 +1,6 @@
 {{ define "main" }}
 
-{{ partial "components/navigation.html" . }}
+{{ partial "components/navigation.html" (dict "context" .) }}
 {{ partial "components/jumbo.html" (dict "context" . "headline" (.Param "headline") "text" (.Param "headlineText") "teaser" (.Param "teaser") "style" "dark") }}
 
 {{ .Content }}

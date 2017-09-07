@@ -19,4 +19,11 @@
     margin: auto;
     width: $jumbo-message-width;
     text-align: center;
+
+    p {
+        margin-top: $jumbo-message-gutter;
+        color: $color-light-semi;
+        @include font(large-p);
+    }
+
 }

@@ -1,10 +1,11 @@
 @import './../../../scss/variables';
 
 .c-navigation {
-    background-color: $color-accent;
     color: $color-light-semi;
+    background-color: $color-primary;
     display: flex;
     flex-wrap: nowrap;
+    border-bottom: 1px solid $color-light-semi;
 
     a {
         color: rgba($color-light, 0.8);

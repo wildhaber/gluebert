@@ -7,12 +7,12 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 const ENTRY_POINTS = {
+    critical: [
+        './src/critical.js',
+    ],
     app: [
         'babel-polyfill',
         './src/app.js',
-    ],
-    critical: [
-        './src/critical.js',
     ],
 };
 
@@ -39,14 +39,49 @@ module.exports = {
                 },
             },
             {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                use: {
+                    loader: 'file-loader',
+                },
+            },
+            {
+                test: /\.(html|twig|mustache|hbs)$/,
+                use: {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: [':data-src'],
+                        interpolate: 'require',
+                        minifyCSS: false,
+                    },
+                },
+            },
+            {
                 test: /\.scss$/,
+                exclude: /critical\.scssä/,
+                use: [
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: true,
+                        },
+                    },
+                    {
+                        loader: 'postcss-loader',
+                    },
+                    {
+                        loader: 'sass-loader',
+                    },
+                ],
+            },
+            {
+                test: /\.scss$/,
+                include: /critical\.scss$/,
                 use: ExtractTextPlugin.extract(
                     {
                         use: [
                             {
                                 loader: 'css-loader',
                                 options: {
-                                    importLoaders: 1,
                                     minimize: true,
                                 },
                             },
@@ -64,7 +99,11 @@ module.exports = {
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({ mangle: true }),
-        new ExtractTextPlugin('[name].css'),
+        new ExtractTextPlugin({
+            filename: '[name].css',
+            allChunks: true,
+            ignoreOrder: true,
+        }),
         // new CompressionPlugin({
         //     algorithm: 'gzip',
         //     test: /\.(js|html)$/,

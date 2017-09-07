@@ -5,6 +5,7 @@ import { TEASERBOXGRID_MODULE } from './modules/teaserboxgrid/teaserboxgrid.modu
 import { TEASERBOX_MODULE } from './modules/teaserbox/teaserbox.module';
 import { BUTTON_MODULE } from './modules/button/button.module';
 import { LOGO_MODULE } from './modules/logo/logo.module';
+import { ICON_MODULE } from './modules/icon/icon.module';
 
 /**
  * List of registered Modules
@@ -18,6 +19,7 @@ const MODULES = [
     TEASERBOX_MODULE,
     BUTTON_MODULE,
     LOGO_MODULE,
+    ICON_MODULE,
 ];
 
 export {
