@@ -25,6 +25,12 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.c-icon {
+    span {
+        display: none;
+    }
+}
+
 .c-icon-paint-format:before {
     content: "\e90c";
 }
