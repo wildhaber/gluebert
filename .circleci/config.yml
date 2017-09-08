@@ -62,6 +62,19 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn test:e2e:saucelabs
+  documentation_deploy:
+    docker:
+      - image: felicianotech/docker-hugo:0.26
+    working_directory: ~/gluebert
+    steps:
+      - checkout
+      - run: cd ./documentation/themes/gluebert && npm install
+      - run:
+          name: "Run Hugo"
+          command: HUGO_ENV=production hugo -v -s ~/gluebert/documentation/
+      - run:
+            - aws s3 sync ~/gluebert/documentation/public s3://gluebert.com --delete
+
 
 workflows:
   version: 2
@@ -69,6 +82,11 @@ workflows:
     jobs:
       - test
       - saucelabs:
+          filters:
+            branches:
+              only:
+                - master
+      - documentation_deploy:
           filters:
             branches:
               only:
