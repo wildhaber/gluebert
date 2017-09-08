@@ -31,7 +31,7 @@ class ControllerAbstract {
      * Callback when HTMLElement removed from DOM
      */
     destruct() {
-        throw new Error('Controllers must provide a .destruct()-Method, fired, when HTMLElement is removed from DOM');
+        this._data.unsubscribe(this);
     }
 }
 
