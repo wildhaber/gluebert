@@ -270,6 +270,7 @@ class ModuleLauncher {
 
     _batchPaint() {
         this._batchStylesBusy = true;
+
         const fragment = document.createDocumentFragment();
 
         window.setTimeout(() => {
