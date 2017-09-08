@@ -24,9 +24,9 @@
     margin: auto;
 
     p {
+        @include font(large-p);
         margin-top: $jumbo-message-gutter;
         color: $color-light-semi;
-        @include font(large-p);
     }
 
 }
