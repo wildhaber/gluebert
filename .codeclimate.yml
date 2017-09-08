@@ -14,5 +14,6 @@ ratings:
 exclude_paths:
 - src/**/*.spec.js
 - docs/**/*
+- documentation/**/*
 - dist/**/*
 - e2e/**/*

@@ -12,7 +12,6 @@
 
     p {
         @include font(p);
-        font-size: $typo-size-large;
         margin: $gutter-default auto;
     }
 

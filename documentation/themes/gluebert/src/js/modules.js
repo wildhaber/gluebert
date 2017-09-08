@@ -8,6 +8,10 @@ import { LOGO_MODULE } from './modules/logo/logo.module';
 import { ICON_MODULE } from './modules/icon/icon.module';
 import { GRID_MODULE } from './modules/grid/grid.module';
 import { SLIDE_MODULE } from './modules/slide/slide.module';
+import { BALL_MODULE } from './modules/ball/ball.module';
+import { BALL_BUCKET_MODULE } from './modules/ball-bucket/ball-bucket.module';
+import { BALL_MACHINE_MODULE } from './modules/ball-machine/ball-machine.module';
+import { BALL_STATISTICS_MODULE } from './modules/ball-statistics/ball-statistics.module';
 
 /**
  * List of registered Modules
@@ -24,6 +28,10 @@ const MODULES = [
     ICON_MODULE,
     GRID_MODULE,
     SLIDE_MODULE,
+    BALL_MODULE,
+    BALL_BUCKET_MODULE,
+    BALL_MACHINE_MODULE,
+    BALL_STATISTICS_MODULE,
 ];
 
 export {

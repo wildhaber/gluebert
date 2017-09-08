@@ -31,37 +31,22 @@ module.exports = {
                 test: /\.(html|twig|mustache|hbs)$/,
                 use: {
                     loader: 'html-loader',
-                    options: {
-                        attrs: [':data-src'],
-                        interpolate: 'require',
-                        minifyCSS: false,
-                    },
                 },
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
                 use: {
-                loader: 'file-loader?name=/fonts/[name].[ext]'
-                }
-            },
-            {
-                test: /\.(html|twig|mustache|hbs)$/,
-                use: {
-                    loader: 'html-loader',
-                    options: {
-                        attrs: [':data-src'],
-                        interpolate: 'require',
-                        minifyCSS: false,
-                    },
+                    loader: 'file-loader?name=/fonts/[name].[ext]',
                 },
             },
             {
                 test: /\.scss$/,
-                exclude: /critical\.scssä/,
+                exclude: /critical\.scss$/,
                 use: [
                     {
                         loader: 'css-loader',
                         options: {
+                            importLoaders: 1,
                             minimize: true,
                         },
                     },
@@ -83,6 +68,7 @@ module.exports = {
                                 loader: 'css-loader',
                                 options: {
                                     minimize: true,
+                                    importLoaders: 1,
                                 },
                             },
                             {
@@ -104,12 +90,12 @@ module.exports = {
             allChunks: true,
             ignoreOrder: false,
         }),
-        // new CompressionPlugin({
-        //     algorithm: 'gzip',
-        //     test: /\.(js|html)$/,
-        //     threshold: 0,
-        //     minRatio: 0.8,
-        // }),
+        new CompressionPlugin({
+            algorithm: 'gzip',
+            test: /\.(js|html)$/,
+            threshold: 0,
+            minRatio: 0.8,
+        }),
     ],
     output: {
         filename: '[name].js',

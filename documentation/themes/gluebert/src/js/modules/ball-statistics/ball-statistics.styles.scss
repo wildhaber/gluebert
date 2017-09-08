@@ -1,0 +1,47 @@
+.c-ball-statistics {
+
+    &__list {
+        display: flex;
+        list-style-type: none;
+        padding: 0px;
+    }
+
+    &__tick {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-end;
+        margin: 0px 3px;
+        width: 12px;
+        text-align: center;
+    }
+
+    &__number {
+        order: 2;
+        width: 14px;
+        display: block;
+    }
+
+    &__counter {
+        display: block;
+        position: relative;
+        order: 1;
+        width: 12px;
+        height: 100px;
+        background-color: darkgrey;
+    }
+
+    &__counter-bar {
+        display: block;
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        height: 0%;
+        background-color: greenyellow;
+        transition: height 0.4s, background 0.4s;
+
+        &--leader {
+            background-color: deeppink;
+        }
+    }
+
+}

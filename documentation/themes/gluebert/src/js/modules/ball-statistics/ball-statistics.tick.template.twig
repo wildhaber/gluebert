@@ -1,0 +1,10 @@
+{% for number in 1..max %}
+    <li data-ball-statistics-tick
+        data-ball-statistics-tick-number="{{ number }}"
+        class="c-ball-statistics__tick">
+        <span class="c-ball-statistics__number">{{ number }}</span>
+        <span class="c-ball-statistics__counter">
+            <span class="c-ball-statistics__counter-bar"></span>
+        </span>
+    </li>
+{% endfor %}

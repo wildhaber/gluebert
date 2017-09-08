@@ -21,6 +21,8 @@ class ModuleLauncher {
 
         this._instanceMap = new Map();
         this._stylesLoaded = new Set();
+        this._batchStyles = [];
+        this._batchStylesBusy = false;
 
         if(modules.length) {
             this._init();
@@ -122,18 +124,36 @@ class ModuleLauncher {
     async _bindController(elements, signature) {
 
         if(elements.length) {
-            const controller = await signature.importController();
 
-            if(!this._stylesLoaded.has(signature.name)) {
+            const controller = (typeof signature.importController === 'function')
+                ? await signature.importController()
+                : null;
+
+            if(controller) {
+                for(let i = 0, l = elements.length; i < l; i++) {
+                    const element = elements[i];
+                    if(!this._instanceMap.has(element)) {
+                        window.requestAnimationFrame(() => {
+                            this._addInstance(
+                                element,
+                                new controller(
+                                    element,
+                                    this._dataObserver,
+                                    this._elementBuilder,
+                                ),
+                            );
+                        });
+                    }
+                }
+            }
+
+            if(
+                !this._stylesLoaded.has(signature.name) &&
+                typeof signature.importStyles === 'function'
+            ) {
                 this._addStyles(signature.name, signature.importStyles);
             }
 
-            for(let i = 0, l = elements.length; i < l; i++) {
-                const element = elements[i];
-                if(!this._instanceMap.has(element)) {
-                    this._addInstance(element, new controller(element, this._dataObserver, this._elementBuilder));
-                }
-            }
         }
 
     }
@@ -227,6 +247,7 @@ class ModuleLauncher {
             const styleElement = document.createElement('style');
 
             styleElement.type = 'text/css';
+
             if(styleElement.styleSheet) {
                 styleElement.styleSheet.cssText = styles;
             } else {
@@ -235,11 +256,39 @@ class ModuleLauncher {
                 );
             }
 
-            document.head.appendChild(styleElement);
+            this._batchStyles.push(styleElement);
+
+            if(!this._batchStylesBusy) {
+                this._batchPaint();
+            }
+
         }
 
         return this;
     }
+
+
+    _batchPaint() {
+        this._batchStylesBusy = true;
+        const fragment = document.createDocumentFragment();
+
+        window.setTimeout(() => {
+            let tmpStyles = this._batchStyles;
+            this._batchStyles = [];
+            this._batchStylesBusy = false;
+
+
+            for(let i = 0, l = tmpStyles.length; i < l; i++) {
+                fragment.appendChild(tmpStyles[i]);
+            }
+
+            window.requestAnimationFrame(() => {
+                document.head.appendChild(fragment);
+            });
+
+        }, 100);
+    }
+
 
 }
 

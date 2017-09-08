@@ -1,9 +1,22 @@
+@import './../../../scss/variables';
+
 $grid-base-cols: 12;
 
 .c-grid {
 
     display: flex;
     flex-wrap: wrap;
+    flex-basis: 100%;
+    width: 100%;
+    align-items: center;
+
+    &--align-top {
+        align-items: flex-start;
+    }
+
+    [class^="c-grid__col--"] {
+        padding: $gutter-default $gutter-double $gutter-default 0;
+    }
 
     @for $i from 1 through $grid-base-cols {
         .c-grid__col--#{$i} {
