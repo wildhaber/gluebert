@@ -22,7 +22,11 @@ class ControllerAbstract {
             ? elements.getElementReadyClass()
             : null;
 
-        if(elementReadyClass) {
+        if(
+            elementReadyClass &&
+            this._element &&
+            typeof this._element.classList !== 'undefined'
+        ) {
             this._element.classList.add(elementReadyClass);
         }
     }
