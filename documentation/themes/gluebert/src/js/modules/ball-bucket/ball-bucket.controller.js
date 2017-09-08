@@ -86,26 +86,27 @@ class BallBucketController extends ControllerAbstract {
      * @returns {BallBucketController}
      * @private
      */
-    _createBallElement(number) {
-        window.requestAnimationFrame(async () => {
-            const el = await this._elements.create('ball.element', {
-                number: number.number,
-                evenOddClass: () => {
-                    switch (number.number % 2) {
-                        case 1 :
-                            return 'even';
-                        case 0 :
-                            return 'odd';
-                        default :
-                            return 'unknown';
-                            break;
-                    }
-                },
-            });
-            if(el) {
-                this._ballsListElement.appendChild(el);
-            }
+    async _createBallElement(number) {
+        const el = await this._elements.create('ball.element', {
+            number: number.number,
+            evenOddClass: () => {
+                switch (number.number % 2) {
+                    case 1 :
+                        return 'even';
+                    case 0 :
+                        return 'odd';
+                    default :
+                        return 'unknown';
+                        break;
+                }
+            },
         });
+
+        if(el) {
+            window.requestAnimationFrame(() => {
+                this._ballsListElement.appendChild(el);
+            });
+        }
         return this;
     }
 
