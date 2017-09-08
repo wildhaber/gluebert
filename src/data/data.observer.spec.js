@@ -12,6 +12,8 @@ class DummyObservableModule extends DataAbstract {
 describe('DataObserver', () => {
 
     const DO = new DataObserver();
+    const emptyDo = new DataObserver();
+    const emptyDo2 = new DataObserver();
 
     it('should exist', () => {
         expect(typeof DataObserver).toBe('function');
@@ -84,7 +86,6 @@ describe('DataObserver', () => {
         });
 
         it('should remove an added signature', () => {
-            const emptyDo = new DataObserver();
             emptyDo.addSignature(signature);
             expect(emptyDo._signatures.key).toBeDefined();
 
@@ -93,8 +94,7 @@ describe('DataObserver', () => {
         });
 
         it('should ignore an invalid key', () => {
-            const emptyDo = new DataObserver();
-            expect(emptyDo.removeSignature(signature)).toEqual(emptyDo);
+            expect(emptyDo2.removeSignature(signature)).toEqual(emptyDo2);
         });
 
     });
