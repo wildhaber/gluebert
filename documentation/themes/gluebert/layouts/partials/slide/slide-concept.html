@@ -1,0 +1,17 @@
+<div class="c-grid">
+    <div class="c-grid__col--6">
+        <h2>Underlaying Concepts</h2>
+        <p><strong>Gluebert is not Single-Page-Application Framework</strong>. If you are looking for an SPA-FW we recommend checking out something like vue.js, react, angular to name a few - they are great.</p>
+
+        <h3>Great for classical architectures</h3>
+        <p>With Gluebert we tried to solve a common issue we faced when it comes to the architectural decision for new Web-Application or regular Website Projects. Very often for several reasons we could not use a common SPA and end up with a classical approach either JAM-Stack of a server rendered solution e.g. Smyfony, Laravel, Wordpress or Drupal. Where one of the main challenge is not to mess up with DOM-Selectors.</p>
+        <p>In this case, Gluebert.js is your friend and binds the DOM element to the appropriate module whenever the element appears - <strong>no matter if the element existed initially</strong> or were <strong>created on runtime</strong>.</p>
+
+        <h3>No payload and computation waste</h3>
+        <p>The underlaying usage of <strong>MutationObserver</strong> and <strong>IntersectionObserver</strong> allows you to concentrate fully on your modules, styles and data binding. Furthermore all necessary dependencies are loaded lazy whenever actually needed, to optimize payload supporting <strong>first meaningful paint</strong> and benefit from <strong>HTTP2-concepts</strong> as well.</p>
+        <p>Currently we require a Webpack workflow that handles code-splitting allowing dynamic imports.</p>
+    </div>
+    <div class="c-grid__col--6">
+        (find matching illustration or animation)
+    </div>
+</div>

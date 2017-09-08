@@ -41,8 +41,8 @@ module.exports = {
             {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
                 use: {
-                    loader: 'file-loader',
-                },
+                loader: 'file-loader?name=/fonts/[name].[ext]'
+                }
             },
             {
                 test: /\.(html|twig|mustache|hbs)$/,
@@ -102,7 +102,7 @@ module.exports = {
         new ExtractTextPlugin({
             filename: '[name].css',
             allChunks: true,
-            ignoreOrder: true,
+            ignoreOrder: false,
         }),
         // new CompressionPlugin({
         //     algorithm: 'gzip',

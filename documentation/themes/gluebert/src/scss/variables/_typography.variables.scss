@@ -6,10 +6,10 @@ $typo-face-code: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-S
 $typo-size-default: 14px;
 $typo-size-small: 10px;
 $typo-size-large: $typo-size-default * 1.65;
-$typo-size-title: $typo-size-default * 2;
+$typo-size-title: $typo-size-default * 2.5;
 $typo-size-lead: $typo-size-default * 4;
 
-$typo-weight-bold: 600;
+$typo-weight-bold: 800;
 $typo-weight-light: 200;
 $typo-weight-normal: 300;
 
@@ -26,12 +26,12 @@ $typo-matrix: (
     ),
     h2: (
         face: $typo-face-title,
-        weight: $typo-weight-light,
+        weight: $typo-weight-bold,
         size: $typo-size-title,
     ),
     h3: (
         face: $typo-face-text,
-        weight: $typo-weight-light,
+        weight: $typo-weight-bold,
         size: $typo-size-large,
     ),
     h4: (

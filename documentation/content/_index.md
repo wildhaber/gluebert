@@ -1,22 +1,22 @@
 +++
 title = "Gluebert.js Home"
 
-headline = "structured &amp; on-demand orchestrator of frontend elements"
-headlineText = "gluebert.js is a tiny helper orchestrating interactive html elements with on demand dynamic import."
+headline = "on-demand <strong>orchestrator</strong> for <strong>DOM elements</strong>"
+headlineText = "gluebert.js is a tiny (~<strong>4kb</strong>) helper orchestrating interactive html elements with on demand and lazy dynamic import."
 
 [[teaser]]
     icon = "move-down"
     title = "Lazy loaded components"
     text = "Times are over where you manually had to find your elmements. Glueberts uses the power of MutationObserver and IntersectionObserver to load necessary dependencies when needed. No waste of payload."
-    link = "#"
-    linkText = "Get the insights &raquo;"
+    link = "#concepts"
+    linkText = "Underlaying concepts &raquo;"
 
 [[teaser]]
     icon = "rocket"
     title = "Performance in the DNA"
     text = "Gluebert has performance and best practices in mind at every step when it comes to first meaningful paint or first time to interaction. Designed that your application profits most from concepts like ShadowDOM or HTTP2."
-    link = "#"
-    linkText = "All about performance &raquo;"
+    link = "#performance"
+    linkText = "Performance insights &raquo;"
 
 [[teaser]]
     icon = "github"

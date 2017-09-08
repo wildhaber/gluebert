@@ -3,6 +3,8 @@
 {{ partial "components/navigation.html" (dict "context" .) }}
 {{ partial "components/jumbo.html" (dict "context" . "headline" (.Param "headline") "text" (.Param "headlineText") "teaser" (.Param "teaser") "style" "dark") }}
 
+{{ partial "components/slide.html" (dict "context" . "partial" "slide/slide-concept.html" "style" "light" "anchor" "concepts") }}
+
 {{ .Content }}
 
 {{ end }}

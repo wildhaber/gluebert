@@ -1,0 +1,16 @@
+$grid-base-cols: 12;
+
+.c-grid {
+
+    display: flex;
+    flex-wrap: wrap;
+
+    @for $i from 1 through $grid-base-cols {
+        .c-grid__col--#{$i} {
+            $pc : ($i / $grid-base-cols) * 100%;
+            width: $pc;
+            flex-basis: $pc;
+        }
+    }
+
+}
