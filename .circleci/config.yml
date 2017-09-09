@@ -70,6 +70,7 @@ jobs:
       - checkout
       - run: wget https://github.com/spf13/hugo/releases/download/v0.26/hugo_0.26_Linux-64bit.deb
       - run: sudo dpkg -i hugo_0.26_Linux-64bit.deb
+      - run: sudo apt-get -y -qq install awscli
       - run: cd ./documentation/themes/gluebert && npm install
       - run: cd ./documentation/themes/gluebert && npm run build
       - run: cd ./documentation && HUGO_ENV=production hugo
