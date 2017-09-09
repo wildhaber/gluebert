@@ -64,24 +64,15 @@ jobs:
       - run: yarn test:e2e:saucelabs
   documentation_build:
     docker:
-      - image: circleci/node:8.4-browsers
-        environment:
-            CHROME_BIN: "/usr/bin/google-chrome"
-            FIREFOX_BIN: "/usr/bin/firefox"
+      - image: circleci/node:8.4
     working_directory: ~/gluebert
     steps:
+      - run: wget https://github.com/spf13/hugo/releases/download/v0.26/hugo_0.26_Linux-64bit.deb
+      - run: sudo dpkg -i hugo_0.26_Linux-64bit.deb
       - checkout
       - run: cd ./documentation/themes/gluebert && npm install
       - run: cd ./documentation/themes/gluebert && npm run build
-  documentation_deploy:
-    docker:
-      - image: felicianotech/docker-hugo:0.26
-    working_directory: ~/gluebert
-    steps:
-      - checkout
-      - run:
-          name: "Run Hugo"
-          command: HUGO_ENV=production hugo -v -s ~/gluebert/documentation/
+      - run: cd ./documentation && HUGO_ENV=production hugo
       - run: ws s3 sync ~/gluebert/documentation/public s3://gluebert.com --delete
 workflows:
   version: 2
@@ -93,9 +84,4 @@ workflows:
             branches:
               only:
                 - master
-      - documentation_build:
-         requires:
-          - test
-      - documentation_deploy:
-         requires:
-           - documentation_build
+      - documentation_build
