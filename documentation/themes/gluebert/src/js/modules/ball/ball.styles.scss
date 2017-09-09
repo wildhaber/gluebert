@@ -1,3 +1,5 @@
+@import './../../../scss/variables';
+
 @keyframes roll-in {
     0% {
         transform: translateX(200%) rotate(360deg);
@@ -26,7 +28,7 @@
 }
 
 .ball {
-    background-color: greenyellow;
+    background-color: $color-primary;
     color: white;
     display: inline-block;
     width: 40px;

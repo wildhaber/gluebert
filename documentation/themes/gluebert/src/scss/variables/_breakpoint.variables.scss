@@ -1,6 +1,31 @@
 $screen-sm-min: 768px;
+$screen-xs-min: ($screen-sm-min - 1);
 $screen-xs-max: ($screen-sm-min - 1);
 $screen-md-min: 992px;
 $screen-sm-max: ($screen-md-min - 1);
 $screen-lg-min: 1200px;
 $screen-md-max: ($screen-lg-min - 1);
+$screen-lg-max: 4000px;
+
+$breakpoints-map: (
+    (
+        key : 'lg',
+        min : $screen-lg-min,
+        max : $screen-lg-max,
+    ),
+    (
+        key : 'md',
+        min : $screen-md-min,
+        max : $screen-md-max
+    ),
+    (
+        key : 'sm',
+        min : $screen-sm-min,
+        max : $screen-sm-max
+    ),
+    (
+        key : 'xs',
+        min : $screen-xs-min,
+        max : $screen-xs-max
+    ),
+);

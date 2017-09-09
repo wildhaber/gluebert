@@ -17,16 +17,16 @@
 
     }
 
-}
+    .c-jumbo__message {
+        padding: $jumbo-message-margin 0;
+        margin: auto;
 
-.c-jumbo__message {
-    padding: $jumbo-message-margin 0;
-    margin: auto;
+        p {
+            @include font(large-p);
+            margin-top: $jumbo-message-gutter;
+            color: $color-light-semi;
+        }
 
-    p {
-        @include font(large-p);
-        margin-top: $jumbo-message-gutter;
-        color: $color-light-semi;
     }
 
 }

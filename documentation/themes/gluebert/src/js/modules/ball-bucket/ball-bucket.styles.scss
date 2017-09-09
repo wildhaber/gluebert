@@ -5,6 +5,7 @@
 
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     margin: $gutter-default;
 
     strong {
@@ -12,6 +13,7 @@
         display: block;
         text-align: center;
         padding: $gutter-default;
+        width: 100%;
     }
 
 }
