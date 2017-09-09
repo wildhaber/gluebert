@@ -96,6 +96,7 @@ workflows:
             branches:
               only:
                 - master
+      - documentation_build
       - documentation_deploy:
          requires:
            - documentation_build
