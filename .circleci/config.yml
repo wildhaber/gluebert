@@ -62,20 +62,38 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn test:e2e:saucelabs
-  documentation_deploy:
+  documentation_build:
     docker:
-      - image: felicianotech/docker-hugo:0.26
+      - image: circleci/node:8.4
     working_directory: ~/gluebert
     steps:
       - checkout
+      - run: wget https://github.com/spf13/hugo/releases/download/v0.26/hugo_0.26_Linux-64bit.deb
+      - run: sudo dpkg -i hugo_0.26_Linux-64bit.deb
+      - run: sudo apt-get -y -qq install awscli
       - run: cd ./documentation/themes/gluebert && npm install
-      - run:
-          name: "Run Hugo"
-          command: HUGO_ENV=production hugo -v -s ~/gluebert/documentation/
-      - run:
-            - aws s3 sync ~/gluebert/documentation/public s3://gluebert.com --delete
-
-
+      - run: cd ./documentation/themes/gluebert && npm run build
+      - run: cd ./documentation && HUGO_ENV=production hugo
+      - run: cd ./documentation/public && ls -alh
+      - run: aws s3 sync ./documentation/public s3://gluebert.com --region eu-west-1 --delete
+  api_build:
+    docker:
+      - image: circleci/node:8.4
+    working_directory: ~/gluebert
+    steps:
+      - checkout
+      - run: sudo apt-get -y -qq install awscli
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run: npm run doc
+      - run: aws s3 sync ./doc s3://api.gluebert.com --region eu-west-1 --delete
 workflows:
   version: 2
   pipeline:
@@ -86,7 +104,12 @@ workflows:
             branches:
               only:
                 - master
-      - documentation_deploy:
+      - documentation_build:
+          filters:
+            branches:
+              only:
+                - master
+      - api_build:
           filters:
             branches:
               only:
