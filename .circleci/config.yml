@@ -99,11 +99,11 @@ workflows:
   pipeline:
     jobs:
       - test
-      - saucelabs:
-          filters:
-            branches:
-              only:
-                - master
+#      - saucelabs:
+#          filters:
+#            branches:
+#              only:
+#                - master
       - documentation_build:
           filters:
             branches:
