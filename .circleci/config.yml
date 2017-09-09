@@ -109,4 +109,8 @@ workflows:
             branches:
               only:
                 - master
-      - api_build
+      - api_build:
+          filters:
+            branches:
+              only:
+                - master
