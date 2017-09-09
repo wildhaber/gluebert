@@ -62,13 +62,22 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn test:e2e:saucelabs
+  documentation_build:
+    docker:
+      - image: circleci/node:8.4-browsers
+        environment:
+            CHROME_BIN: "/usr/bin/google-chrome"
+            FIREFOX_BIN: "/usr/bin/firefox"
+    working_directory: ~/gluebert
+    steps:
+      - checkout
+      - run: cd ./documentation/themes/gluebert && yarn install
   documentation_deploy:
     docker:
       - image: felicianotech/docker-hugo:0.26
     working_directory: ~/gluebert
     steps:
       - checkout
-      - run: cd ./documentation/themes/gluebert && npm install
       - run:
           name: "Run Hugo"
           command: HUGO_ENV=production hugo -v -s ~/gluebert/documentation/
@@ -85,4 +94,6 @@ workflows:
             branches:
               only:
                 - master
-      - documentation_deploy
+      - documentation_deploy:
+         requires:
+           - documentation_build
