@@ -68,13 +68,14 @@ jobs:
         environment:
             CHROME_BIN: "/usr/bin/google-chrome"
             FIREFOX_BIN: "/usr/bin/firefox"
-    working_directory: ~/gluebert/documentation/themes/gluebert
+    working_directory: ~/gluebert
     steps:
       - checkout
       - restore_cache:
           keys:
           - v1-hugo-dependencies-{{ checksum "package.json" }}
           - v1-hugo-dependencies-
+      - run: cd ./gluebert/documentation/themes/gluebert
       - run: yarn install
       - run: npm run build
   documentation_deploy:
