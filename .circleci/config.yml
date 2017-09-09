@@ -72,8 +72,7 @@ jobs:
       - run:
           name: "Run Hugo"
           command: HUGO_ENV=production hugo -v -s ~/gluebert/documentation/
-      - run:
-            - aws s3 sync ~/gluebert/documentation/public s3://gluebert.com --delete
+      - run: ws s3 sync ~/gluebert/documentation/public s3://gluebert.com --delete
 
 
 workflows:
@@ -86,8 +85,4 @@ workflows:
             branches:
               only:
                 - master
-      - documentation_deploy:
-          filters:
-            branches:
-              only:
-                - master
+      - documentation_deploy
