@@ -76,6 +76,7 @@ jobs:
           - v1-hugo-dependencies-{{ checksum "package.json" }}
           - v1-hugo-dependencies-
       - run: yarn install
+      - run: npm run build
   documentation_deploy:
     docker:
       - image: felicianotech/docker-hugo:0.26
