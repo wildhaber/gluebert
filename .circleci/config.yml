@@ -71,13 +71,8 @@ jobs:
     working_directory: ~/gluebert
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-hugo-dependencies-{{ checksum "package.json" }}
-          - v1-hugo-dependencies-
-      - run: cd ./documentation/themes/gluebert
-      - run: yarn install
-      - run: npm run build
+      - run: cd ./documentation/themes/gluebert && yarn install
+      - run: cd ./documentation/themes/gluebert && npm run build
   documentation_deploy:
     docker:
       - image: felicianotech/docker-hugo:0.26
