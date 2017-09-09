@@ -68,10 +68,14 @@ jobs:
         environment:
             CHROME_BIN: "/usr/bin/google-chrome"
             FIREFOX_BIN: "/usr/bin/firefox"
-    working_directory: ~/gluebert
+    working_directory: ~/gluebert/documentation/themes/gluebert
     steps:
       - checkout
-      - run: cd ./documentation/themes/gluebert && yarn install
+      - restore_cache:
+          keys:
+          - v1-hugo-dependencies-{{ checksum "package.json" }}
+          - v1-hugo-dependencies-
+      - run: yarn install
   documentation_deploy:
     docker:
       - image: felicianotech/docker-hugo:0.26
