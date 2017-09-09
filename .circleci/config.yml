@@ -94,7 +94,7 @@ workflows:
               only:
                 - master
       - documentation_build:
-        requires:
+         requires:
           - test
       - documentation_deploy:
          requires:
