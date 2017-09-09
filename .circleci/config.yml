@@ -75,7 +75,7 @@ jobs:
       - run: cd ./documentation/themes/gluebert && npm run build
       - run: cd ./documentation && HUGO_ENV=production hugo
       - run: cd ./documentation/public && ls -alh
-      - run: aws s3 sync ./documentation/public s3://gluebert.com --delete
+      - run: aws s3 sync ./documentation/public s3://gluebert.com --region eu-west-1 --delete
 workflows:
   version: 2
   pipeline:
