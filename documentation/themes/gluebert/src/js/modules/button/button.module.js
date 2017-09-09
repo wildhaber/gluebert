@@ -1,4 +1,4 @@
-import { ModuleSignature } from './../../../../../../../src/module/module.signature';
+import { ModuleSignature } from 'gluebert/module';
 
 /**
  * ModuleSignature for navigation

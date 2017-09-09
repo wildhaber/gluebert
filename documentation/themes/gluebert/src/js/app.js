@@ -1,5 +1,5 @@
 const dynamicLoad = [
-    import('./../../../../../src/gluebert').then((m) => m.Gluebert),
+    import('gluebert').then((m) => m.Gluebert),
     import('./modules').then((m) => m.MODULES),
     import('./data').then((m) => m.DATA),
     import('gluebert/template').then((m) => m.TwigTemplate),
