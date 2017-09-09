@@ -71,7 +71,7 @@ jobs:
     working_directory: ~/gluebert
     steps:
       - checkout
-      - run: cd ./documentation/themes/gluebert && yarn install
+      - run: cd ./documentation/themes/gluebert && npm install
       - run: cd ./documentation/themes/gluebert && npm run build
   documentation_deploy:
     docker:
