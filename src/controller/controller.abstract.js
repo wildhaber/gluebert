@@ -25,6 +25,7 @@ class ControllerAbstract {
         if(
             elementReadyClass &&
             this._element &&
+            typeof this._element === 'object' &&
             typeof this._element.classList !== 'undefined'
         ) {
             this._element.classList.add(elementReadyClass);
