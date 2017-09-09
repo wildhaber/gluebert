@@ -18,9 +18,25 @@ class ModuleLauncher {
 
         this._observeDomMutation = this._observeDomMutation.bind(this);
         this._observer = new MutationObserver(this._observeDomMutation);
+        this._intersectionObserver = (
+            'IntersectionObserver' in window &&
+            'IntersectionObserverEntry' in window
+        )
+            ? new IntersectionObserver(
+                this._wokeUpElements.bind(this),
+                {
+                    root: null,
+                    rootMargin: '0px',
+                    thresholds: [1.0],
+                },
+            )
+            : null;
 
         this._instanceMap = new Map();
+        this._sleepersMap = new Map();
         this._stylesLoaded = new Set();
+        this._batchStyles = [];
+        this._batchStylesBusy = false;
 
         if(modules.length) {
             this._init();
@@ -114,28 +130,67 @@ class ModuleLauncher {
 
     /**
      * bind controllers from signatures
-     * @param {Element} elements
+     * @param {Element} element
      * @param {ModuleSignature} signature
      * @return {Promise.<void>}
      * @private
      */
-    async _bindController(elements, signature) {
+    async _bindController(element, signature) {
 
-        if(elements.length) {
-            const controller = await signature.importController();
+        if(element) {
 
-            if(!this._stylesLoaded.has(signature.name)) {
+            const controller = (typeof signature.importController === 'function')
+                ? await signature.importController()
+                : null;
+
+            if(controller) {
+                if(!this._instanceMap.has(element)) {
+                    window.requestAnimationFrame(() => {
+                        this._addInstance(
+                            element,
+                            new controller(
+                                element,
+                                this._dataObserver,
+                                this._elementBuilder,
+                            ),
+                        );
+                    });
+                }
+            }
+
+            if(
+                !this._stylesLoaded.has(signature.name) &&
+                typeof signature.importStyles === 'function'
+            ) {
                 this._addStyles(signature.name, signature.importStyles);
             }
 
-            for(let i = 0, l = elements.length; i < l; i++) {
-                const element = elements[i];
-                if(!this._instanceMap.has(element)) {
-                    this._addInstance(element, new controller(element, this._dataObserver, this._elementBuilder));
-                }
-            }
         }
 
+    }
+
+    _wokeUpElements(entries, observer) {
+        entries.filter((entry) => {
+            return entry.isIntersecting;
+        }).forEach((entry) => {
+            if(this._sleepersMap.has(entry.target)) {
+                let signature = this._sleepersMap.get(entry.target);
+                this._bindController(entry.target, signature);
+                this._sleepersMap.delete(entry.target);
+            }
+            observer.unobserve(entry.target);
+        });
+    }
+
+    _addAsSleeper(elements, signature) {
+        elements.forEach((element) => {
+            if(this._intersectionObserver) {
+                this._sleepersMap.set(element, signature);
+                this._intersectionObserver.observe(element);
+            } else {
+                this._bindController(elements, signature);
+            }
+        });
     }
 
     /**
@@ -156,7 +211,7 @@ class ModuleLauncher {
                     elements = [node];
                 }
 
-                this._bindController(elements, signature);
+                this._addAsSleeper(elements, signature);
 
             }
         });
@@ -172,7 +227,7 @@ class ModuleLauncher {
         this._eachModule(
             async (signature) => {
                 const elements = Array.from(document.querySelectorAll(signature.selector));
-                this._bindController(elements, signature);
+                this._addAsSleeper(elements, signature);
             },
         );
 
@@ -227,6 +282,7 @@ class ModuleLauncher {
             const styleElement = document.createElement('style');
 
             styleElement.type = 'text/css';
+
             if(styleElement.styleSheet) {
                 styleElement.styleSheet.cssText = styles;
             } else {
@@ -235,11 +291,40 @@ class ModuleLauncher {
                 );
             }
 
-            document.head.appendChild(styleElement);
+            this._batchStyles.push(styleElement);
+
+            if(!this._batchStylesBusy) {
+                this._batchPaint();
+            }
+
         }
 
         return this;
     }
+
+
+    _batchPaint() {
+        this._batchStylesBusy = true;
+
+        const fragment = document.createDocumentFragment();
+
+        window.setTimeout(() => {
+            let tmpStyles = this._batchStyles;
+            this._batchStyles = [];
+            this._batchStylesBusy = false;
+
+
+            for(let i = 0, l = tmpStyles.length; i < l; i++) {
+                fragment.appendChild(tmpStyles[i]);
+            }
+
+            window.requestAnimationFrame(() => {
+                document.head.appendChild(fragment);
+            });
+
+        }, 100);
+    }
+
 
 }
 

@@ -1,0 +1,37 @@
+@import "./../variables";
+
+@mixin font($element) {
+    @if map-has-key($typo-matrix, $element) {
+        $font: map-get($typo-matrix, $element);
+
+        @if map-has-key($font, face) {
+            font-family: map-get($font, face);
+        } @else {
+            font-family: $typo-default-font-face;
+        }
+
+        @if map-has-key($font, weight) {
+            font-weight: map-get($font, weight);
+        } @else {
+            font-weight: $typo-default-font-weight;
+        }
+
+        @if map-has-key($font, size) {
+            font-size: map-get($font, size);
+        } @else {
+            font-size: $typo-default-font-size;
+        }
+
+        @if map-has-key($font, lineHeight) {
+            line-height: map-get($font, lineHeight);
+        } @else {
+            line-height: $typo-default-line-height;
+        }
+
+    } @else {
+        font-family: $typo-default-font-face;
+        font-weight: $typo-default-font-weight;
+        font-size: $typo-default-font-size;
+        line-height: $typo-default-line-height;
+    }
+}

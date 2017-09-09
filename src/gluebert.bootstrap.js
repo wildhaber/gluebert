@@ -17,7 +17,7 @@ class Gluebert {
      * @param {DataSignature[]} data
      * @param {object} options
      */
-    constructor(modules, data, options = {}) {
+    constructor(modules, data = [], options = {}) {
 
         this._options = Object.assign(
             {},
@@ -89,7 +89,13 @@ class Gluebert {
      * @return {Gluebert}
      */
     setTemplateEngine(templateEngine) {
-        this._templateEngine = (typeof templateEngine === 'function') ? templateEngine : null;
+        this._templateEngine = (
+            templateEngine &&
+            typeof templateEngine === 'object'
+        )
+            ? templateEngine
+            : null;
+
         return this;
     }
 

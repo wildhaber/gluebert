@@ -1,0 +1,28 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-ball-machine {
+    padding: $gutter-default;
+    margin: $gutter-default auto;
+
+    button {
+        @include font('p');
+        display: block;
+        width: auto;
+        padding: $gutter-default;
+        background-color: $color-primary;
+        color: $color-light;
+        margin: auto auto;
+        border: none;
+        cursor: pointer;
+        box-shadow: -10px 0px 0px $color-accent;
+        overflow: visible;
+        transition: box-shadow 0.4s;
+
+        &:hover {
+            box-shadow: 10px 0px 0px $color-accent;
+        }
+
+    }
+
+}

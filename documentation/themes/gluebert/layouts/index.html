@@ -1,0 +1,12 @@
+{{ define "main" }}
+
+{{ partial "components/navigation.html" (dict "context" .) }}
+{{ partial "components/jumbo.html" (dict "context" . "headline" (.Param "headline") "text" (.Param "headlineText") "teaser" (.Param "teaser") "style" "dark") }}
+
+{{ partial "components/slide.html" (dict "context" . "partial" "slide/slide-concept.html" "style" "light" "anchor" "concepts") }}
+{{ partial "components/slide.html" (dict "context" . "partial" "slide/slide-demo.html" "style" "light" "anchor" "demo") }}
+{{ partial "components/slide.html" (dict "context" . "partial" "slide/slide-features.html" "style" "light" "anchor" "features") }}
+
+{{ .Content }}
+
+{{ end }}

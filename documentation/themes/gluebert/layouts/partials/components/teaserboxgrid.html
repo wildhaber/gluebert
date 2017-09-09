@@ -1,0 +1,5 @@
+<div class="c-teaserboxgrid c-teaserboxgrid--style-{{ .cols | default "2" }}">
+    {{ range .boxes }}
+        {{ partial "components/teaserbox.html" . }}
+    {{ end }}
+</div>

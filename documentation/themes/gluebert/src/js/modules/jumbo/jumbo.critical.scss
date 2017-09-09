@@ -1,0 +1,29 @@
+@import './jumbo.variables';
+
+.c-jumbo {
+
+    &--dark {
+        color: $color-light;
+        background-color: $color-accent;
+
+        .c-teaserboxgrid,
+        .c-teaserbox {
+            border-color: $color-light-semi;
+        }
+
+    }
+}
+
+.c-jumbo__message {
+    padding: $jumbo-message-margin 0;
+    margin: auto;
+    width: $jumbo-message-width;
+    text-align: center;
+
+    p {
+        @include font(large-p);
+        margin-top: $jumbo-message-gutter;
+        color: $color-light-semi;
+    }
+
+}

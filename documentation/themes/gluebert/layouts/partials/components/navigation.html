@@ -1,0 +1,24 @@
+<nav class="c-navigation">
+    <ul class="c-navigation__left">
+        <li>
+            <a href="#">
+                {{ partial "components/icon.html" (dict "context" .context "icon" "book" "description" "Reference Documentation") }}
+            </a>
+        </li>
+        <li><a href="#">Getting Started</a></li>
+    </ul>
+    <ul class="c-navigation__right">
+        <li>
+            <a href="https://github.com/wildhaber/gluebert"
+               target="_blank"
+               rel="noopener">
+                {{ partial "components/icon.html" (dict "context" .context "icon" "github" "description" "Github") }}
+            </a>
+        </li>
+        <li><a href="https://www.npmjs.com/package/gluebert"
+               target="_blank"
+               rel="noopener">
+            {{ partial "components/icon.html" (dict "context" .context "icon" "npm" "description" "npm Package") }}
+        </a></li>
+    </ul>
+</nav>

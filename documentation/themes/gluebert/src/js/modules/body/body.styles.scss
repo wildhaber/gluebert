@@ -1,0 +1,12 @@
+@import './../../../scss/mixin';
+@import './body.variables';
+
+.c-body {
+
+    @each $element in $base-elements {
+        #{$element} {
+            @include font($element);
+        }
+    }
+
+}

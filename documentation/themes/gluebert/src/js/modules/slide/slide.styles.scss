@@ -1,0 +1,18 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-slide {
+    padding: $gutter-double;
+    min-height: 80vh;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    p {
+        @include font(p);
+        margin: $gutter-default auto;
+    }
+
+}

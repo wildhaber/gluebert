@@ -1,0 +1,36 @@
+@import './../../../scss/mixin';
+@import './jumbo.variables';
+
+.c-jumbo {
+    position: relative;
+    text-align: center;
+
+    &--dark {
+        color: $color-light;
+        background-color: $color-accent;
+        background: linear-gradient(to bottom, $color-primary 0%, $color-accent 100%);
+
+        .c-teaserboxgrid,
+        .c-teaserbox {
+            border-color: $color-light-semi;
+        }
+
+    }
+
+}
+
+.c-jumbo__message {
+    padding: $jumbo-message-margin 0;
+    margin: auto;
+
+    p {
+        @include font(large-p);
+        margin-top: $jumbo-message-gutter;
+        color: $color-light-semi;
+    }
+
+}
+
+.c-jumbo__foot {
+
+}

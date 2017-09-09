@@ -1,0 +1,17 @@
+@import "./../../../scss/variables";
+@import "./../../../scss/mixin";
+
+.c-ball-bucket {
+
+    display: flex;
+    align-items: center;
+    margin: $gutter-default;
+
+    strong {
+        @include font(h4);
+        display: block;
+        text-align: center;
+        padding: $gutter-default;
+    }
+
+}
