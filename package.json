@@ -10,7 +10,7 @@
     "test:e2e": "npm run test:e2e:build && npm run test:e2e:testcafe",
     "test:e2e:build": "npm run build && npm run build:demo",
     "test:e2e:server": "./node_modules/.bin/http-server ./e2e/demo -p 3000",
-    "test:e2e:testcafe": "./node_modules/.bin/testcafe chrome,firefox ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server'",
+    "test:e2e:testcafe": "./node_modules/.bin/testcafe chrome ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server'",
     "test:e2e:saucelabs": "npm run test:e2e:build && npm run test:e2e:saucelabs:modern && npm run test:e2e:saucelabs:edge && npm run test:e2e:saucelabs:mobile && npm run test:e2e:saucelabs:tablet",
     "test:e2e:saucelabs:local": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/env-cmd ./saucelabs.env npm run test:e2e:saucelabs:modern",
     "test:e2e:saucelabs:modern": "export SAUCE_BUILD=$npm_package_version && ./node_modules/.bin/testcafe 'saucelabs:firefox,saucelabs:chrome:Windows 7,saucelabs:safari:OS X 10.10' ./e2e/**/*.e2e.spec.js --app 'npm run test:e2e:server' ",
