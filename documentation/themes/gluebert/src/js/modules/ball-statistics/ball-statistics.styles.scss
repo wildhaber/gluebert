@@ -1,4 +1,10 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
 .c-ball-statistics {
+
+    max-width: 100%;
+    overflow-y: auto;
 
     &__list {
         display: flex;
@@ -11,13 +17,14 @@
         flex-wrap: wrap;
         align-content: flex-end;
         margin: 0px 3px;
-        width: 12px;
+        width: $gutter-half;
         text-align: center;
     }
 
     &__number {
+        @include font(h6);
         order: 2;
-        width: 14px;
+        width: $gutter-half;
         display: block;
     }
 
@@ -25,22 +32,22 @@
         display: block;
         position: relative;
         order: 1;
-        width: 12px;
+        width: $gutter-half;
         height: 100px;
-        background-color: darkgrey;
+        background-color: #f3f3f3;
     }
 
     &__counter-bar {
         display: block;
         position: absolute;
-        bottom: 0px;
+        bottom: 0;
         width: 100%;
-        height: 0%;
-        background-color: greenyellow;
+        height: 0;
+        background-color: $color-dark-semi;
         transition: height 0.4s, background 0.4s;
 
         &--leader {
-            background-color: deeppink;
+            background-color: $color-primary;
         }
     }
 
