@@ -37,7 +37,7 @@ const MAX_TTL = {
 
 const CACHE_BLACKLIST = [
     (str) => {
-       return !str.startsWith('http://localhost');
+        return str.startsWith('http://localhost') || !str.startsWith('https://gluebert.com');
     },
 ];
 
@@ -240,12 +240,16 @@ self.addEventListener(
 self.addEventListener(
     'fetch', event => {
 
+        let hasQuery = event.request.url.indexOf('?') !== -1;
+
         event.respondWith(
             caches.open(CACHE_VERSIONS.content)
                 .then(
                     (cache) => {
 
-                        return cache.match(event.request)
+                        return cache.match(event.request, {
+                            ignoreSearch: hasQuery,
+                        })
                             .then(
                                 (response) => {
 
