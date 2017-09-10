@@ -12,6 +12,7 @@ import { BALL_MODULE } from './modules/ball/ball.module';
 import { BALL_BUCKET_MODULE } from './modules/ball-bucket/ball-bucket.module';
 import { BALL_MACHINE_MODULE } from './modules/ball-machine/ball-machine.module';
 import { BALL_STATISTICS_MODULE } from './modules/ball-statistics/ball-statistics.module';
+import { LAZY_IMG_MODULE } from './modules/lazy-img/lazy-img.module';
 
 /**
  * List of registered Modules
@@ -32,6 +33,7 @@ const MODULES = [
     BALL_BUCKET_MODULE,
     BALL_MACHINE_MODULE,
     BALL_STATISTICS_MODULE,
+    LAZY_IMG_MODULE,
 ];
 
 export {
