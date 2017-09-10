@@ -1,6 +1,8 @@
 <div class="c-logo">
     <a href="/">
-        <img src="/logo_gluebert{{ if .negative }}_negative{{ end }}.svg"
+        <img class="c-lazy-img"
+             src="/logo_gluebert{{ if .negative }}_negative{{ end }}_placeholder.png"
+             data-src="/logo_gluebert{{ if .negative }}_negative{{ end }}.svg"
              alt="Gluebert.js"
              width="200"
              height="60">

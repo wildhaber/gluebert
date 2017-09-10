@@ -1,3 +1,1 @@
-<i class="c-icon c-icon-{{ .icon }}">
-    <span>{{ .description | default .icon }}</span>
-</i>
+<i class="c-icon c-icon-{{ .icon }}" title="{{ .description | default .icon }}" aria-label="{{ .description | default .icon }}"></i>
