@@ -1,10 +1,1 @@
-$colsMax: 12;
-
-.c-teaserboxgrid {
-
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    align-items: center;
-    place-items: stretch;
-}
+@import './teaserboxgrid.styles';
