@@ -13,6 +13,7 @@ import { BALL_BUCKET_MODULE } from './modules/ball-bucket/ball-bucket.module';
 import { BALL_MACHINE_MODULE } from './modules/ball-machine/ball-machine.module';
 import { BALL_STATISTICS_MODULE } from './modules/ball-statistics/ball-statistics.module';
 import { LAZY_IMG_MODULE } from './modules/lazy-img/lazy-img.module';
+import { JUMBOLINO_MODULE } from './modules/jumbolino/jumbolino.module';
 
 /**
  * List of registered Modules
@@ -34,6 +35,7 @@ const MODULES = [
     BALL_MACHINE_MODULE,
     BALL_STATISTICS_MODULE,
     LAZY_IMG_MODULE,
+    JUMBOLINO_MODULE,
 ];
 
 export {

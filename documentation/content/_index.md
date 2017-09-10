@@ -1,8 +1,8 @@
 +++
 title = "Gluebert.js Home"
 
-headline = "on-demand <strong>orchestrator</strong> for <strong>DOM elements</strong>"
-headlineText = "gluebert.js is a tiny (~<strong>4kb</strong>) helper orchestrating interactive html elements with on demand and lazy dynamic import."
+headline = "lazy load <strong>orchestrator</strong> for <strong>DOM elements</strong>"
+headlineText = "gluebert.js is a tiny (~<strong>4kb</strong>) helper lazy loading DOM elements, stylesheets and JavaScript files using dynamic import and code splitting."
 
 [[teaser]]
     icon = "move-down"
