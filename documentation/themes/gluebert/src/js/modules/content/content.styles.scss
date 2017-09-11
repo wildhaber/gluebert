@@ -1,0 +1,34 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-content {
+    @include font(p);
+
+    padding: $gutter-default;
+    max-width: 100%;
+    overflow: hidden;
+
+    h1:not(:first-child),
+    h2:not(:first-child),
+    h3:not(:first-child),
+    h4:not(:first-child),
+    h5:not(:first-child),
+    h6:not(:first-child) {
+        margin-top: $gutter-double;
+    }
+
+    p {
+        padding: $gutter-default 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: $color-accent;
+        transition: color 0.4s;
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+
+}

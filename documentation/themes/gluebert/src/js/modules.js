@@ -14,6 +14,9 @@ import { BALL_MACHINE_MODULE } from './modules/ball-machine/ball-machine.module'
 import { BALL_STATISTICS_MODULE } from './modules/ball-statistics/ball-statistics.module';
 import { LAZY_IMG_MODULE } from './modules/lazy-img/lazy-img.module';
 import { JUMBOLINO_MODULE } from './modules/jumbolino/jumbolino.module';
+import { CONTENT_MODULE } from './modules/content/content.module';
+import { TABLE_MODULE } from './modules/table/table.module';
+import { CODE_MODULE } from './modules/code/code.module';
 
 /**
  * List of registered Modules
@@ -36,6 +39,9 @@ const MODULES = [
     BALL_STATISTICS_MODULE,
     LAZY_IMG_MODULE,
     JUMBOLINO_MODULE,
+    CONTENT_MODULE,
+    TABLE_MODULE,
+    CODE_MODULE,
 ];
 
 export {

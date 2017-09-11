@@ -2,5 +2,7 @@
     {{ partial "components/navigation.html" (dict "context" .) }}
     {{ partial "components/jumbolino.html" (dict "context" . "headline" .Title "text" .Description) }}
 
-    {{ .Content }}
+    <div class="c-content">
+        {{ .Content }}
+    </div>
 {{ end }}
