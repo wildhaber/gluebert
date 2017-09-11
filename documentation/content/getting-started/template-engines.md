@@ -251,6 +251,57 @@ Step 1 actually prepares the template-markup and returns a function that can be 
 
 In the second step the actual transformation happens.
 
+### Add your custom template adapter to gluebert
+
+```javascript
+import { Gluebert } from 'gluebert';
+import { CustomTemplate } from './custom.template';
+
+const MODULES = [];
+const DATA = [];
+
+const TEMPLATE = new CustomTemplate(null); // we do not need any dependency engine in the example
+
+const gluebert = new Gluebert(MODULES, DATA)
+    .setTemplateEngine(TEMPLATE)
+    .start();
+```
+
+Well, although the output is not very impressive - anyway:
+
+### Usage Example
+
+**template.custom**
+
+```twig
+<li class="ball"></li>
+```
+
+in the controller:
+
+```javascript
+async _createBallElement(number) {
+    const el = await this._elements.create('ball.element', {
+        number: 23,
+    });
+    
+    if(el) {
+        window.requestAnimationFrame(() => {
+            document.body.appendChild(el);
+        });
+    }
+    return this;
+}
+```
+
+The output would be something like:
+
+```html
+["<li class="ball"></li>", { number: 23 }]
+```
+
+Ok, this CustomTemplate engine we have created above is useless. But should clearly show what's going on in the background.
+
 ---
 
 ## References and Examples
