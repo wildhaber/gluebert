@@ -17,17 +17,38 @@
         margin-top: $gutter-double;
     }
 
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: $typo-weight-light;
+    }
+
     p {
         padding: $gutter-default 0;
     }
 
     a {
+        font-size: inherit;
         text-decoration: none;
         color: $color-accent;
         transition: color 0.4s;
 
         &:hover {
             color: $color-primary;
+        }
+    }
+
+    blockquote {
+        margin: 0;
+        padding: $gutter-default;
+        background-color: $color-gray-light;
+        border-left: $gutter-half solid $color-gray-medium;
+
+        p {
+            font-size: $typo-size-large;
         }
     }
 

@@ -1,16 +1,16 @@
 {{ define "main" }}
-    {{ partial "components/navigation.html" (dict "context" .) }}
-    {{ partial "components/jumbolino.html" (dict "context" . "headline" .Title "text" .Description) }}
+{{ partial "components/navigation.html" (dict "context" .) }}
+{{ partial "components/jumbolino.html" (dict "context" . "headline" .Title "text" .Description) }}
 
-    <main class="c-grid c-grid--align-top">
-        <aside class="c-grid__col--4 c-grid__col__xs--12">
-            {{ partial "components/sidenav.html" (dict "context" .) }}
-        </aside>
-        <div class="c-grid__col--8 c-grid__col__xs--12">
-            <div class="c-content">
-                {{ .Content }}
-            </div>
+<main class="c-grid c-grid--align-top">
+    <aside class="c-grid__col--2 c-grid__md--3 c-grid__sm--12">
+        {{ partial "components/sidenav.html" (dict "context" .) }}
+    </aside>
+    <div class="c-grid__col--10 c-grid__col__md--9 c-grid__sm--12">
+        <div class="c-content">
+            {{ .Content }}
         </div>
-    </main>
+    </div>
+</main>
 
 {{ end }}

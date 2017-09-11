@@ -5,7 +5,7 @@
     <ul>
         {{ range . }}
         <li class="c-sidenav__entry {{ if eq $context.UniqueID .UniqueID }}c-sidenav__entry--active{{ end }}">
-            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+            <a href="{{ .RelPermalink }}">&raquo; {{ .Title }}</a>
         </li>
         {{ end }}
     </ul>

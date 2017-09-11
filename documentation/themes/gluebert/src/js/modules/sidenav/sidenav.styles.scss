@@ -12,14 +12,12 @@
         color: $color-accent;
         text-decoration: none;
         display: block;
-        padding-left: 0;
-        transition: padding 0.4s;
-        will-change: padding;
+
     }
 
     &.c-sidenav__entry--active {
         a {
-            padding-left: $gutter-default;
+            font-weight: $typo-weight-bold;
         }
     }
 }
