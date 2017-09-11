@@ -150,5 +150,5 @@ const gluebert = new Gluebert()
 | What | Where |
 | --- | --- |
 | [API Reference](https://api.gluebert.com/Gluebert.html) | [api.gluebert.com/Gluebert.html](https://api.gluebert.com/Gluebert.html) |
-| [Example with DynamicImport](https://api.gluebert.com/Gluebert.html) | [github.com/wildhaber/gluebert/~/app.js](https://github.com/wildhaber/gluebert/blob/develop/documentation/themes/gluebert/src/js/app.js) |
+| [Example with DynamicImport](https://github.com/wildhaber/gluebert/blob/develop/documentation/themes/gluebert/src/js/app.js) | [github.com/wildhaber/gluebert/~/app.js](https://github.com/wildhaber/gluebert/blob/develop/documentation/themes/gluebert/src/js/app.js) |
 | [Example integration with Polyfills](https://github.com/wildhaber/gluebert/blob/develop/documentation/themes/gluebert/layouts/partials/footer.html#L1-L22) | [github.com/wildhaber/gluebert/~/footer.html](https://github.com/wildhaber/gluebert/blob/develop/documentation/themes/gluebert/layouts/partials/footer.html#L1-L22) |
