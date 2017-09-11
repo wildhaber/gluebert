@@ -1,5 +1,5 @@
 +++
-title = "Getting started"
+title = "Installation"
 description = "Your first steps with gluebert.js"
 +++
 
