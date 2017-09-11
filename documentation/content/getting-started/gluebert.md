@@ -110,7 +110,7 @@ import { TwigTemplate } from 'gluebert/templates'; // adapter for twig template 
 import Twig from 'twig'; // npm install twig --save (separate package)
 
 const gluebert = new Gluebert()
-    .setTemplateEngine(new TwigTemplate());
+    .setTemplateEngine(new TwigTemplate(Twig));
 ```
 
 ### .setSchemaValidator()
