@@ -5,6 +5,23 @@ description = "Your first steps with gluebert.js"
 
 ## tl;dr
 
+### installation by package managers
+
+
+#### via npm
+
+```bash
+npm install gluebert --save
+```
+
+#### via yarn
+
+```bash
+yarn add gluebert
+```
+
+### Getting started by examples
+
 ```bash
 git clone git@github.com:wildhaber/gluebert-getting-started.git
 cd gluebert-getting-started
@@ -13,7 +30,7 @@ npm run build
 npm run serve
 ```
 
-## Installation
+## Installation Guide
 
 ### Requirements
 For a proper installation you should be familiar with package-concepts of npm or yarn and having basic knowledge of webpack. Ideally you already work within a set up Webpack setup.
