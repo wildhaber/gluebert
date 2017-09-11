@@ -2,7 +2,15 @@
     {{ partial "components/navigation.html" (dict "context" .) }}
     {{ partial "components/jumbolino.html" (dict "context" . "headline" .Title "text" .Description) }}
 
-    <div class="c-content">
-        {{ .Content }}
-    </div>
+    <main class="c-grid c-grid--align-top">
+        <aside class="c-grid__col--4">
+            {{ partial "components/sidenav.html" (dict "context" .) }}
+        </aside>
+        <div class="c-grid__col--8">
+            <div class="c-content">
+                {{ .Content }}
+            </div>
+        </div>
+    </main>
+
 {{ end }}

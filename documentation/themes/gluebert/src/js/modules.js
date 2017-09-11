@@ -17,6 +17,7 @@ import { JUMBOLINO_MODULE } from './modules/jumbolino/jumbolino.module';
 import { CONTENT_MODULE } from './modules/content/content.module';
 import { TABLE_MODULE } from './modules/table/table.module';
 import { CODE_MODULE } from './modules/code/code.module';
+import { SIDENAV_MODULE } from './modules/sidenav/sidenav.module';
 
 /**
  * List of registered Modules
@@ -42,6 +43,7 @@ const MODULES = [
     CONTENT_MODULE,
     TABLE_MODULE,
     CODE_MODULE,
+    SIDENAV_MODULE,
 ];
 
 export {

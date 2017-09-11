@@ -1,0 +1,13 @@
+<nav class="c-sidenav">
+    {{ $pages := where .context.Site.Pages "Section" .context.Section }}
+    {{ $context := .context }}
+    {{ with $pages }}
+    <ul>
+        {{ range . }}
+        <li class="c-sidenav__entry {{ if eq $context.UniqueID .UniqueID }}c-sidenav__entry--active{{ end }}">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        </li>
+        {{ end }}
+    </ul>
+    {{ end }}
+</nav>
