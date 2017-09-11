@@ -62,6 +62,8 @@ npm run serve
 Starting a gluebert instance can look like this:
 
 ```javascript
+import { Gluebert } from 'gluebert';
+
 const MODULES = []; // list of module signatures to watch
 const DATA = []; // list of data signatures to watch
 
@@ -172,6 +174,7 @@ For the sake of completion, following an example of the lazy loaded image. So it
 Remember, the gluebert instance above had an empty array passed to the gluebert-instance. Let's inject the `lazy-img`-Module.
 
 ```javascript
+import { Gluebert } from 'gluebert';
 import { LAZY_IMG_MODULE } from './modules/lazy-img.module';
 
 const MODULES = [

@@ -40,7 +40,13 @@ class CodeController extends ControllerAbstract {
         super(element, data, elements);
         this._language = this._extractLanguage();
         if(this._language) {
-            this._paint();
+            try {
+                this._paint().catch((err) => {
+                    console.log(err);
+                });
+            } catch(err) {
+                console.log(err);
+            }
         }
     }
 
