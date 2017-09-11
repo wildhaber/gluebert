@@ -1,7 +1,7 @@
 +++
 title = "Gluebert.js Home"
 
-headline = "lazy load <strong>orchestrator</strong> for <strong>DOM elements</strong>"
+headline = "lazy load <strong>*</strong>"
 headlineText = "gluebert.js is a tiny (~<strong>4kb</strong>) helper lazy loading DOM elements, StyleSheets and JavaScript files using dynamic import and code splitting."
 
 [[teaser]]
