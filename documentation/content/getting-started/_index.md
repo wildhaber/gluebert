@@ -45,9 +45,14 @@ While the dynamic import concept follows a proposal from [tc39](https://github.c
 
 [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) are tracking changes in your DOM and lazy binding module signatures and executes them, when an element appears in the viewport using [IntersectionObservers](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API).
 
+### Observable streams by RxJS
+
+To organize, sending and receiving Data through your application there are observable streams available provided by [RxJS](http://reactivex.io/).
+
 ## [Installation](/getting-started/installation/) and QuickStart
 
 We recommend following the [installation guide](/getting-started/installation/) or if you are in a hurry, 
+
 
 ```bash
 git clone git@github.com:wildhaber/gluebert-getting-started.git
