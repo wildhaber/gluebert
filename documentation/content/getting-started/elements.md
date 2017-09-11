@@ -28,7 +28,7 @@ An element signature takes the following parameters:
 
 | Name | Description | Type | Required |
 | --- | --- | --- | --- |
-| key | key identifier for internal use to identify the module | string | true |
+| key | key identifier for internal use to identify the element | string | true |
 | template |  import loader callback for your template using dynamic imports | function | true | 
 
 ### Basic Example:
