@@ -6,7 +6,6 @@ weight = 4
 type = "documentation"
 +++
 
-
 ## Modules
 
 A ModuleSignature follows the general understanding of a Module in software architecture:
@@ -179,4 +178,3 @@ Returns a list of [ElementSignatures](/getting-started/elements) added.
 | [API Reference](https://api.gluebert.com/ModuleSignature.html) | [api.gluebert.com/ModuleSignature.html](https://api.gluebert.com/ModuleSignature.html) |
 | [Example Module Folder](https://github.com/wildhaber/gluebert/tree/develop/documentation/themes/gluebert/src/js/modules/lazy-img) | [github.com/wildhaber/gluebert/~/modules/lazy-img](https://github.com/wildhaber/gluebert/tree/develop/documentation/themes/gluebert/src/js/modules/lazy-img) |
 | [Example ModuleSignature](https://github.com/wildhaber/gluebert/blob/develop/documentation/themes/gluebert/src/js/modules/lazy-img/lazy-img.module.js) | [github.com/wildhaber/gluebert/~/modules/lazy-img/lazy-img.module.js](https://github.com/wildhaber/gluebert/blob/develop/documentation/themes/gluebert/src/js/modules/lazy-img/lazy-img.module.js) |
-| [Example ModuleSignature]() | []() |

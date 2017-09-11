@@ -144,7 +144,6 @@ const gluebert = new Gluebert()
 
 ---
 
-
 ## References and Examples
 
 | What | Where |
