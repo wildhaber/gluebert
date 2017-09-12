@@ -111,4 +111,104 @@ $pi-height-basic: 7px;
 
     }
 
+    .network-payload {
+
+        position: absolute;
+        top: 25px;
+        left: 200px;
+        width: 160px;
+        height: 400px;
+        padding: $pi-inner-border-gutter;
+        overflow: hidden;
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        li {
+            list-style-type: none;
+            box-sizing: border-box;
+            display: block;
+        }
+
+
+        .request {
+            display: block;
+            width: 100%;
+            height: $pi-height-basic;
+            margin-bottom: $pi-inner-border-gutter;
+            position: relative;
+            overflow-x: hidden;
+            transition: opacity 0.4s;
+
+            &::before,
+            &::after {
+                content: '';
+                height: $pi-height-basic;
+                background-color: $color-gray-medium;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                transform: translate(0,0);
+            }
+
+            &::before {
+                width: 20px;
+                transition: transform 0.2s, opacity 0.2s;
+                opacity: 0;
+                transform: translate(-100%, 0);
+            }
+
+            &::after {
+                width: 0px;
+                opacity: 0;
+                left: calc(20px + #{$pi-inner-border-gutter});
+                background-color: $color-gray-dark;
+                transition-delay: 0.4s;
+                transition: width 0.4s, opacity 0.2s, background 0.4s;
+            }
+
+            @for $speed from 1 through 10 {
+                &.speed-#{$speed}::after {
+                    transition: width #{$speed * 0.2 * 1s}, opacity 0.2s, background 0.4s;
+                }
+            }
+
+            @for $l from 1 through 10 {
+                &.running.l-#{$l}::after {
+                    width: $pi-height-basic * $l;
+                }
+            }
+
+            &.running {
+
+                &::before {
+                    opacity: 1;
+                    transform: translate(0, 0);
+                }
+
+                &::after {
+                    opacity: 1;
+                    width: 60px;
+                }
+
+            }
+
+            &.done {
+                opacity: 0.4;
+
+                &::after {
+                    transition-delay: 0s;
+                    background-color: greenyellow;
+                }
+            }
+
+
+        }
+
+    }
+
 }

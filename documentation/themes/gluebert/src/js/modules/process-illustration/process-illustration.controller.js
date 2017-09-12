@@ -17,6 +17,7 @@ class ProcessIllustrationController extends ControllerAbstract {
 
         this._anime = null;
         this._pageElement = this._element.querySelector('.page');
+        this._networkElement = this._element.querySelector('.network-payload');
 
         this._init();
 
@@ -73,9 +74,31 @@ class ProcessIllustrationController extends ControllerAbstract {
     }
 
     _activateAfter(group, delay) {
+
+        this._activateNetwork(group, delay);
+
         window.setTimeout(() => {
             Array.from(this._pageElement.querySelectorAll(`.load-${group}`))
                 .forEach((el) => el.classList.add('loaded'))
+        }, delay);
+
+        return this;
+    }
+
+    _activateNetwork(group, delay) {
+        window.setTimeout(() => {
+            Array.from(this._networkElement.querySelectorAll(`.load-${group}`))
+                .forEach((el) => {
+                    el.classList.add('running');
+
+                    // I know this is bad practice. Needs to be done in css... hopefully somewhen
+                    window.setTimeout(() => {
+                        el.classList.add('done');
+                    }, parseInt(el.dataset.speed));
+
+                });
+
+
         }, delay);
 
         return this;
