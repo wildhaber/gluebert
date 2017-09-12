@@ -1,0 +1,23 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-sidenav {
+    padding: $gutter-default;
+}
+
+.c-sidenav__entry {
+    padding: $gutter-half 0;
+
+    a {
+        color: $color-accent;
+        text-decoration: none;
+        display: block;
+
+    }
+
+    &.c-sidenav__entry--active {
+        a {
+            font-weight: $typo-weight-bold;
+        }
+    }
+}

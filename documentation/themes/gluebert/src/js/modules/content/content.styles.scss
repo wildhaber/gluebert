@@ -1,0 +1,63 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-content {
+    @include font(p);
+
+    padding: $gutter-default;
+    max-width: 100%;
+    overflow: hidden;
+
+    h1:not(:first-child),
+    h2:not(:first-child),
+    h3:not(:first-child),
+    h4:not(:first-child),
+    h5:not(:first-child),
+    h6:not(:first-child) {
+        margin-top: $gutter-double;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: $typo-weight-light;
+    }
+
+    p {
+        padding: $gutter-default 0;
+    }
+
+    a {
+        font-size: inherit;
+        text-decoration: none;
+        color: $color-accent;
+        transition: color 0.4s;
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+
+    blockquote {
+        margin: 0;
+        padding: $gutter-default;
+        background-color: $color-gray-light;
+        border-left: $gutter-half solid $color-gray-medium;
+
+        p {
+            font-size: $typo-size-large;
+        }
+    }
+
+    hr {
+        height: 0.25em;
+        padding: 0;
+        margin: 24px 0;
+        background-color: $color-gray-light;
+        border: 0;
+    }
+
+}
