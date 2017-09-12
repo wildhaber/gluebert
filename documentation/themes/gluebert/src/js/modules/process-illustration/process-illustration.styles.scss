@@ -1,0 +1,285 @@
+@import './../../../scss/variables';
+
+$pi-inner-border-gutter: 7px;
+$pi-height-basic: 7px * 2;
+
+.c-process-illustration {
+
+    display: block;
+    position: relative;
+
+    max-width: 100%;
+    width: 100%;
+    height: 425px;
+    overflow: hidden;
+
+    .screen {
+        position: absolute;
+        top: 25px;
+        left: 0px;
+        width: 320px;
+        height: 200px;
+        padding: $pi-inner-border-gutter * 2;
+        border: 5px solid $color-gray-medium;
+        border-radius: 4px;
+        overflow: visible;
+        z-index: 1;
+    }
+
+    .page-wrapper {
+        position: absolute;
+        top: 25px;
+        left: 0px;
+        width: 320px;
+        height: 400px;
+        padding: $pi-inner-border-gutter;
+        overflow: hidden;
+
+        &::after {
+            content: '';
+            width: 100%;
+            height: calc(400px - 200px);
+            position: absolute;
+            top: 200px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 0%, white 100%);
+            z-index: 1;
+        }
+
+    }
+
+    .page {
+        position: absolute;
+        width: calc(100% - #{$pi-inner-border-gutter} * 2);
+        height: 400px;
+        opacity: 1;
+        transition: opacity 0.4s;
+
+        &:not(.running) {
+            opacity: 0;
+        }
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        li {
+            list-style-type: none;
+            box-sizing: border-box;
+        }
+
+    }
+
+    .component {
+
+        background-color: $color-gray-light;
+        height: 25px;
+        transition: background 0.4s, border 0.4s;
+        margin-bottom: $pi-inner-border-gutter;
+
+        &.loaded {
+            background-color: $color-success;
+        }
+
+        &.full {
+            width: 100%;
+        }
+
+        &.half {
+            width: calc(1 / 2 * 100% - (1 - 1 / 2) * #{$pi-inner-border-gutter});
+        }
+
+        &.third {
+            width: calc(1 / 3 * 100% - (1 - 1 / 3) * #{$pi-inner-border-gutter});
+        }
+
+        &.thirdx2 {
+            width: calc(2 / 3 * 100% - (1 - 2 / 3) * #{$pi-inner-border-gutter});
+        }
+
+        &.quarter {
+            width: calc(1 / 4 * 100% - (1 - 1 / 4) * #{$pi-inner-border-gutter});
+        }
+
+        &.quarterx2 {
+            width: calc(2 / 4 * 100% - (1 - 2 / 4) * #{$pi-inner-border-gutter});
+        }
+
+        &.quarterx3 {
+            width: calc(3 / 4 * 100% - (1 - 3 / 4) * #{$pi-inner-border-gutter});
+        }
+
+        @for $h from 1 through 10 {
+            &.h-#{$h} {
+                height: $pi-height-basic * $h;
+            }
+        }
+
+    }
+
+    .network-payload {
+
+        position: absolute;
+        top: 25px;
+        left: 325px;
+        width: 320px;
+        height: 400px;
+        padding: $pi-inner-border-gutter;
+        overflow: hidden;
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        li {
+            list-style-type: none;
+            box-sizing: border-box;
+            display: block;
+        }
+
+        .request {
+            display: block;
+            width: 100%;
+            height: $pi-height-basic;
+            margin-bottom: $pi-inner-border-gutter;
+            position: relative;
+            overflow-x: hidden;
+            transition: opacity 0.4s;
+
+            &::before,
+            &::after {
+                content: '';
+                height: $pi-height-basic;
+                background-color: $color-gray-medium;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                transform: translate(0, 0);
+            }
+
+            &::before {
+                width: 20px;
+                transition: transform 0.2s, opacity 0.2s;
+                opacity: 0;
+                transform: translate(-100%, 0);
+            }
+
+            &::after {
+                width: 0px;
+                opacity: 0;
+                left: calc(20px + #{$pi-inner-border-gutter});
+                background-color: $color-gray-dark;
+                transition-delay: 0.4s;
+                transition: width 0.4s, opacity 0.2s, background 0.4s;
+            }
+
+            @for $speed from 1 through 10 {
+                &.speed-#{$speed}::after {
+                    transition: width #{$speed * 0.2 * 1s}, opacity 0.2s, background 0.4s;
+                }
+            }
+
+            @for $l from 1 through 10 {
+                &.running.l-#{$l}::after {
+                    width: $pi-height-basic * $l;
+                }
+            }
+
+            &.running {
+
+                &::before {
+                    opacity: 1;
+                    transform: translate(0, 0);
+                }
+
+                &::after {
+                    opacity: 1;
+                    width: 60px;
+                }
+
+            }
+
+            &.done {
+                opacity: 0.4;
+
+                &::after {
+                    transition-delay: 0s;
+                    background-color: $color-success;
+                }
+            }
+
+            &.load-html {
+                &::after {
+                    background-color: $color-default;
+                }
+            }
+
+            &.load-gluebert {
+                &::after {
+                    background-color: $color-primary;
+                }
+            }
+
+        }
+
+    }
+
+    .gluebert-modules {
+
+        position: absolute;
+        top: 25px;
+        left: 210px;
+        width: 135px;
+
+        padding: $pi-inner-border-gutter;
+        overflow: hidden;
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        li {
+            list-style-type: none;
+            box-sizing: border-box;
+            display: block;
+        }
+
+        &.loaded {
+            .module {
+                transform: scale(0.6);
+            }
+        }
+
+    }
+
+    .module {
+
+        background-color: #f1f1f1;
+
+        margin-bottom: $pi-inner-border-gutter;
+
+        width: $pi-height-basic * 5;
+        height: $pi-height-basic * 5;
+        transform: scale(0) rotate(0);
+
+        transition: background 0.4s, transform 0.4s;
+
+        &.loaded {
+            transform: scale(1) rotate(0deg);
+            background-color: $color-success;
+        }
+
+        &.loading:not(.loaded) {
+            transform: scale(0.5) rotate(60deg);
+        }
+
+    }
+}

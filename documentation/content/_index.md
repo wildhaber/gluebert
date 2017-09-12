@@ -20,5 +20,3 @@ headlineText = "gluebert.js is a tiny (~<strong>4kb</strong>) helper lazy loadin
     text = "We love the OpenSource community and wanted to make Gluebert.js available for everyone and everywhere with the least reasonable restrictions so we decieded to publish under the MIT-License. Exited what you are building."
 
 +++
-
-Hello, I am gluebert.

@@ -18,6 +18,7 @@ import { CONTENT_MODULE } from './modules/content/content.module';
 import { TABLE_MODULE } from './modules/table/table.module';
 import { CODE_MODULE } from './modules/code/code.module';
 import { SIDENAV_MODULE } from './modules/sidenav/sidenav.module';
+import { PROCESS_ILLUSTRATION_MODULE } from './modules/process-illustration/process-illustration.module';
 
 /**
  * List of registered Modules
@@ -44,6 +45,7 @@ const MODULES = [
     TABLE_MODULE,
     CODE_MODULE,
     SIDENAV_MODULE,
+    PROCESS_ILLUSTRATION_MODULE,
 ];
 
 export {
