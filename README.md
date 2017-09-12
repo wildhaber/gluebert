@@ -18,6 +18,8 @@ gluebert.js is a tiny (~4kb/gzip) helper lazy loading DOM elements, StyleSheets 
  - 🐲 Legacy Browser Support back to IE11
  - 📚 Here is a [documentation](https://gluebert.com)
 
+![Lazy Loading Concept](https://raw.githubusercontent.com/wildhaber/gluebert/master/assets/lazy-loading-illustration.gif)
+
 ### [installation](https://gluebert.com/getting-started/installation) by package managers
 
 #### via npm

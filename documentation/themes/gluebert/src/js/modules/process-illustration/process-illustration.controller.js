@@ -62,6 +62,10 @@ class ProcessIllustrationController extends ControllerAbstract {
 
         this._activationTimeline();
 
+        window.setTimeout(() => {
+            this._restart();
+        }, 20000);
+
     }
 
     _restart() {
@@ -77,7 +81,8 @@ class ProcessIllustrationController extends ControllerAbstract {
             Array.from(this._pageElement.querySelectorAll(`.component`))
                 .forEach((el) => el.classList.remove('loaded'));
 
-            this._animation.restart();
+            this._animate();
+
         }
     }
 
