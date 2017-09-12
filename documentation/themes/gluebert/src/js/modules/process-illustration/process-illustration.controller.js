@@ -18,6 +18,8 @@ class ProcessIllustrationController extends ControllerAbstract {
         this._anime = null;
         this._pageElement = this._element.querySelector('.page');
         this._networkElement = this._element.querySelector('.network-payload');
+        this._modulesElement = this._element.querySelector('.gluebert-modules');
+        this._animation = null;
 
         this._init();
 
@@ -35,17 +37,17 @@ class ProcessIllustrationController extends ControllerAbstract {
     }
 
     _animate() {
-        this._anime.timeline()
+        this._animation = this._anime.timeline()
             .add({
                 targets: this._pageElement,
-                translateY: -20,
-                delay: 1000,
-                duration: 3000,
+                translateY: 0,
+                delay: 400,
+                duration: 400,
                 elasticity: 0,
             })
             .add({
                 targets: this._pageElement,
-                translateY: -200,
+                translateY: -325,
                 delay: 1000,
                 duration: 10000,
                 elasticity: 0,
@@ -62,15 +64,44 @@ class ProcessIllustrationController extends ControllerAbstract {
 
     }
 
+    _restart() {
+        if(this._animation) {
+            this._pageElement.classList.remove('running');
+            Array.from(this._networkElement.querySelectorAll('.request'))
+                .forEach((el) => {
+                    el.classList.remove('running');
+                    el.classList.remove('done');
+                });
+
+
+            Array.from(this._pageElement.querySelectorAll(`.component`))
+                .forEach((el) => el.classList.remove('loaded'));
+
+            this._animation.restart();
+        }
+    }
 
     _activationTimeline() {
-        this._activateAfter('1', 200)
-            ._activateAfter('2', 300)
-            ._activateAfter('3', 5100)
-            ._activateAfter('4', 5700)
-            ._activateAfter('5', 6400)
-            ._activateAfter('6', 6600)
-            ._activateAfter('7', 7200);
+        this._activateAfter('html', 200)
+            ._activateAfter('gluebert', 600)
+
+            ._activateAfter('1', 1600) // navigation
+            ._activateAfter('2', 1900) // jumbo
+            ._activateAfter('3', 2000) // feature
+
+            ._activateAfter('4', 2200) // teaser
+            ._activateAfter('5', 2400) // image
+            ._activateAfter('6', 2600) // content
+            ._activateAfter('7', 3000) // image-large
+            ._activateAfter('8', 3600) // thumbnail
+            ._activateAfter('9', 4000) // teaser (only module)
+        ;
+
+        // Release start loading
+        window.setTimeout(() => {
+            this._pageElement.classList.add('running');
+        }, 400);
+
     }
 
     _activateAfter(group, delay) {
@@ -79,7 +110,7 @@ class ProcessIllustrationController extends ControllerAbstract {
 
         window.setTimeout(() => {
             Array.from(this._pageElement.querySelectorAll(`.load-${group}`))
-                .forEach((el) => el.classList.add('loaded'))
+                .forEach((el) => el.classList.add('loaded'));
         }, delay);
 
         return this;
@@ -91,9 +122,20 @@ class ProcessIllustrationController extends ControllerAbstract {
                 .forEach((el) => {
                     el.classList.add('running');
 
+                    // // I know this is bad practice. Needs to be done in css... hopefully somewhen
+                    // if(typeof el.dataset.moduleReady === 'string') {
+                    //     this._startLoadingModule(el.dataset.moduleReady);
+                    // }
+
                     // I know this is bad practice. Needs to be done in css... hopefully somewhen
                     window.setTimeout(() => {
                         el.classList.add('done');
+
+                        // // I know this is bad practice. Needs to be done in css... hopefully somewhen
+                        // if(typeof el.dataset.moduleReady === 'string') {
+                        //     this._activateModule(el.dataset.moduleReady);
+                        // }
+
                     }, parseInt(el.dataset.speed));
 
                 });
@@ -102,6 +144,20 @@ class ProcessIllustrationController extends ControllerAbstract {
         }, delay);
 
         return this;
+    }
+
+    _activateModule(module) {
+        const el = this._modulesElement.querySelector(`[data-module='${module}']`);
+        if(el) {
+            el.classList.add('loaded');
+        }
+    }
+
+    _startLoadingModule(module) {
+        const el = this._modulesElement.querySelector(`[data-module='${module}']`);
+        if(el) {
+            el.classList.add('loading');
+        }
     }
 
 }

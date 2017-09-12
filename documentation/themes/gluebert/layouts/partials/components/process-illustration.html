@@ -2,29 +2,29 @@
 
     <div class="screen"></div>
     <div class="page-wrapper">
-        <div class="page">
+        <div class="page running">
             <ul>
-                <li class="component full h-1 load-2"></li>
-                <li class="component full h-8 load-1"></li>
+                <li class="component module-navigation full h-1 load-1"></li>
+                <li class="component module-jumbo full h-8 load-2"></li>
 
-                <li class="component third h-4 load-2"></li>
-                <li class="component third h-4 load-2"></li>
-                <li class="component third h-4 load-2"></li>
+                <li class="component module-feature third h-4 load-3"></li>
+                <li class="component module-feature third h-4 load-3"></li>
+                <li class="component module-feature third h-4 load-3"></li>
 
-                <li class="component full h-3 load-3"></li>
+                <li class="component module-teaser full h-3 load-4"></li>
 
-                <li class="component quarter h-4 load-4"></li>
-                <li class="component quarterx3 h-4 load-3"></li>
+                <li class="component module-image quarter h-4 load-5"></li>
+                <li class="component module-content quarterx3 h-4 load-6"></li>
 
-                <li class="component half h-8 load-4"></li>
-                <li class="component half h-8 load-3"></li>
+                <li class="component module-image-large half h-8 load-7"></li>
+                <li class="component module-image-large half h-8 load-7"></li>
 
-                <li class="component quarter h-4 load-5"></li>
-                <li class="component quarter h-4 load-5"></li>
-                <li class="component quarter h-4 load-6"></li>
-                <li class="component quarter h-4 load-5"></li>
+                <li class="component module-thumbnail quarter h-4 load-8"></li>
+                <li class="component module-thumbnail quarter h-4 load-8"></li>
+                <li class="component module-thumbnail quarter h-4 load-8"></li>
+                <li class="component module-thumbnail quarter h-4 load-8"></li>
 
-                <li class="component full h-3 load-7"></li>
+                <li class="component module-teaser full h-3 load-9"></li>
 
                 <li class="component third h-6"></li>
                 <li class="component third h-6"></li>
@@ -61,15 +61,84 @@
     <div class="network-payload">
 
         <ul>
-            <li class="request speed-1 l-4 type-html load-1" data-speed="200"></li>
-            <li class="request speed-2 l-3 type-js load-1" data-speed="400"></li>
-            <li class="request speed-4 l-6 type-js load-2" data-speed="800"></li>
-            <li class="request speed-2 l-4 type-css load-2" data-speed="400"></li>
-            <li class="request speed-1 l-4 type-js load-3" data-speed="200"></li>
-            <li class="request speed-1 l-4 type-js load-3" data-speed="200"></li>
-            <li class="request speed-1 l-4 type-js load-3" data-speed="200"></li>
-            <li class="request speed-1 l-4 type-js load-4" data-speed="200"></li>
-            <li class="request speed-1 l-4 type-js load-5" data-speed="200"></li>
+
+            <li class="request speed-1 l-4 type-html load-html"
+                data-module="html"
+                data-module-ready="html"
+                data-speed="200"></li>
+
+            <li class="request speed-2 l-8 type-js load-gluebert"
+                data-module="gluebert"
+                data-speed="400"></li>
+
+            <li class="request speed-4 l-4 type-js load-gluebert"
+                data-module="gluebert"
+                data-module-ready="gluebert"
+                data-speed="800"></li>
+
+            <li class="request speed-2 l-5 type-css load-gluebert"
+                data-module="gluebert"
+                data-speed="200"></li>
+
+            <li class="request speed-1 l-2 type-js load-1"
+                data-module="navigation"
+                data-module-ready="navigation"
+                data-speed="200"></li>
+
+            <li class="request speed-1 l-3 type-js load-2"
+                data-module="jumbo"
+                data-module-ready="jumbo"
+                data-speed="300"></li>
+
+            <li class="request speed-1 l-1 type-js load-3"
+                data-module="feature"
+                data-speed="200"></li>
+
+            <li class="request speed-1 l-3 type-js load-3"
+                data-module="feature"
+                data-module-ready="feature"
+                data-speed="600"></li>
+
+            <li class="request speed-1 l-1 type-js load-3"
+                data-module="feature"
+                data-speed="200"></li>
+
+            <li class="request speed-1 l-4 type-js load-4"
+                data-module="teaser"
+                data-speed="200"></li>
+
+            <li class="request speed-1 l-3 type-js load-5"
+                data-module="image"
+                data-speed="400"></li>
+
+            <li class="request speed-1 l-6 type-js load-5"
+                data-module="image"
+                data-module-ready="image"
+                data-speed="600"></li>
+
+            <li class="request speed-1 l-4 type-js load-6"
+                data-module="content"
+                data-speed="200"></li>
+
+            <li class="request speed-1 l-3 type-js load-6"
+                data-module="content"
+                data-module-ready="content"
+                data-speed="400"></li>
+
+            <li class="request speed-1 l-2 type-js load-7"
+                data-module="image-large"
+                data-module-ready="image-large"
+                data-speed="400"></li>
+
+            <li class="request speed-1 l-2 type-js load-8"
+                data-module="thumbnail"
+                data-speed="200"></li>
+
+            <li class="request speed-1 l-5 type-js load-8"
+                data-module="thumbnail"
+                data-module-ready="thumbnail"
+                data-speed="800"></li>
+
         </ul>
 
     </div>
