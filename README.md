@@ -7,7 +7,7 @@
 [![npm](https://img.shields.io/npm/dm/gluebert.svg?maxAge=2592000)](https://www.npmjs.com/package/gluebert)
 
 # gluebert.js === lazy load *
-a tiny helper lazy load everything.
+gluebert.js is a tiny (~4kb/gzip) helper lazy loading DOM elements, StyleSheets and JavaScript files using dynamic import and code splitting.
 
 ## tl;dr
 
