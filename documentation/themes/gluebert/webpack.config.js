@@ -97,6 +97,14 @@ module.exports = {
             minRatio: 0.8,
         }),
     ],
+    resolve: {
+        alias: {
+            // Enable this alias for local development.
+            // aditional, please run npm run build:watch
+            // on the root folder to build the dist/ packages
+            gluebert: path.resolve(__dirname, './../../../'),
+        },
+    },
     output: {
         filename: '[name].js',
         chunkFilename: '[name].[chunkhash].js',
