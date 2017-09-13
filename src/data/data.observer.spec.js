@@ -477,10 +477,6 @@ describe('DataObserver', () => {
             expect(DO.subscribe('a')).toEqual(DO);
         });
 
-        it('should throw error when no next method is set', () => {
-            expect(() => DO.subscribe('originX', 'signature.valid')).toThrowError();
-        });
-
     });
 
     describe(`#unsubscribeFrom()`, () => {

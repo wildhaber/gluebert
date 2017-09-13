@@ -329,7 +329,7 @@ class ElementBuilder {
             window.setTimeout(() => {
                 try {
                     resolve(this.create(name, data));
-                } catch (err) {
+                } catch(err) {
                     reject(err);
                 }
             }, 100);
@@ -359,7 +359,7 @@ class ElementBuilder {
             } else {
                 return null;
             }
-        } catch (err) {
+        } catch(err) {
             return null;
         }
     }

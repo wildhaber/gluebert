@@ -21,6 +21,7 @@
     "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "./node_modules/.bin/eslint src --fix",
     "build": "rm -rf dist && ./node_modules/.bin/babel src --out-dir dist --ignore '**/*.spec.js'",
+    "build:watch": "rm -rf dist && ./node_modules/.bin/babel src --out-dir dist --ignore '**/*.spec.js' --watch",
     "build:demo": "npm run build:demo:balls",
     "build:demo:balls": "cd e2e/src/balls/ && npm install --silent",
     "doc": "jsdoc -c ./jsdoc.config.json"

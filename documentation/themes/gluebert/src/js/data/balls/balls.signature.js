@@ -6,12 +6,7 @@ import { DataSignature } from 'gluebert/data';
  */
 const SIGNATURE = new DataSignature(
     'balls.data',
-    (dataPool) => {
-        return import(/* webpackChunkName: "balls.data" */ './balls.data')
-            .then((module) => {
-                return new module.BallsData(dataPool);
-            });
-    },
+    () => import('./balls.data').then((data) => data.BallsData),
 );
 
 export {

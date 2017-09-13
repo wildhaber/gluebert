@@ -101,6 +101,9 @@ module.exports = {
                     'while': {
                         'after': false,
                     },
+                    'catch': {
+                        'after': false,
+                    }
                 },
             },
         ],

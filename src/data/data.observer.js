@@ -227,10 +227,11 @@ class DataObserver {
             let nextMethod = (typeof next === 'function')
                 ? next
                 : (
-                    (typeof next === 'object')
+                    (next && typeof next === 'object')
                         ? new MessageDispatcher(next).filter(filter)
                         : null
                 );
+
 
             if(!nextMethod) {
                 throw new Error('No next method declared calling .subscribe()');
@@ -260,11 +261,11 @@ class DataObserver {
                 typeof signature.importModule === 'function'
             ) {
                 signature
-                    .importModule(this)
+                    .importModule()
                     .then((observableModule) => {
 
                         try {
-                            this.addObservable(to, observableModule);
+                            this.addObservable(to, new observableModule(this));
                             this.removeSignature(to);
 
                             if(this._observableExists(to)) {
@@ -272,7 +273,7 @@ class DataObserver {
                             } else {
                                 throw new Error('Observable could not be instanciated. (' + to + ')');
                             }
-                        } catch (err) {
+                        } catch(err) {
                             this.removeSignature(to);
                             throw new Error(err);
                         }

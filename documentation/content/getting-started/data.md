@@ -38,8 +38,7 @@ A data signature takes the following parameters:
  */
 const SOME_DATA_SIGNATURE = new DataSignature(
     'some.data',
-    (dataPool) => import('./some.data')
-        .then((module) => new module.SomeData(dataPool))
+    () => import('./balls.data').then((data) => data.BallsData)
 );
 
 export {
