@@ -9,11 +9,13 @@ class ControllerAbstract {
      * @param {HTMLElement} element
      * @param {DataObserver} data
      * @param {ElementBuilder} elements
+     * @param {DependencyManager} dependencies
      */
-    constructor(element, data, elements) {
+    constructor(element, data, elements, dependencies) {
         this._element = element;
         this._data = data;
         this._elements = elements;
+        this._dependencies = dependencies || null;
 
         let elementReadyClass = (
             typeof elements === `object` &&
@@ -30,6 +32,10 @@ class ControllerAbstract {
         ) {
             this._element.classList.add(elementReadyClass);
         }
+
+        if(this._dependencies) {
+            this._dependencies.inject(this);
+        }
     }
 
     /**
@@ -38,6 +44,8 @@ class ControllerAbstract {
     destruct() {
         this._data.unsubscribe(this);
     }
+
+
 }
 
 export {

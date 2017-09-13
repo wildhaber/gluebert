@@ -143,7 +143,12 @@ class ModuleLauncher {
                 ? await signature.importController()
                 : null;
 
-            if(controller) {
+            const dependencies = await signature.dependencyManager.resolve();
+
+            if(
+                controller &&
+                dependencies
+            ) {
                 if(!this._instanceMap.has(element)) {
                     window.requestAnimationFrame(() => {
                         this._addInstance(
@@ -152,6 +157,7 @@ class ModuleLauncher {
                                 element,
                                 this._dataObserver,
                                 this._elementBuilder,
+                                dependencies,
                             ),
                         );
                     });
@@ -302,7 +308,11 @@ class ModuleLauncher {
         return this;
     }
 
-
+    /**
+     * combine styles to be added
+     * to avoid too much repainting
+     * @private
+     */
     _batchPaint() {
         this._batchStylesBusy = true;
 
