@@ -203,6 +203,7 @@ class ModuleLauncher {
      * @private
      */
     _addAsSleeper(elements, signature) {
+
         elements.forEach((element) => {
             if(!(element instanceof Element)) {
                 return;
@@ -230,12 +231,12 @@ class ModuleLauncher {
         this._eachModule(async (signature) => {
             for(let i = 0, l = this._modules.length; i < l; i++) {
 
-                const element = (typeof node.matches === 'function')
+                const elementMatches = (typeof node.matches === 'function')
                     ? node.matches(signature.selector)
-                    : null;
+                    : false;
 
-                if(element) {
-                    this._addAsSleeper([element], signature);
+                if(elementMatches) {
+                    this._addAsSleeper([node], signature);
                 }
 
             }
