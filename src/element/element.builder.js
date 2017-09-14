@@ -162,7 +162,7 @@ class ElementBuilder {
      * @private
      */
     _getTemplateElementClassic(template, data) {
-        const templateElement = document.createElement('div');
+        const templateElement = document.createDocumentFragment();
 
         templateElement.innerHTML = (
             this._templateEngine &&
@@ -172,7 +172,7 @@ class ElementBuilder {
             ? this._templateEngine.render(template, data)
             : template;
 
-        return templateElement.firstChild;
+        return templateElement;
     }
 
     /**

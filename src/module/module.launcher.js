@@ -194,7 +194,7 @@ class ModuleLauncher {
                 this._sleepersMap.set(element, signature);
                 this._intersectionObserver.observe(element);
             } else {
-                this._bindController(elements, signature);
+                this._bindController(element, signature);
             }
         });
     }
