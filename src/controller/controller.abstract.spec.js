@@ -2,14 +2,29 @@ import { ControllerAbstract } from './controller.abstract';
 
 describe('ControllerAbstract', () => {
 
+    const elementReadyClass = 'elementReadyClass';
     const element = document.createElement('div');
     const data = {};
-    const elements = [];
+    const dependencies = {
+        inject: () => null,
+    };
+
+    const elements = {
+        getElementReadyClass: () => elementReadyClass,
+    };
 
     const CA = new ControllerAbstract(
         element,
         data,
-        elements
+        elements,
+        dependencies,
+    );
+
+    const CANoERClass = new ControllerAbstract(
+        element,
+        data,
+        {},
+        null,
     );
 
     it('should exist', () => {

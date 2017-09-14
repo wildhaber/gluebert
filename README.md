@@ -7,7 +7,7 @@
 [![npm](https://img.shields.io/npm/dm/gluebert.svg?maxAge=2592000)](https://www.npmjs.com/package/gluebert)
 
 # gluebert.js === lazy load *
-gluebert.js is a tiny (~4kb/gzip) helper lazy loading DOM elements, StyleSheets and JavaScript files using dynamic import and code splitting.
+gluebert.js is a helper lazy loading DOM elements, StyleSheets and JavaScript files using dynamic import and code splitting.
 
 ## tl;dr
 
@@ -153,8 +153,8 @@ class LazyImgController extends ControllerAbstract {
      * @param {DataObserver} data
      * @param {ElementBuilder} elements
      */
-    constructor(element = null, data, elements) {
-        super(element, data, elements);
+    constructor(element = null, data, elements, dependencies) {
+        super(element, data, elements, dependencies);
         
         this._src = (typeof element.dataset.src === 'string')
             ? element.dataset.src

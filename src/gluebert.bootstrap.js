@@ -30,7 +30,6 @@ class Gluebert {
         this._data = (data instanceof Array) ? data : null;
         this._schemaValidator = null;
         this._templateEngine = null;
-
     }
 
     start() {
@@ -52,8 +51,14 @@ class Gluebert {
         );
 
         this.dataObserver = new DataObserver();
+
         this.dataManager = new DataManager(this.dataObserver, this._data);
-        this.moduleLauncher = new ModuleLauncher(this._modules, this.dataObserver, this.elementBuilder);
+
+        this.moduleLauncher = new ModuleLauncher(
+            this._modules,
+            this.dataObserver,
+            this.elementBuilder,
+        );
     }
 
     /**

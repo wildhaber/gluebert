@@ -2,7 +2,7 @@
 title = "Installation"
 description = "Installation and Setup-Guide"
 
-weight = 2
+weight = 20
 type = "documentation"
 +++
 

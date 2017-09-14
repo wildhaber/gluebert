@@ -11,11 +11,11 @@ class ProcessIllustrationController extends ControllerAbstract {
      * @param {HTMLElement} element
      * @param {DataObserver} data
      * @param {ElementBuilder} elements
+     * @param {DependencyManager} dependencies
      */
-    constructor(element = null, data, elements) {
-        super(element, data, elements);
+    constructor(element = null, data, elements, dependencies) {
+        super(element, data, elements, dependencies);
 
-        this._anime = null;
         this._pageElement = this._element.querySelector('.page');
         this._networkElement = this._element.querySelector('.network-payload');
         this._modulesElement = this._element.querySelector('.gluebert-modules');
@@ -25,19 +25,12 @@ class ProcessIllustrationController extends ControllerAbstract {
 
     }
 
-    async _loadDependencies() {
-        this._anime = await import('animejs');
-    }
-
     _init() {
-        this._loadDependencies()
-            .then(() => {
-                this._animate();
-            });
+        this._animate();
     }
 
     _animate() {
-        this._animation = this._anime.timeline()
+        this._animation = this.$anime.timeline()
             .add({
                 targets: this._pageElement,
                 translateY: 0,

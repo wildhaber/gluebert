@@ -320,7 +320,8 @@ describe('ElementBuilder', () => {
     describe(`#create()`, () => {
 
         const EB2 = new ElementBuilder();
-        EB2.addElement('element.name', () => true, 'template', (module) => {});
+        EB2.addElement('element.name', () => true, 'template', (module) => {
+        });
         EB2._signatures['brand.new.element'] = new ElementSignature('brand.new.element');
 
         it(`should return an element instance or null if element does not exist`, () => {
@@ -331,6 +332,56 @@ describe('ElementBuilder', () => {
             expect(EB2.create('brand.new.element') instanceof Promise).toBe(true);
 
             expect(EB2.create('inexisting element') instanceof Promise).toBe(true);
+        });
+
+    });
+
+    describe('#_getTemplateElementClassic()', () => {
+
+        const renderedElement = document.createElement('div');
+        renderedElement.innerHTML = '<div></div>';
+
+        const templateEngine = {
+            render: (i) => renderedElement,
+        };
+
+        const EBWithTemplate = new ElementBuilder([], templateEngine);
+
+        it('should render a template', () => {
+            expect(EBWithTemplate._getTemplateElementClassic('<template>', {}) instanceof Node).toBe(true);
+        });
+
+    });
+
+    describe('#_getOptions()', () => {
+
+        const options = {
+            my: 'option',
+        };
+
+        const EBWithOptions = new ElementBuilder([], null, null, options);
+
+        it('should return given options', () => {
+            expect(EBWithOptions.getOptions()).toEqual(options);
+        });
+
+    });
+
+    describe('#getElementReadyClass()', () => {
+
+        const options = {
+            elementReadyClass: 'readyClass',
+        };
+
+        const EBWithOptions = new ElementBuilder([], null, null, options);
+        const EBNoOptions = new ElementBuilder();
+
+        it('should return given options', () => {
+            expect(EBWithOptions.getElementReadyClass()).toBe(options.elementReadyClass);
+        });
+
+        it('should return null if no options defined', () => {
+            expect(EBNoOptions.getElementReadyClass()).toBe(null);
         });
 
     });

@@ -1,7 +1,7 @@
 +++
 title = "Gluebert"
 description = "new Gluebert() instance"
-weight = 3
+weight = 30
 
 type = "documentation"
 +++

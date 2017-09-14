@@ -1,3 +1,5 @@
+import { DependencyManager } from './module.dependency';
+
 /**
  * Class representing ModuleSignature
  */
@@ -25,6 +27,9 @@ class ModuleSignature {
         this.importController = null;
         this.importStyles = null;
         this.elements = new Set();
+
+        this.dependencyManager = new DependencyManager();
+
     }
 
     /**
@@ -115,6 +120,18 @@ class ModuleSignature {
     getElementSignatures() {
         return this.elements;
     }
+
+    /**
+     * add dependencies
+     * @param {string} key
+     * @param {function} module
+     * @return {ModuleSignature}
+     */
+    addDependency(key, module) {
+        this.dependencyManager.add(key, module);
+        return this;
+    }
+
 
 }
 

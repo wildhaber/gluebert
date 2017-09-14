@@ -1,7 +1,7 @@
 +++
 title = "Module"
 description = "ModuleSignatures"
-weight = 4
+weight = 40
 
 type = "documentation"
 +++
@@ -76,6 +76,7 @@ A gluebert instance exposes the following methods:
 | getSelector | get the defined selector |
 | setImportController | Set import loader callback to import the matching controller  |
 | getImportController | get the defined import controller callback |
+| addDependency | adds a [Dependency](/getting-started/dependency-management) for your controller |
 | setImportStyles | Set import loader callback to import the matching stylesheet |
 | getImportStyles | get the defined import styles callback |
 | addElementSignature | adds an [ElementSignature](/getting-started/elements) for your custom elements |
@@ -114,6 +115,25 @@ MODULE.setImportController(
     () => import('./sample-module.controller')
         .then((controller) => controller.SampleModuleController)
 );
+```
+
+### .addDependency()
+
+Add dependencies to your controller and let them automatically inject.
+
+Example:
+
+```javascript
+import { ModuleSignature } from 'gluebert/module';
+
+const MODULE = new ModuleSignature(`my-module`, `.c-module`)
+    .setImportController(() => import('./my-module.controller').then((controller) => controller.MyModuleController))
+
+    // Add 2 Dependencies and let them inject automatically
+    // In your controller you then can use them with this.$anime or this.$localDep
+    // we recommend prefixing your dependencies, to avoid naming collitions
+    .addDependency('$anime', () => import('animejs'))
+    .addDependency('$localDep', () => import('./localdep').then((dep) => dep.MyDependency));
 ```
 
 ### .getImportController()

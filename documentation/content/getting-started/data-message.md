@@ -1,7 +1,7 @@
 +++
 title = "Data Messages"
 description = "Sending and receiving data messages"
-weight = 9
+weight = 90
 
 type = "documentation"
 +++
