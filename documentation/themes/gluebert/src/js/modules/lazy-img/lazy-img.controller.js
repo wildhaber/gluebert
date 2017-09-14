@@ -24,7 +24,8 @@ class LazyImgController extends ControllerAbstract {
     }
 
     _lazyLoad() {
-        this._element.setAttribute('src', this._src);
+        this._element.src = this._src;
+
         this._element.addEventListener('load', () => {
             this._element.classList.add('loaded');
         });
