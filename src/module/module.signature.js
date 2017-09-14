@@ -132,13 +132,6 @@ class ModuleSignature {
         return this;
     }
 
-    /**
-     * get dependencies
-     * @return {Set} - set of dependencies
-     */
-    getDependencies() {
-        return this.dependencies;
-    }
 
 }
 

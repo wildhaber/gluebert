@@ -154,7 +154,7 @@ describe(`DependencyManager`, () => {
 
         it('should throw an error if a dependency key is called the same way as a local property', () => {
 
-            expect(() => { DMInjectFailing.inject(baseScope3); }).toThrowError();
+            expect(() => DMInjectFailing.inject(baseScope3)).toThrowError();
 
         });
 
