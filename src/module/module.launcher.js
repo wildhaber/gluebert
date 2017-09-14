@@ -19,7 +19,7 @@ class ModuleLauncher {
         this._observeDomMutation = this._observeDomMutation.bind(this);
         this._observer = new MutationObserver(this._observeDomMutation);
 
-        this._intersectionObserver = ('IntersectionObserver' in window)
+        this._intersectionObserver = (typeof IntersectionObserver === 'function')
             ? new IntersectionObserver(
                 this._wokeUpElements.bind(this),
                 {
