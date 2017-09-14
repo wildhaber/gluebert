@@ -18,19 +18,15 @@ class ModuleLauncher {
 
         this._observeDomMutation = this._observeDomMutation.bind(this);
         this._observer = new MutationObserver(this._observeDomMutation);
-        this._intersectionObserver = (
-            'IntersectionObserver' in window &&
-            'IntersectionObserverEntry' in window
-        )
-            ? new IntersectionObserver(
-                this._wokeUpElements.bind(this),
-                {
-                    root: null,
-                    rootMargin: '0px',
-                    thresholds: [1.0],
-                },
-            )
-            : null;
+
+        this._intersectionObserver = new IntersectionObserver(
+            this._wokeUpElements.bind(this),
+            {
+                root: null,
+                rootMargin: '0px',
+                thresholds: [1.0],
+            },
+        );
 
         this._instanceMap = new Map();
         this._sleepersMap = new Map();
@@ -175,6 +171,13 @@ class ModuleLauncher {
 
     }
 
+    /**
+     * callback when intersection observer
+     * added some entries
+     * @param {array}  entries
+     * @param {Observer} observer
+     * @private
+     */
     _wokeUpElements(entries, observer) {
         entries.filter((entry) => {
             return entry.isIntersecting;
@@ -188,6 +191,13 @@ class ModuleLauncher {
         });
     }
 
+    /**
+     * adding an element when it appears
+     * through mutation observer
+     * @param {array} elements
+     * @param {ModuleSignature} signature
+     * @private
+     */
     _addAsSleeper(elements, signature) {
         elements.forEach((element) => {
             if(this._intersectionObserver) {
@@ -295,6 +305,10 @@ class ModuleLauncher {
                 styleElement.appendChild(
                     document.createTextNode(styles),
                 );
+            }
+
+            if(name === 'icon') {
+                console.log(name, styleElement);
             }
 
             this._batchStyles.push(styleElement);

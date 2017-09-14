@@ -32,9 +32,16 @@ class Gluebert {
         this._templateEngine = null;
     }
 
-    start() {
+    async start() {
+
+        const polyfills = await this._polyfill();
         this._init();
+
         return this;
+    }
+
+    _polyfill() {
+        return import('./polyfills/polyfill.service');
     }
 
     /**
