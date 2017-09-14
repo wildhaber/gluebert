@@ -19,14 +19,16 @@ class ModuleLauncher {
         this._observeDomMutation = this._observeDomMutation.bind(this);
         this._observer = new MutationObserver(this._observeDomMutation);
 
-        this._intersectionObserver = new IntersectionObserver(
-            this._wokeUpElements.bind(this),
-            {
-                root: null,
-                rootMargin: '0px',
-                thresholds: [1.0],
-            },
-        );
+        this._intersectionObserver = ('IntersectionObserver' in window)
+            ? new IntersectionObserver(
+                this._wokeUpElements.bind(this),
+                {
+                    root: null,
+                    rootMargin: '0px',
+                    thresholds: [1.0],
+                },
+            )
+            : null;
 
         this._instanceMap = new Map();
         this._sleepersMap = new Map();

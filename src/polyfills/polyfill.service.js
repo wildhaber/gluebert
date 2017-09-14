@@ -37,4 +37,4 @@ class Polyfill {
 
 export {
     Polyfill,
-}
+};
