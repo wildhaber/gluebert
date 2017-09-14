@@ -5,6 +5,7 @@ module.exports = {
         'jasmine': true,
     },
     'extends': 'eslint:recommended',
+    'parser': 'babel-eslint',
     'parserOptions': {
         'sourceType': 'module',
         'ecmaVersion': 8,

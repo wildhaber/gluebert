@@ -22,6 +22,12 @@ img {
     height: auto;
 }
 
+.observe {
+    // helper class because of safari bug getting intersection only when at least 1x1px
+    width: 1px;
+    height: 1px;
+}
+
 /*
  * Let's target IE to respect aspect ratios and sizes for img tags containing SVG files
  *

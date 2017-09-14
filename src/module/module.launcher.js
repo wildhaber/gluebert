@@ -33,6 +33,7 @@ class ModuleLauncher {
         this._stylesLoaded = new Set();
         this._batchStyles = [];
         this._batchStylesBusy = false;
+        this._lockedNodeSet = new Set();
 
         if(modules.length) {
             this._init();
@@ -133,6 +134,10 @@ class ModuleLauncher {
      */
     async _bindController(element, signature) {
 
+        if(signature.name === 'icon') {
+            console.log(signature.name);
+        }
+
         if(element) {
 
             const controller = (typeof signature.importController === 'function')
@@ -160,6 +165,10 @@ class ModuleLauncher {
                 }
             }
 
+            if(signature.name === 'icon') {
+                console.log(signature.name, signature.importStyles);
+            }
+
             if(
                 !this._stylesLoaded.has(signature.name) &&
                 typeof signature.importStyles === 'function'
@@ -180,11 +189,17 @@ class ModuleLauncher {
      */
     _wokeUpElements(entries, observer) {
         entries.filter((entry) => {
+            if(entry.isIntersecting === false) {
+                console.log(entry);
+            }
             return entry.isIntersecting;
         }).forEach((entry) => {
+
             if(this._sleepersMap.has(entry.target)) {
                 let signature = this._sleepersMap.get(entry.target);
+
                 this._bindController(entry.target, signature);
+
                 this._sleepersMap.delete(entry.target);
             }
             observer.unobserve(entry.target);
@@ -200,6 +215,10 @@ class ModuleLauncher {
      */
     _addAsSleeper(elements, signature) {
         elements.forEach((element) => {
+            if(!(element instanceof Element)) {
+                return;
+            }
+
             if(this._intersectionObserver) {
                 this._sleepersMap.set(element, signature);
                 this._intersectionObserver.observe(element);
@@ -207,6 +226,7 @@ class ModuleLauncher {
                 this._bindController(element, signature);
             }
         });
+        return this;
     }
 
     /**
@@ -216,18 +236,18 @@ class ModuleLauncher {
      * @private
      */
     async _launchMatchingElements(node) {
+        this._lockedNodeSet.add(node);
+
         this._eachModule(async (signature) => {
             for(let i = 0, l = this._modules.length; i < l; i++) {
-                let elements = Array.from(node.querySelectorAll(signature.selector));
-                const matchingRootElement = (typeof node.matches === 'function')
+
+                const element = (typeof node.matches === 'function')
                     ? node.matches(signature.selector)
                     : null;
 
-                if(matchingRootElement) {
-                    elements = [node];
+                if(element) {
+                    this._addAsSleeper([element], signature);
                 }
-
-                this._addAsSleeper(elements, signature);
 
             }
         });
@@ -243,7 +263,9 @@ class ModuleLauncher {
         this._eachModule(
             async (signature) => {
                 const elements = Array.from(document.querySelectorAll(signature.selector));
-                this._addAsSleeper(elements, signature);
+                if(elements.length) {
+                    this._addAsSleeper(elements, signature);
+                }
             },
         );
 
@@ -263,18 +285,20 @@ class ModuleLauncher {
      * @private
      */
     _observeDomMutation(mutations) {
-
         for(let i = 0, l = mutations.length; i < l; i++) {
             const mutation = mutations[i];
 
             switch (mutation.type) {
                 case 'childList':
-                    this._eachElement(mutation.addedNodes, (node) => {
-                        this._launchMatchingElements(node);
-                    });
-                    this._eachElement(mutation.removedNodes, (node) => {
-                        this.removedElement(node);
-                    });
+
+                    Array.from(new Set(mutation.addedNodes))
+                        .filter((node) => !this._lockedNodeSet.has(node) && typeof node.querySelectorAll === 'function')
+                        .forEach((node) => this._launchMatchingElements(node));
+
+                    Array.from(new Set(mutation.removedNodes))
+                        .filter((node) => typeof node.querySelectorAll === 'function')
+                        .forEach((node) => this.removedElement(node));
+
                     break;
                 default:
                     throw new Error(`Unsupported Mutation Type ${mutation.type}`);

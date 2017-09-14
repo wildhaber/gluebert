@@ -2,6 +2,7 @@ import { ModuleLauncher } from './module/module.launcher';
 import { DataObserver } from './data/data.observer';
 import { DataManager } from './data/data.manager';
 import { ElementBuilder } from './element/element.builder';
+import { Polyfill } from './polyfills/polyfill.service';
 
 const DEFAULT_OPTIONS = {
     elementReadyClass: `gb-ready`,
@@ -30,16 +31,16 @@ class Gluebert {
         this._data = (data instanceof Array) ? data : null;
         this._schemaValidator = null;
         this._templateEngine = null;
+        this._polyfillService = new Polyfill();
     }
 
-    async start() {
-        await this._polyfill();
-        this._init();
+    start() {
+        this._polyfillService
+            .fill()
+            .then(() => {
+                this._init();
+            });
         return this;
-    }
-
-    _polyfill() {
-        return import('./polyfills/polyfill.service');
     }
 
     /**

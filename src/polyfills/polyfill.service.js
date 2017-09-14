@@ -1,15 +1,40 @@
-/**
- * This part definitively needs to be rethought, but it works for now.
- */
+class Polyfill {
 
-import IntersectionObserverPolyfill from 'polyfill-service/polyfills/IntersectionObserver/polyfill';
-import IntersectionObserverEntryPolyfill from 'polyfill-service/polyfills/IntersectionObserverEntry/polyfill';
-import MutationObserverPolyfill from 'polyfill-service/polyfills/MutationObserver/polyfill';
-import DocumentFragment from 'polyfill-service/polyfills/DocumentFragment/polyfill';
+    constructor() {
+
+    }
+
+    async fill() {
+        return await Promise.all([
+            this._documentFragment(),
+            this._intersectionObserver(),
+        ]);
+    }
+
+    async _documentFragment() {
+        if(
+            'DocumentFragment' in window &&
+            window.DocumentFragment === document.createDocumentFragment().constructor
+        ) {
+            return true;
+        } else {
+            return await import('./polyfill.document-fragment');
+        }
+    }
+
+    async _intersectionObserver() {
+        if(
+            'IntersectionObserver' in window &&
+            'IntersectionObserverEntry' in window
+        ) {
+            return true;
+        } else {
+            return await import('./polyfill.intersection-observer');
+        }
+    }
+
+}
 
 export {
-    IntersectionObserverPolyfill,
-    IntersectionObserverEntryPolyfill,
-    MutationObserverPolyfill,
-    DocumentFragment,
-};
+    Polyfill,
+}
