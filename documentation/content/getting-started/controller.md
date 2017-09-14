@@ -1,7 +1,7 @@
 +++
 title = "Controller"
 description = "Control the DOM element"
-weight = 5
+weight = 50
 
 type = "documentation"
 +++
@@ -22,8 +22,8 @@ import { ControllerAbstract } from 'gluebert/controller';
 
 class YourController extends ControllerAbstract {
 
-    constructor(element = null, data, elements) {
-        super(element, data, elements); // important
+    constructor(element = null, data, elements, dependencies) {
+        super(element, data, elements, dependencies); // important
         
         /**
         
@@ -38,6 +38,9 @@ class YourController extends ControllerAbstract {
         
         // ElementBuilder instance where you can create on the fly elements available
         this._elements;
+        
+        // Dependencies are available through
+        this.<given-key-of-the-dependency>
         
         */
     }
@@ -102,8 +105,8 @@ class LazyImgController extends ControllerAbstract {
      * @param {DataObserver} data
      * @param {ElementBuilder} elements
      */
-    constructor(element = null, data, elements) {
-        super(element, data, elements);
+    constructor(element = null, data, elements, dependencies) {
+        super(element, data, elements, dependencies);
         this._src = (typeof element.dataset.src === 'string')
             ? element.dataset.src
             : null;
@@ -149,8 +152,8 @@ class BallMachineController extends ControllerAbstract {
      * @param {DataObserver} data
      * @param {ElementBuilder} elements
      */
-    constructor(element = null, data, elements) {
-        super(element, data, elements);
+    constructor(element = null, data, elements, dependencies) {
+        super(element, data, elements, dependencies);
 
         this._maxBallSize = 42;
         this._ballsLimit = 10;

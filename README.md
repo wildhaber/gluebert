@@ -153,8 +153,8 @@ class LazyImgController extends ControllerAbstract {
      * @param {DataObserver} data
      * @param {ElementBuilder} elements
      */
-    constructor(element = null, data, elements) {
-        super(element, data, elements);
+    constructor(element = null, data, elements, dependencies) {
+        super(element, data, elements, dependencies);
         
         this._src = (typeof element.dataset.src === 'string')
             ? element.dataset.src

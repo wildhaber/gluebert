@@ -1,7 +1,7 @@
 +++
 title = "Performance"
 description = "Do's and don'ts "
-weight = 10
+weight = 100
 
 type = "documentation"
 +++
