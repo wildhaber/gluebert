@@ -1,9 +1,9 @@
 {
   "name": "gluebert",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "gluebert.js is a tiny helper orchestrating interactive html elements with on demand dynamic import Edit",
   "scripts": {
-    "test": "npm run lint && npm run test:karma && npm run test:e2e",
+    "test": "npm run lint && npm run test:karma",
     "test:master": "npm run test && npm run test:e2e:saucelabs",
     "test:karma": "./node_modules/karma/bin/karma start karma.conf.js --single-run",
     "test:karma:watch": "./node_modules/karma/bin/karma start karma.conf.js",
@@ -28,6 +28,7 @@
   },
   "main": "./dist/gluebert.js",
   "dependencies": {
+    "polyfill-service": "^3.21.0",
     "rxjs": "^5.4.3"
   },
   "repository": {

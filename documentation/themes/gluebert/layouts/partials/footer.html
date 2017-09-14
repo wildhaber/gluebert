@@ -1,25 +1,27 @@
+<script src="/app.js" async></script>
+
 <script>
-
-    var appElement = document.createElement('script');
-    appElement.src = '/app.js';
-
-    var scriptElement = document.createElement('script');
-
-    if('MutationObserver' in window
-        && 'content' in document.createElement('template')) {
-        document.body.appendChild(appElement);
-    } else {
-        window.addEventListener('load', function() {
-            scriptElement.src = 'https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.10/webcomponents-loader.js';
-            document.body.appendChild(scriptElement);
-        });
-    }
-
-    window.addEventListener('WebComponentsReady', function() {
-        document.body.appendChild(appElement);
-    });
+    //    var appElement = document.createElement('script');
+    //    appElement.src = '/app.js';
+    //
+    //    var scriptElement = document.createElement('script');
+    //
+    //    if('MutationObserver' in window
+    //        && 'content' in document.createElement('template')) {
+    //        document.body.appendChild(appElement);
+    //    } else {
+    //        window.addEventListener('load', function() {
+    //            scriptElement.src = 'https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.0.10/webcomponents-loader.js';
+    //            document.body.appendChild(scriptElement);
+    //        });
+    //    }
+    //
+    //    window.addEventListener('WebComponentsReady', function() {
+    //        document.body.appendChild(appElement);
+    //    });
 
 </script>
+
 
 <script>
     (function(i, s, o, g, r, a, m) {

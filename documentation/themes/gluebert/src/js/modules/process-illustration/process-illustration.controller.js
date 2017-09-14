@@ -37,6 +37,7 @@ class ProcessIllustrationController extends ControllerAbstract {
                 delay: 400,
                 duration: 400,
                 elasticity: 0,
+                round: 1,
             })
             .add({
                 targets: this._pageElement,
@@ -44,6 +45,7 @@ class ProcessIllustrationController extends ControllerAbstract {
                 delay: 1000,
                 duration: 10000,
                 elasticity: 0,
+                round: 1,
             })
             .add({
                 targets: this._pageElement,
@@ -51,6 +53,7 @@ class ProcessIllustrationController extends ControllerAbstract {
                 delay: 0,
                 duration: 4000,
                 elasticity: 0,
+                round: 1,
             });
 
         this._activationTimeline();

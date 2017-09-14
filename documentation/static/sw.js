@@ -1,4 +1,4 @@
-const CACHE_VERSION = 1;
+const CACHE_VERSION = '0.0.11';
 
 const BASE_CACHE_FILES = [
     '/app.js',

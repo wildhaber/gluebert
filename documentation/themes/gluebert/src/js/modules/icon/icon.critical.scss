@@ -1,8 +1,9 @@
 .c-icon {
+    display: inline-block;
     speak: none;
     white-space: nowrap;
     line-height: 1;
-    width: 1em;
-    height: 1em;
+    min-width: 10px;
+    min-height: 10px;
     font-size: inherit;
 }

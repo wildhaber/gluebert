@@ -2,7 +2,7 @@ import { ModuleLauncher } from './module.launcher';
 import { DataObserver } from '../data/data.observer';
 import { ElementBuilder } from '../element/element.builder';
 import { ModuleSignature } from './module.signature';
-import { DependencyManager } from './module.dependency';
+import { PolyfillService } from './../polyfills/polyfill.service';
 
 describe(`ModuleLauncher`, () => {
 
