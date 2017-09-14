@@ -134,10 +134,6 @@ class ModuleLauncher {
      */
     async _bindController(element, signature) {
 
-        if(signature.name === 'icon') {
-            console.log(signature.name);
-        }
-
         if(element) {
 
             const controller = (typeof signature.importController === 'function')
@@ -165,10 +161,6 @@ class ModuleLauncher {
                 }
             }
 
-            if(signature.name === 'icon') {
-                console.log(signature.name, signature.importStyles);
-            }
-
             if(
                 !this._stylesLoaded.has(signature.name) &&
                 typeof signature.importStyles === 'function'
@@ -189,9 +181,6 @@ class ModuleLauncher {
      */
     _wokeUpElements(entries, observer) {
         entries.filter((entry) => {
-            if(entry.isIntersecting === false) {
-                console.log(entry);
-            }
             return entry.isIntersecting;
         }).forEach((entry) => {
 
