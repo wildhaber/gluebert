@@ -33,10 +33,8 @@ class Gluebert {
     }
 
     async start() {
-
-        const polyfills = await this._polyfill();
+        await this._polyfill();
         this._init();
-
         return this;
     }
 

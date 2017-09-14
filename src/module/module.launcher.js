@@ -307,10 +307,6 @@ class ModuleLauncher {
                 );
             }
 
-            if(name === 'icon') {
-                console.log(name, styleElement);
-            }
-
             this._batchStyles.push(styleElement);
 
             if(!this._batchStylesBusy) {
