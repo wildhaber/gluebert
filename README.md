@@ -305,7 +305,7 @@ In the main `src/`-folder are all necessary files that runs gluebert. You can ru
 
 To have an environment ready where everything is prepared, you can explore the content under `documentation`, its the actual website that is rendered from this folder. Running and building the documentation needs to have hugo installed. Hugo is a static site generator that runs with go. You can install it by brew:
 
-```
+```bash
 brew install hugo
 ```
 
@@ -317,7 +317,7 @@ in a separate terminal window you can head to `documentation/` and run `hugo ser
 
 In a short (expecting you have installed hugo already):
 
-```
+```bash
 # install dependencies
 # cd gluebert/
 npm install
