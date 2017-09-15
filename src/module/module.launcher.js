@@ -211,7 +211,10 @@ class ModuleLauncher {
                 return;
             }
 
-            if(this._intersectionObserver) {
+            if(
+                this._intersectionObserver &&
+                signature.isLazy
+            ) {
                 this._sleepersMap.set(element, signature);
                 this._intersectionObserver.observe(element);
             } else {

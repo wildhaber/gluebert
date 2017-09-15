@@ -151,4 +151,19 @@ describe('ModuleSignature', () => {
 
     });
 
+    describe('#disableLazy()', () => {
+
+        const lazyDisabled = new ModuleSignature('signature.element');
+        const lazyEnabled = new ModuleSignature('signature.element.2');
+
+        it('should set a is lazy flag to false', () => {
+
+            lazyDisabled.disableLazy();
+
+            expect(lazyDisabled.isLazy).toBe(false);
+            expect(lazyEnabled.isLazy).toBe(true);
+        });
+
+    });
+
 });

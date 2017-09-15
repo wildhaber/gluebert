@@ -27,6 +27,7 @@ class ModuleSignature {
         this.importController = null;
         this.importStyles = null;
         this.elements = new Set();
+        this.isLazy = true;
 
         this.dependencyManager = new DependencyManager();
 
@@ -132,6 +133,17 @@ class ModuleSignature {
         return this;
     }
 
+    /**
+     * loads this module at the start
+     * and does not wait until the intersection
+     * observer found the element
+     *
+     * @return {ModuleSignature}
+     */
+    disableLazy() {
+        this.isLazy = false;
+        return this;
+    }
 
 }
 
