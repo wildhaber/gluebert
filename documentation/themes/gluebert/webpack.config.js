@@ -5,6 +5,8 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const workboxPlugin = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const ENTRY_POINTS = {
     critical: [
@@ -16,13 +18,15 @@ const ENTRY_POINTS = {
     ],
 };
 
-module.exports = {
+const OUTPUT_DIR = 'static';
+
+const config = {
     entry: ENTRY_POINTS,
     module: {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /(node_modules|bower_components|workbox)/,
                 use: {
                     loader: 'babel-loader',
                 },
@@ -84,7 +88,11 @@ module.exports = {
         ],
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({ mangle: true }),
+        new webpack.optimize.UglifyJsPlugin({
+            exclude: /workbox/,
+            mangle: true,
+            sourceMap: (process.env.BUILD === 'dev'),
+        }),
         new ExtractTextPlugin({
             filename: '[name].css',
             allChunks: true,
@@ -96,20 +104,37 @@ module.exports = {
             threshold: 0,
             minRatio: 0.8,
         }),
+        new CopyWebpackPlugin([{
+            from: './src/workbox.js',
+        }]),
+        new workboxPlugin({
+            globDirectory: OUTPUT_DIR,
+            globPatterns: ['**/*.{html,js,css,ttf,woff,woff2,svg,eot}'],
+            swSrc: './src/sw.js',
+            swDest: path.join(OUTPUT_DIR, 'sw.js'),
+        }),
     ],
     resolve: {
-        alias: {
-            // Enable this alias for local development.
-            // aditional, please run npm run build:watch
-            // on the root folder to build the dist/ packages
-
-            gluebert: path.resolve(__dirname, './../../../'),
-        },
+        alias: {},
     },
     output: {
         filename: '[name].js',
         chunkFilename: '[name].[chunkhash].js',
-        path: path.resolve(__dirname, './static/'),
+        path: path.resolve(__dirname, OUTPUT_DIR),
         publicPath: '/',
     },
 };
+
+if(process.env.BUILD === 'dev') {
+
+    // Enable this alias for local development.
+    // aditional, please run npm run build:watch
+    // on the root folder to build the dist/ packages
+    config.resolve.alias.gluebert = path.resolve(__dirname, './../../../');
+
+    // Enable source maps for development
+    config.devtool = 'source-map';
+
+}
+
+module.exports = config;

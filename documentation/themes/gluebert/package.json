@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf ./static/ && ./node_modules/.bin/webpack --config webpack.config.js",
-    "build:watch": "./node_modules/.bin/webpack --config webpack.config.js --watch"
+    "build": "export BUILD=prod && rm -rf ./static/ && ./node_modules/.bin/webpack --config webpack.config.js",
+    "build:dev": "export BUILD=dev && rm -rf ./static/ && ./node_modules/.bin/webpack --config webpack.config.js",
+    "build:watch": "export BUILD=dev && ./node_modules/.bin/webpack --config webpack.config.js --watch"
   },
   "author": "Raphael Wildhaber",
   "license": "MIT",
@@ -20,6 +21,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
     "compression-webpack-plugin": "^1.0.0",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
@@ -27,7 +29,9 @@
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.6",
     "sass-loader": "^6.0.6",
-    "webpack": "^3.5.6"
+    "webpack": "^3.5.6",
+    "workbox-sw": "^2.0.1",
+    "workbox-webpack-plugin": "^2.0.1"
   },
   "dependencies": {
     "animejs": "^2.0.2",
