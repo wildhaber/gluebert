@@ -3,10 +3,10 @@
 {{ partial "components/jumbolino.html" (dict "context" . "headline" .Title "text" .Description) }}
 
 <main class="c-grid c-grid--align-top">
-    <aside class="c-grid__col--3">
+    <aside class="c-grid__col--3 c-grid__col__sm--12">
         {{ partial "components/sidenav.html" (dict "context" .) }}
     </aside>
-    <div class="c-grid__col--9">
+    <div class="c-grid__col--9 c-grid__col__sm--12">
         <div class="c-content">
             {{ .Content }}
         </div>

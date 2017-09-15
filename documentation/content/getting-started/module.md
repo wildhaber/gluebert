@@ -81,6 +81,7 @@ A gluebert instance exposes the following methods:
 | getImportStyles | get the defined import styles callback |
 | addElementSignature | adds an [ElementSignature](/getting-started/elements) for your custom elements |
 | getElementSignatures | gets a list of registered [ElementSignatures](/getting-started/elements) |
+| disableLazy | disables lazy loading of this particular module and loads the module at start |
 
 ### .setSelector()
 
@@ -187,6 +188,10 @@ MODULE.addElementSignature(SECOND_ELEMENT); // you can add multiple elements :-)
 ### .getElementSignatures()
 
 Returns a list of [ElementSignatures](/getting-started/elements) added.
+
+### .disableLazy()
+
+Disables lazy loading of this particular module. Loads it at the start and does not wait until element is intersected.
 
 ---
 

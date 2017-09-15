@@ -5,7 +5,8 @@ import { ModuleSignature } from 'gluebert/module';
  * @type {ModuleSignature}
  */
 const ICON_MODULE = new ModuleSignature(`icon`, `.c-icon`)
-    .setImportStyles(() => import('./icon.styles.scss'));
+    .setImportStyles(() => import('./icon.styles.scss'))
+    .disableLazy();
 
 export {
     ICON_MODULE,
