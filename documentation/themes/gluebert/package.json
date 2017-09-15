@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "animejs": "^2.0.2",
-    "gluebert": "0.0.12",
+    "gluebert": "0.0.13",
     "prismjs": "^1.7.0",
     "twig": "^1.10.5"
   }
