@@ -103,7 +103,7 @@ module.exports = {
             // aditional, please run npm run build:watch
             // on the root folder to build the dist/ packages
 
-            // gluebert: path.resolve(__dirname, './../../../'),
+            gluebert: path.resolve(__dirname, './../../../'),
         },
     },
     output: {

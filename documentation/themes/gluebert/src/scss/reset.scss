@@ -24,8 +24,8 @@ img {
 
 .observe {
     // helper class because of safari bug getting intersection only when at least 1x1px
-    min-width: 1px;
-    min-height: 1px;
+    width: 1px;
+    height: 1px;
 }
 
 /*
