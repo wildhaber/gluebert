@@ -7,6 +7,7 @@
     display: flex;
     flex-wrap: nowrap;
     border-bottom: 1px solid $color-light-semi;
+    white-space: nowrap;
 
     a {
         color: rgba($color-light, 0.8);
@@ -14,6 +15,7 @@
         padding: $gutter-default;
         display: block;
         text-decoration: none;
+        white-space: nowrap;
 
         &:hover {
             color: $color-light;
