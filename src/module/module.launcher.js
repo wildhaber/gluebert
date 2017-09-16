@@ -182,10 +182,12 @@ class ModuleLauncher {
      * @private
      */
     _wokeUpElements(entries, observer) {
-        entries.filter((entry) => {
-            return entry.isIntersecting;
-        }).forEach((entry) => {
 
+        entries.filter((entry) => {
+            return (typeof entry.isIntersecting === 'boolean')
+                ? entry.isIntersecting
+                : (entry.intersectionRatio > 0); // IE Edge Fallback (https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12156111/)
+        }).forEach((entry) => {
             if(this._sleepersMap.has(entry.target)) {
                 let signature = this._sleepersMap.get(entry.target);
 
