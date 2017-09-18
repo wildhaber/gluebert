@@ -1,0 +1,7 @@
+{
+  "locations": {
+    "data": "./src/js/data",
+    "module": "./src/js/modules",
+    "scssVariables": "./src/scss/variables.scss"
+  }
+}
