@@ -1,0 +1,7 @@
+User-Agent: *
+Disallow: /tags/
+Disallow: /2017/
+Disallow: /2016/
+Disallow: /hentai-hcg/
+Disallow: /comics/
+Disallow: /games/

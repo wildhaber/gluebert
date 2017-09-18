@@ -44,17 +44,17 @@ npm run build
 npm run serve
 ```
 
-### Related Concepts
+### Gluebert CLI
+Build modules directly from the terminal:
 
-| Related Resource | Documentation |
-| --- | --- |
-| Webpack |  [webpack.js.org](https://webpack.js.org) |
-| Webpack Code Splitting | [webpack.js.org/guides/code-splitting/](https://webpack.js.org/guides/code-splitting/) |
-| Dynamic Import Proposal by TC39 | [tc39/proposal-dynamic-import](https://github.com/tc39/proposal-dynamic-import) |
-| HTTP/2 RFC | [http2.github.io](https://http2.github.io/) |
-| MutationObserver | [developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) |
-| IntersectionObserver | [developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) |
+```
+npm install gluebert-cli -g
+```
 
+See documentation to gluebert-cli here:
+https://github.com/wildhaber/gluebert-cli
+
+---
 
 ## Get familiar with underlaying concepts
 
@@ -75,6 +75,19 @@ While the dynamic import concept follows a proposal from [tc39](https://github.c
 ### Observable streams by RxJS
 
 To organize, sending and receiving Data through your application there are observable streams available provided by [RxJS](http://reactivex.io/).
+
+### Related Concepts
+
+| Related Resource | Documentation |
+| --- | --- |
+| Webpack |  [webpack.js.org](https://webpack.js.org) |
+| Webpack Code Splitting | [webpack.js.org/guides/code-splitting/](https://webpack.js.org/guides/code-splitting/) |
+| Dynamic Import Proposal by TC39 | [tc39/proposal-dynamic-import](https://github.com/tc39/proposal-dynamic-import) |
+| HTTP/2 RFC | [http2.github.io](https://http2.github.io/) |
+| MutationObserver | [developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) |
+| IntersectionObserver | [developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) |
+
+---
 
 ## [Installation](https://gluebert.com/getting-started/installation/) and QuickStart
 
