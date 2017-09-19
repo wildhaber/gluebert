@@ -138,6 +138,8 @@ class ModuleLauncher {
 
         if(element) {
 
+            this._updateElementState(element, 'sleeping', 'loading');
+
             const controller = (typeof signature.importController === 'function')
                 ? await signature.importController()
                 : null;
@@ -167,7 +169,9 @@ class ModuleLauncher {
                 !this._stylesLoaded.has(signature.name) &&
                 typeof signature.importStyles === 'function'
             ) {
-                this._addStyles(signature.name, signature.importStyles);
+                this._addStyles(element, signature.name, signature.importStyles);
+            } else {
+                this._updateElementState(element, 'loading', 'ready');
             }
 
         }
@@ -217,6 +221,7 @@ class ModuleLauncher {
                 this._intersectionObserver &&
                 signature.isLazy
             ) {
+                this._updateElementState(element, null, 'sleeping');
                 this._sleepersMap.set(element, signature);
                 this._intersectionObserver.observe(element);
             } else {
@@ -310,7 +315,7 @@ class ModuleLauncher {
      * @return {Promise.<ModuleLauncher>}
      * @private
      */
-    async _addStyles(name, importer) {
+    async _addStyles(element, name, importer) {
         this._stylesLoaded.add(name);
 
         if(typeof importer === 'function') {
@@ -333,6 +338,8 @@ class ModuleLauncher {
             if(!this._batchStylesBusy) {
                 this._batchPaint();
             }
+
+            this._updateElementState(element, 'loading', 'ready', 120);
 
         }
 
@@ -366,6 +373,50 @@ class ModuleLauncher {
         }, 100);
     }
 
+
+    _updateElementState(element, from, to, delay = null) {
+
+        const options = this._elementBuilder.getOptions();
+
+        const stateClasses = {
+            SLEEPING: options.elementSleepingClass,
+            LOADING: options.elmentLoadingClass,
+            READY: options.elementReadyClass,
+        };
+
+        const fromClass = (from && typeof stateClasses[from.toUpperCase()] === 'string')
+            ? stateClasses[from.toUpperCase()]
+            : null;
+
+        const toClass = (to && typeof stateClasses[to.toUpperCase()] === 'string')
+            ? stateClasses[to.toUpperCase()]
+            : null;
+
+        if(
+            element &&
+            typeof element.classList !== 'undefined' &&
+            (fromClass || toClass)
+        ) {
+
+            if(!delay) {
+                window.requestAnimationFrame(() => {
+                    if(fromClass) {
+                        element.classList.remove(fromClass);
+                    }
+
+                    if(toClass) {
+                        element.classList.add(toClass);
+                    }
+                });
+            } else {
+                window.setTimeout(() => {
+                    this._updateElementState(element, from, to);
+                }, delay);
+            }
+
+        }
+
+    }
 
 }
 

@@ -72,6 +72,8 @@ You can pass in an options object with the following Keys:
 
 | Key | Description | Type | Default |
 | --- | --- | --- | --- |
+| elementSleepingClass | Class that should be added, when element instance is prepared, but not visible in the viewport | string | gb-ready |
+| elementLoadingClass | Class that should be added, when element instance is loading assets and controllers | string | gb-ready |
 | elementReadyClass | Class that should be added, when element instance has loaded | string | gb-ready |
 
 
@@ -79,6 +81,8 @@ You can pass in an options object with the following Keys:
 import { Gluebert } from 'gluebert';
 
 const OPTIONS = {
+    elementSleepingClass: 'element-is-sleeping',
+    elementLoadingClass: 'element-is-loading',
     elementReadyClass: 'element-is-ready',
 };
 
