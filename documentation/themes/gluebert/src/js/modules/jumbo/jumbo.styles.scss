@@ -6,17 +6,6 @@
     position: relative;
     text-align: center;
 
-    &::after {
-        width: 100%;
-        height: 100%;
-        content: '';
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        background-color: #ffffff;
-        transition: background 2s;
-    }
-
     &--dark {
         color: $color-light;
         background-color: $color-accent;
