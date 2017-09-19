@@ -1,6 +1,6 @@
 {
   "name": "gluebert",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "gluebert.js is a tiny helper orchestrating interactive html elements with on demand dynamic import Edit",
   "scripts": {
     "test": "npm run lint && npm run test:karma",
