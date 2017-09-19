@@ -17,22 +17,6 @@ class ControllerAbstract {
         this._elements = elements;
         this._dependencies = dependencies || null;
 
-        let elementReadyClass = (
-            typeof elements === `object` &&
-            typeof elements.getElementReadyClass === 'function'
-        )
-            ? elements.getElementReadyClass()
-            : null;
-
-        if(
-            elementReadyClass &&
-            this._element &&
-            typeof this._element === 'object' &&
-            typeof this._element.classList !== 'undefined'
-        ) {
-            this._element.classList.add(elementReadyClass);
-        }
-
         if(this._dependencies) {
             this._dependencies.inject(this);
         }

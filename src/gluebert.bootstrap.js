@@ -6,6 +6,8 @@ import { Polyfill } from './polyfills/polyfill.service';
 
 const DEFAULT_OPTIONS = {
     elementReadyClass: `gb-ready`,
+    elementSleepingClass: `gb-sleep`,
+    elementLoadingClass: `gb-loading`,
 };
 
 /**
