@@ -154,12 +154,7 @@ class ModuleLauncher {
         const controller = await this.getControllerFromSignature(signature);
         const dependencies = await signature.dependencyManager.resolve();
 
-        // guard when no controller or dependencies could be loaded
-        if(!controller) {
-            return null;
-        }
-
-        if(!this._instanceMap.has(element)) {
+        if(controller && !this._instanceMap.has(element)) {
             this.bindControllerInstance(element, controller, dependencies);
         }
 
