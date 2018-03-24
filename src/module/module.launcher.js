@@ -336,6 +336,23 @@ class ModuleLauncher {
         }
     }
 
+    createStyleElement(name, styles) {
+        const styleElement = document.createElement('style');
+
+        styleElement.type = 'text/css';
+        styleElement.id = `gluebert-styles-${name}`;
+
+        if(styleElement.styleSheet) {
+            styleElement.styleSheet.cssText = styles;
+        } else {
+            styleElement.appendChild(
+                document.createTextNode(styles),
+            );
+        }
+
+        return styleElement;
+    }
+
     /**
      * extract and add stylesheet
      * @param {string} name
@@ -346,30 +363,20 @@ class ModuleLauncher {
     async _addStyles(element, name, importer) {
         this._stylesLoaded.add(name);
 
-        if(typeof importer === 'function') {
-
-            const styles = await importer();
-            const styleElement = document.createElement('style');
-
-            styleElement.type = 'text/css';
-
-            if(styleElement.styleSheet) {
-                styleElement.styleSheet.cssText = styles;
-            } else {
-                styleElement.appendChild(
-                    document.createTextNode(styles),
-                );
-            }
-
-            this._batchStyles.push(styleElement);
-
-            if(!this._batchStylesBusy) {
-                this._batchPaint();
-            }
-
-            this._updateElementState(element, 'loading', 'ready', 120);
-
+        if(typeof importer !== 'function') {
+            return this;
         }
+
+        const styles = await importer();
+        const styleElement = this.createStyleElement(name, styles);
+
+        this._batchStyles.push(styleElement);
+
+        if(!this._batchStylesBusy) {
+            this._batchPaint();
+        }
+
+        this._updateElementState(element, 'loading', 'ready', 120);
 
         return this;
     }
@@ -435,6 +442,8 @@ class ModuleLauncher {
                 }, delay);
             }
         }
+
+        return this;
     }
 
     _updateElementState(element, from, to, delay = null) {
@@ -451,7 +460,7 @@ class ModuleLauncher {
             toClass = stateClasses[to.toUpperCase()];
         }
 
-        this.updateElementStateClass(element, from, to, fromClass, toClass, delay);
+        return this.updateElementStateClass(element, from, to, fromClass, toClass, delay);
     }
 
 }
