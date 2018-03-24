@@ -446,19 +446,16 @@ class ModuleLauncher {
         return this;
     }
 
+    getStateClassByKey(key, stateClasses) {
+        return (key && typeof stateClasses[key.toUpperCase()] === 'string')
+            ? stateClasses[key.toUpperCase()]
+            : null;
+    }
+
     _updateElementState(element, from, to, delay = null) {
-
         const stateClasses = this.getStateClasses();
-        let fromClass = null;
-        let toClass = null;
-
-        if(from && typeof stateClasses[from.toUpperCase()] === 'string') {
-            fromClass = stateClasses[from.toUpperCase()];
-        }
-
-        if(to && typeof stateClasses[to.toUpperCase()] === 'string') {
-            toClass = stateClasses[to.toUpperCase()];
-        }
+        const fromClass = this.getStateClassByKey(from, stateClasses);
+        const toClass = this.getStateClassByKey(to, stateClasses);
 
         return this.updateElementStateClass(element, from, to, fromClass, toClass, delay);
     }
