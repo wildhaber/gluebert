@@ -76,7 +76,6 @@ class Gluebert {
      * @private
      */
     _extractElements(modules) {
-
         return modules.reduce((a, b) => {
             let elements = b.getElementSignatures();
             if(elements.size) {
@@ -92,7 +91,10 @@ class Gluebert {
      * @return {Gluebert}
      */
     setSchemaValidator(schemaValidator) {
-        this._schemaValidator = (typeof schemaValidator === 'function') ? schemaValidator : null;
+        if(schemaValidator === 'function') {
+            this._schemaValidator = schemaValidator;
+        }
+
         return this;
     }
 
@@ -102,17 +104,12 @@ class Gluebert {
      * @return {Gluebert}
      */
     setTemplateEngine(templateEngine) {
-        this._templateEngine = (
-            templateEngine &&
-            typeof templateEngine === 'object'
-        )
-            ? templateEngine
-            : null;
+        if(typeof templateEngine === 'object') {
+            this._templateEngine = templateEngine;
+        }
 
         return this;
     }
-
-
 }
 
 export {

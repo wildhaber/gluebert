@@ -5,9 +5,6 @@ describe('ModuleSignature', () => {
 
     const MS = new ModuleSignature('signature.test', 'div');
     const MS2 = new ModuleSignature('signature.test', 'div');
-    const MSInvalid = new ModuleSignature(undefined, null);
-    const MSInvalid2 = new ModuleSignature(() => Promise.resolve());
-    const MSInvalid3 = new ModuleSignature();
 
     it('should exist', () => {
         expect(typeof ModuleSignature).toBe('function');
@@ -34,7 +31,7 @@ describe('ModuleSignature', () => {
     it('should expose a .setImportController property', () => {
         expect(MS.setImportController).toBeDefined();
         expect(typeof MS.setImportController).toBe('function');
-        expect(MS.setImportController()).toEqual(MS);
+        expect(MS.setImportController(() => {})).toEqual(MS);
     });
 
     it('should expose a .getImportController property', () => {
@@ -45,7 +42,7 @@ describe('ModuleSignature', () => {
     it('should expose a .setImportStyles property', () => {
         expect(MS.setImportStyles).toBeDefined();
         expect(typeof MS.setImportStyles).toBe('function');
-        expect(MS.setImportStyles()).toEqual(MS);
+        expect(MS.setImportStyles(() => {})).toEqual(MS);
     });
 
     it('should expose a .getImportStyles property', () => {
@@ -66,27 +63,41 @@ describe('ModuleSignature', () => {
 
     it('should bind given name when string or ignore if invalid', () => {
         expect(MS.name).toBe('signature.test');
-        expect(MSInvalid.name).toBe(null);
-        expect(MSInvalid2.name).toBe(null);
-        expect(MSInvalid3.name).toBe(null);
     });
 
     it('should bind given selector when string or ignore if invalid', () => {
         expect(MS.selector).toBe('div');
-        expect(MSInvalid.selector).toBe(null);
-        expect(MSInvalid2.selector).toBe(null);
-        expect(MSInvalid3.selector).toBe(null);
+        expect(MS.selector).toBe('div');
     });
 
 
+    describe('#constructor()', () => {
+
+        it('should throw an error when malformed initialized', () => {
+
+            expect(() => {
+                const ms = new ModuleSignature(undefined, null);
+            }).toThrowError();
+
+            expect(() => {
+                const ms = new ModuleSignature(() => Promise.resolve());
+            }).toThrowError();
+
+            expect(() => {
+                const ms = new ModuleSignature();
+            }).toThrowError();
+
+        });
+
+    });
+
     describe('#setSelector()', () => {
 
-        it('should set given selector or ignore if not string', () => {
+        it('should set given selector or throw error if not string', () => {
             MS.setSelector('test.selector');
             expect(MS.getSelector()).toBe('test.selector');
 
-            MS.setSelector(() => {});
-            expect(MS.getSelector()).toBe(null);
+            expect(() => MS.setSelector(() => {})).toThrowError();
 
             MS.setSelector(null);
             expect(MS.getSelector()).toBe(null);
@@ -102,15 +113,12 @@ describe('ModuleSignature', () => {
 
         let testCallback = () => {};
 
-        it('should set given ImportController callback or ignore if not callback', () => {
+        it('should set given ImportController callback or throw error if not callback', () => {
             MS.setImportController(testCallback);
             expect(MS.getImportController()).toEqual(testCallback);
 
-            MS.setImportController('invalid');
-            expect(MS.getImportController()).toEqual(null);
-
-            MS.setImportController(null);
-            expect(MS.getImportController()).toEqual(null);
+            expect(() => MS.setImportController('invalid')).toThrowError();
+            expect(() => MS.setImportController(null)).toThrowError();
         });
 
     });
@@ -119,15 +127,12 @@ describe('ModuleSignature', () => {
 
         let testCallback = () => {};
 
-        it('should set given ImportStyles callback or ignore if not callback', () => {
+        it('should set given ImportStyles callback or throw error if not callback', () => {
             MS.setImportStyles(testCallback);
             expect(MS.getImportStyles()).toEqual(testCallback);
 
-            MS.setImportStyles('invalid');
-            expect(MS.getImportStyles()).toEqual(null);
-
-            MS.setImportStyles(null);
-            expect(MS.getImportStyles()).toEqual(null);
+            expect(() => MS.setImportStyles('invalid')).toThrowError();
+            expect(() => MS.setImportStyles(null)).toThrowError();
         });
 
     });

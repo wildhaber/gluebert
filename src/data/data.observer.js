@@ -162,7 +162,7 @@ class DataObserver {
             this._subscriptions.set(origin, new Set());
         }
 
-        let currentSubscriptions = this._subscriptions.get(origin);
+        const currentSubscriptions = this._subscriptions.get(origin);
         currentSubscriptions.add({
             key,
             subscription,
@@ -191,9 +191,7 @@ class DataObserver {
     getSubscription(origin, key) {
         const subscriptions = (origin) ? this.getSubscriptions(origin) : null;
         const foundSubscription = (subscriptions && subscriptions instanceof Set)
-            ? Array.from(subscriptions).filter((subscription) => {
-                return subscription.key === key;
-            })
+            ? Array.from(subscriptions).filter((subscription) => subscription.key === key)
             : [];
 
         return (foundSubscription.length) ? foundSubscription[0].subscription : null;
@@ -211,6 +209,89 @@ class DataObserver {
     }
 
     /**
+     * handle subscription
+     * @param {ModuleAbstract} origin - unique instance of the subscribers scope
+     * @param {DataSignature.key} to - DataSignature.key
+     * @param {function|object} next - callback function on next item or objects with action props
+     * @param {function} error - callback function on error
+     * @param {function} complete - callback function on complete queue
+     * @param {function} filter - filter messages by
+     * @returns {DataObserver}
+     */
+    handleSubscription(origin, to, next, error, complete, filter = null) {
+
+        let nextMethod = (typeof next === 'function')
+            ? next
+            : (
+                (next && typeof next === 'object')
+                    ? new MessageDispatcher(next).filter(filter)
+                    : null
+            );
+
+
+        if(!nextMethod) {
+            throw new Error('No next method declared calling .subscribe()');
+        } else if(nextMethod instanceof MessageDispatcher) {
+            nextMethod = nextMethod.onMessage.bind(nextMethod);
+        }
+
+        const subscription = this._observables[to].observable.subscribe(
+            nextMethod,
+            error,
+            complete,
+        );
+
+        return this._addSubscription(origin, to, subscription);
+
+    }
+
+    /**
+     * initialize signature
+     * @param {ModuleAbstract} origin - unique instance of the subscribers scope
+     * @param {DataSignature.key} to - DataSignature.key
+     * @param {function|object} next - callback function on next item or objects with action props
+     * @param {function} error - callback function on error
+     * @param {function} complete - callback function on complete queue
+     * @param {function} filter - filter messages by
+     * @returns {DataObserver}
+     */
+    initializeSignature(origin, to, next, error, complete, filter = null) {
+
+        this.setSignatureBusy(to);
+
+        const signature = this.getSignature(to);
+
+        if(
+            signature &&
+            typeof signature.importModule === 'function'
+        ) {
+            signature
+                .importModule()
+                .then((observableModule) => {
+
+                    try {
+                        this.addObservable(to, new observableModule(this));
+                        this.removeSignature(to);
+
+                        if(this._observableExists(to)) {
+                            this.subscribe(origin, to, next, error, complete, filter);
+                        } else {
+                            throw new Error('Observable could not be instanciated. (' + to + ')');
+                        }
+                    } catch(err) {
+                        this.removeSignature(to);
+                        throw new Error(err);
+                    }
+                })
+                .catch((err) => {
+                    return this;
+                });
+        }
+
+        return this;
+    }
+
+    /**
      * adds a subscription to a registered Data pool by its key
      * @param {ModuleAbstract} origin - unique instance of the subscribers scope
      * @param {DataSignature.key} to - DataSignature.key
@@ -220,81 +301,30 @@ class DataObserver {
      * @param {function} filter - filter messages by
      * @returns {DataObserver}
      */
-    subscribe(origin, to, next, error, complete, filter = null) { // eslint-disable-line complexity
+    subscribe(origin, to, next, error, complete, filter = null) {
 
-        if(this._observableExists(to)) {
+        const observableExists = this._observableExists(to);
+        const signatureExists = this._signatureExists(to);
+        const signatureIsBusy = this.isSignatureBusy(to);
 
-            let nextMethod = (typeof next === 'function')
-                ? next
-                : (
-                    (next && typeof next === 'object')
-                        ? new MessageDispatcher(next).filter(filter)
-                        : null
-                );
+        // skip if neither observable nor signature exists
+        if(!observableExists && !signatureExists) {
+            return this;
+        }
 
+        // handleSubscription
+        if(observableExists) {
+            return this.handleSubscription(origin, to, next, error, complete, filter);
+        }
 
-            if(!nextMethod) {
-                throw new Error('No next method declared calling .subscribe()');
-            } else if(nextMethod instanceof MessageDispatcher) {
-                nextMethod = nextMethod.onMessage.bind(nextMethod);
-            }
-
-            const subscription = this._observables[to].observable.subscribe(
-                nextMethod,
-                error,
-                complete,
-            );
-
-            this._addSubscription(origin, to, subscription);
-
-        } else if(
-            this._signatureExists(to) &&
-            !this.isSignatureBusy(to)
-        ) {
-
-            this.setSignatureBusy(to);
-
-            const signature = this.getSignature(to);
-
-            if(
-                signature &&
-                typeof signature.importModule === 'function'
-            ) {
-                signature
-                    .importModule()
-                    .then((observableModule) => {
-
-                        try {
-                            this.addObservable(to, new observableModule(this));
-                            this.removeSignature(to);
-
-                            if(this._observableExists(to)) {
-                                this.subscribe(origin, to, next, error, complete, filter);
-                            } else {
-                                throw new Error('Observable could not be instanciated. (' + to + ')');
-                            }
-                        } catch(err) {
-                            this.removeSignature(to);
-                            throw new Error(err);
-                        }
-                    })
-                    .catch((err) => {
-                        return this;
-                    });
-            } else {
-                return this;
-            }
-
-        } else if(
-            this._signatureExists(to) &&
-            this.isSignatureBusy(to)
-        ) {
-            // Retry
+        if(signatureIsBusy) {
+            // Retry if signature is busy
             window.setTimeout(() => {
                 return this.subscribe(origin, to, next, error, complete, filter);
             }, 100);
         } else {
-            return this;
+            // initialize subscription signature
+            return this.initializeSignature(origin, to, next, error, complete, filter);
         }
 
         return this;

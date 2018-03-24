@@ -9,11 +9,8 @@ class ElementAbstract {
      * @param {object} data
      * @param {DocumentFragment} template - shadow dom template reference
      */
-    constructor(data, template) {
-        this._data = (data)
-            ? data
-            : null;
-
+    constructor(data = null, template = null) {
+        this._data = data;
         this._template = (template instanceof DocumentFragment || template instanceof Element)
             ? template
             : null;
