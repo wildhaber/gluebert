@@ -249,35 +249,33 @@ class DataObserver {
     initializeSignature(origin, to, next, error, complete, filter = null) {
 
         this.setSignatureBusy(to);
-
         const signature = this.getSignature(to);
 
-        if(
-            signature &&
-            typeof signature.importModule === 'function'
-        ) {
-            signature
-                .importModule()
-                .then((observableModule) => {
-
-                    try {
-                        this.addObservable(to, new observableModule(this));
-                        this.removeSignature(to);
-
-                        if(this._observableExists(to)) {
-                            this.subscribe(origin, to, next, error, complete, filter);
-                        } else {
-                            throw new Error('Observable could not be instanciated. (' + to + ')');
-                        }
-                    } catch(err) {
-                        this.removeSignature(to);
-                        throw new Error(err);
-                    }
-                })
-                .catch((err) => {
-                    return this;
-                });
+        if(!signature || typeof signature.importModule !== 'function') {
+            return this;
         }
+
+        signature
+            .importModule()
+            .then((observableModule) => {
+
+                try {
+                    this.addObservable(to, new observableModule(this));
+                    this.removeSignature(to);
+
+                    if(!this._observableExists(to)) {
+                        throw new Error('Observable could not be instanciated. (' + to + ')');
+                    }
+
+                    this.subscribe(origin, to, next, error, complete, filter);
+                } catch(err) {
+                    this.removeSignature(to);
+                    throw new Error(err);
+                }
+            })
+            .catch(() => {
+                return this;
+            });
 
         return this;
     }
