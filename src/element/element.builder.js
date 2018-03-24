@@ -141,17 +141,19 @@ class ElementBuilder {
     }
 
     /**
-     * get template element HTMLElement Node
-     * @param {string|function} template - Template string or render function
-     * @param {*} data - data
-     * @return {Node}
+     * get template innter html
+     * @param {string} template
+     * @param {object} data
+     * @return {string}
      */
-    getTemplateElement(template, data) {
-        if('content' in document.createElement('template')) {
-            return this._getTemplateElementShadow(template, data);
-        } else {
-            return this._getTemplateElementClassic(template, data);
-        }
+    getTemplateInnerHtml(template, data) {
+        return (
+            this._templateEngine &&
+            typeof this._templateEngine === 'object' &&
+            typeof this._templateEngine.render === 'function'
+        )
+            ? this._templateEngine.render(template, data)
+            : template;
     }
 
     /**
@@ -161,40 +163,14 @@ class ElementBuilder {
      * @return {Node}
      * @private
      */
-    _getTemplateElementClassic(template, data) {
-        const templateElement = document.createDocumentFragment();
+    getTemplateElement(template, data) {
+        const templateElement = ('content' in document.createElement('template'))
+            ? document.createDocumentFragment()
+            : document.createElement('template');
 
-        templateElement.innerHTML = (
-            this._templateEngine &&
-            typeof this._templateEngine === 'object' &&
-            typeof this._templateEngine.render === 'function'
-        )
-            ? this._templateEngine.render(template, data)
-            : template;
+        templateElement.innerHTML = this.getTemplateInnerHtml(template, data);
 
         return templateElement;
-    }
-
-    /**
-     * create elemetn with shadow dom
-     * document fragment
-     * @param {string} template
-     * @param {object} data
-     * @returns {DocumentFragment}
-     * @private
-     */
-    _getTemplateElementShadow(template, data) {
-        const templateElement = document.createElement('template');
-
-        templateElement.innerHTML = (
-            this._templateEngine &&
-            typeof this._templateEngine === 'object' &&
-            typeof this._templateEngine.render === 'function'
-        )
-            ? this._templateEngine.render(template, data)
-            : template;
-
-        return templateElement.content;
     }
 
     /**
