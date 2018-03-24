@@ -62,17 +62,6 @@ describe(`ModuleLauncher`, () => {
         expect(ML._stylesLoaded instanceof Set).toBe(true);
     });
 
-    describe(`#_addInstance()`, () => {
-
-        const el = Element;
-        const fn = () => true;
-
-        it(`should register a controller instance to map`, () => {
-            ML._addInstance(el, fn);
-            expect(ML._instanceMap.get(el)).toEqual(fn);
-        });
-    });
-
     describe(`#_destructInstance()`, () => {
 
         var ranThrough = false;
@@ -86,7 +75,7 @@ describe(`ModuleLauncher`, () => {
         };
 
         it(`should run destruct method of a controller and removes it from the map`, () => {
-            ML._addInstance(el, fn());
+            ML._instanceMap.set(el, fn());
             ML._destructInstance(el);
             expect(ranThrough).toBe(true);
             expect(ML._instanceMap.get(el)).toBeUndefined();
