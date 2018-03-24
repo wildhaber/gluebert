@@ -11,10 +11,8 @@ describe(`ModuleLauncher`, () => {
     const MS = new ModuleSignature('module.test', '.module-selector');
 
     const MSWithEverything = new ModuleSignature('module.test', '.module-selector')
-        .setImportController('element', () => {
-        })
-        .addDependency('$dep1', () => {
-        });
+        .setImportController(() => {})
+        .addDependency('$dep1', () => {});
 
     const ML = new ModuleLauncher([
         MS,
