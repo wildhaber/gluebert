@@ -251,7 +251,7 @@ class DataObserver {
         this.setSignatureBusy(to);
         const signature = this.getSignature(to);
 
-        if(!signature || typeof signature.importModule !== 'function') {
+        if(!signature) {
             return this;
         }
 

@@ -26,11 +26,11 @@ describe('DataSignature', () => {
         expect(DSInvalid3.key).toBe(null);
     });
 
-    it('should bind given importModule when callback or ignore if invalid or no valid key given', () => {
+    it('should bind given importModule when callback or fallback when no key given', () => {
         expect(typeof DS.importModule).toBe('function');
-        expect(DSInvalid.importModule).toBe(null);
-        expect(DSInvalid2.importModule).toBe(null);
-        expect(DSInvalid3.importModule).toBe(null);
+        expect(typeof DSInvalid.importModule).toBe('function');
+        expect(typeof DSInvalid2.importModule).toBe('function');
+        expect(typeof DSInvalid3.importModule).toBe('function');
     });
 
 });
