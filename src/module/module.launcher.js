@@ -18,20 +18,7 @@ class ModuleLauncher {
 
         this._observeDomMutation = this._observeDomMutation.bind(this);
         this._observer = new MutationObserver(this._observeDomMutation);
-        this._intersectionObserverOptions = {
-            root: null,
-            rootMargin: '0px',
-            thresholds: [1.0],
-        };
-
-        this._intersectionObserver = null;
-
-        if(typeof IntersectionObserver === 'function') {
-            this._intersectionObserver = new IntersectionObserver(
-                this._wokeUpElements.bind(this),
-                this._intersectionObserverOptions,
-            );
-        }
+        this._intersectionObserver = this.getIntersectionObserver();
 
         this._instanceMap = new Map();
         this._sleepersMap = new Map();
@@ -52,6 +39,29 @@ class ModuleLauncher {
     _init() {
         this.registerObserver(document.body);
         this._bootstrap();
+    }
+
+    /**
+     * get intersection observer otpions
+     * @return {object}
+     */
+    getIntersectionObserverOptions() {
+        return {
+            root: null,
+            rootMargin: '0px',
+            thresholds: [1.0],
+        };
+    }
+
+    getIntersectionObserver() {
+        if(typeof IntersectionObserver !== 'function') {
+            return null;
+        }
+
+        return new IntersectionObserver(
+            this._wokeUpElements.bind(this),
+            this.getIntersectionObserverOptions(),
+        );
     }
 
     /**
@@ -131,6 +141,36 @@ class ModuleLauncher {
     }
 
     /**
+     * get controller from signature
+     * @param signature
+     * @return {Promise.<null>}
+     */
+    async getControllerFromSignature(signature) {
+        return (typeof signature.importController === 'function')
+            ? await signature.importController()
+            : null;
+    }
+
+    /**
+     * bind controller instance
+     * @param element
+     * @param controller
+     */
+    bindControllerInstance(element, controller, dependencies) {
+        window.requestAnimationFrame(() => {
+            this._addInstance(
+                element,
+                new controller(
+                    element,
+                    this._dataObserver,
+                    this._elementBuilder,
+                    dependencies,
+                ),
+            );
+        });
+    }
+
+    /**
      * bind controllers from signatures
      * @param {Element} element
      * @param {ModuleSignature} signature
@@ -138,47 +178,32 @@ class ModuleLauncher {
      * @private
      */
     async _bindController(element, signature) {
-
-        if(element) {
-
-            this._updateElementState(element, 'sleeping', 'loading');
-
-            const controller = (typeof signature.importController === 'function')
-                ? await signature.importController()
-                : null;
-
-            const dependencies = await signature.dependencyManager.resolve();
-
-            if(
-                controller &&
-                dependencies
-            ) {
-                if(!this._instanceMap.has(element)) {
-                    window.requestAnimationFrame(() => {
-                        this._addInstance(
-                            element,
-                            new controller(
-                                element,
-                                this._dataObserver,
-                                this._elementBuilder,
-                                dependencies,
-                            ),
-                        );
-                    });
-                }
-            }
-
-            if(
-                !this._stylesLoaded.has(signature.name) &&
-                typeof signature.importStyles === 'function'
-            ) {
-                this._addStyles(element, signature.name, signature.importStyles);
-            } else {
-                this._updateElementState(element, 'loading', 'ready');
-            }
-
+        if(!element || !signature) {
+            return null;
         }
 
+        this._updateElementState(element, 'sleeping', 'loading');
+
+        const controller = await this.getControllerFromSignature(signature);
+        const dependencies = await signature.dependencyManager.resolve();
+
+        // guard when no controller or dependencies could be loaded
+        if(!controller || !dependencies) {
+            return null;
+        }
+
+        if(!this._instanceMap.has(element)) {
+            this.bindControllerInstance(element, controller, dependencies);
+        }
+
+        if(
+            !this._stylesLoaded.has(signature.name) &&
+            typeof signature.importStyles === 'function'
+        ) {
+            this._addStyles(element, signature.name, signature.importStyles);
+        } else {
+            this._updateElementState(element, 'loading', 'ready');
+        }
     }
 
     /**
