@@ -16,8 +16,9 @@ class DataSignature {
 
         this.importModule = (this.key && typeof importModule === 'function')
             ? importModule
-            : null;
+            : () => import('gluebert/data').then((data) => data.DataAbstract);
     }
+
 
 }
 

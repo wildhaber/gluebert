@@ -6,7 +6,7 @@ import { DataSignature } from 'gluebert/data';
  */
 const SIGNATURE = new DataSignature(
     'balls.data',
-    () => import('./balls.data').then((data) => data.BallsData),
+    // () => import('./balls.data').then((data) => data.BallsData),
 );
 
 export {
