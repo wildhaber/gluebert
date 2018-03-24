@@ -155,7 +155,7 @@ class ModuleLauncher {
         const dependencies = await signature.dependencyManager.resolve();
 
         // guard when no controller or dependencies could be loaded
-        if(!controller || !dependencies) {
+        if(!controller) {
             return null;
         }
 
@@ -295,6 +295,12 @@ class ModuleLauncher {
         }
     }
 
+    /**
+     * get style element
+     * @param name
+     * @param styles
+     * @return {Element}
+     */
     getStyleElement(name, styles) {
         const styleElement = document.createElement('style');
 
@@ -404,9 +410,10 @@ class ModuleLauncher {
     _updateElementState(element, from, to, delay = null) {
 
         const options = this._elementBuilder.getOptions();
+
         const stateClasses = {
             SLEEPING: options.elementSleepingClass,
-            LOADING: options.elmentLoadingClass,
+            LOADING: options.elementLoadingClass,
             READY: options.elementReadyClass,
         };
 
