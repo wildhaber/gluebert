@@ -323,36 +323,21 @@ class ElementBuilder {
      */
     async create(name, data) {
         try {
-            if(this._elementExists(name)) {
-                return this._generateElement(name, data);
-            } else if(
-                this._signatureExists(name) &&
-                !this.isBusySignature(name)
-            ) {
-                return this._loadElementModule(name, data);
-            } else if(
-                this._signatureExists(name) &&
-                this.isBusySignature(name)
-            ) {
-                return this._retryCreate(name, data);
-            } else {
+            const elementExists = this._elementExists(name);
+            const signatureExists = this._signatureExists(name);
+            const signatureIsBusy = this.isBusySignature(name);
+
+            if(!elementExists && !signatureExists) {
                 return null;
             }
-            // const elementExists = this._elementExists(name);
-            // const signatureExists = this._signatureExists(name);
-            // const signatureIsBusy = this.isBusySignature(name);
-            //
-            // if(!elementExists && !signatureExists) {
-            //     return null;
-            // }
-            //
-            // if(elementExists) {
-            //     return this._generateElement(name, data);
-            // }
-            //
-            // return (signatureExists && !signatureIsBusy)
-            //     ? this._loadElementModule(name, data)
-            //     : this._retryCreate(name, data);
+
+            if(elementExists) {
+                return this._generateElement(name, data);
+            }
+
+            return (signatureExists && !signatureIsBusy)
+                ? this._loadElementModule(name, data)
+                : this._retryCreate(name, data);
 
         } catch(err) {
             return null;
