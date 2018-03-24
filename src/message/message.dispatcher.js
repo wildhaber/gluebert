@@ -13,6 +13,51 @@ class MessageDispatcher {
     }
 
     /**
+     * get message allocator type
+     * @param {string} action
+     * @return {string|null}
+     */
+    getMessageActionAllocatorType(action) {
+        return (
+            this._actionAllocator &&
+            typeof this._actionAllocator === 'object'
+        )
+            ? typeof this._actionAllocator[action]
+            : null;
+    }
+
+    /**
+     * check validate message on custom filter
+     * @param messageData
+     * @return {boolean}
+     */
+    validateMessageOnCustomFilter(messageData) {
+        return (
+            typeof this._filter === 'function' &&
+            !this._filter(messageData)
+        );
+    }
+
+    /**
+     * execute action
+     * @param {string} type
+     * @param {string} action
+     * @param {object|string} messageData
+     * @return {*}
+     */
+    executeAction(type, action, messageData) {
+        switch (type) {
+            case 'function':
+                return this._actionAllocator[action](messageData);
+            case 'object':
+                return this._runObjectAllocator(this._actionAllocator[action], messageData);
+            default:
+                // ignore
+                break;
+        }
+    }
+
+    /**
      * handles and maps incoming messages
      * @param {Message} message
      */
@@ -22,33 +67,17 @@ class MessageDispatcher {
         }
 
         const action = message.getAction();
-        const allocatorType = (
-            this._actionAllocator &&
-            typeof this._actionAllocator === 'object'
-        )
-            ? typeof this._actionAllocator[action]
-            : null;
+        const allocatorType = this.getMessageActionAllocatorType(action);
+        const messageData = message.getData();
 
         if(
             !allocatorType ||
-            (
-                typeof this._filter === 'function' &&
-                !this._filter(message.getData())
-            )
+            this.validateMessageOnCustomFilter(messageData)
         ) {
-            return;
+            return false;
         }
 
-        switch (allocatorType) {
-            case 'function':
-                return this._actionAllocator[action](message.getData());
-            case 'object':
-                return this._runObjectAllocator(this._actionAllocator[action], message.getData());
-            default:
-            // ignore
-                break;
-        }
-
+        return this.executeAction(allocatorType, action, message.getData());
     }
 
     /**

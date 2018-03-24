@@ -18,17 +18,20 @@ class ModuleLauncher {
 
         this._observeDomMutation = this._observeDomMutation.bind(this);
         this._observer = new MutationObserver(this._observeDomMutation);
+        this._intersectionObserverOptions = {
+            root: null,
+            rootMargin: '0px',
+            thresholds: [1.0],
+        };
 
-        this._intersectionObserver = (typeof IntersectionObserver === 'function')
-            ? new IntersectionObserver(
+        this._intersectionObserver = null;
+
+        if(typeof IntersectionObserver === 'function') {
+            this._intersectionObserver = new IntersectionObserver(
                 this._wokeUpElements.bind(this),
-                {
-                    root: null,
-                    rootMargin: '0px',
-                    thresholds: [1.0],
-                },
-            )
-            : null;
+                this._intersectionObserverOptions,
+            );
+        }
 
         this._instanceMap = new Map();
         this._sleepersMap = new Map();
@@ -373,24 +376,17 @@ class ModuleLauncher {
         }, 100);
     }
 
-
-    _updateElementState(element, from, to, delay = null) {
-
+    getStateClasses() {
         const options = this._elementBuilder.getOptions();
 
-        const stateClasses = {
+        return {
             SLEEPING: options.elementSleepingClass,
             LOADING: options.elmentLoadingClass,
             READY: options.elementReadyClass,
         };
+    }
 
-        const fromClass = (from && typeof stateClasses[from.toUpperCase()] === 'string')
-            ? stateClasses[from.toUpperCase()]
-            : null;
-
-        const toClass = (to && typeof stateClasses[to.toUpperCase()] === 'string')
-            ? stateClasses[to.toUpperCase()]
-            : null;
+    updateElementStateClass(element, from, to, fromClass, toClass, delay) {
 
         if(
             element &&
@@ -413,9 +409,24 @@ class ModuleLauncher {
                     this._updateElementState(element, from, to);
                 }, delay);
             }
+        }
+    }
 
+    _updateElementState(element, from, to, delay = null) {
+
+        const stateClasses = this.getStateClasses();
+        let fromClass = null;
+        let toClass = null;
+
+        if(from && typeof stateClasses[from.toUpperCase()] === 'string') {
+            fromClass = stateClasses[from.toUpperCase()];
         }
 
+        if(to && typeof stateClasses[to.toUpperCase()] === 'string') {
+            toClass = stateClasses[to.toUpperCase()];
+        }
+
+        this.updateElementStateClass(element, from, to, fromClass, toClass, delay);
     }
 
 }
