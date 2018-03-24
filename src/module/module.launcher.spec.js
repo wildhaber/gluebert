@@ -7,12 +7,19 @@ import { PolyfillService } from './../polyfills/polyfill.service';
 describe(`ModuleLauncher`, () => {
 
     const DO = new DataObserver();
-    const EB = new ElementBuilder();
+    const EB = new ElementBuilder([], null, null, {
+        elementSleepingClass: 'gb-sleeping',
+        elementLoadingClass: 'gb-loading',
+        elementReadyClass: 'gb-ready',
+    });
+
     const MS = new ModuleSignature('module.test', '.module-selector');
 
     const MSWithEverything = new ModuleSignature('module.test', '.module-selector')
-        .setImportController(() => {})
-        .addDependency('$dep1', () => {});
+        .setImportController(() => {
+        })
+        .addDependency('$dep1', () => {
+        });
 
     const ML = new ModuleLauncher([
         MS,
@@ -62,17 +69,6 @@ describe(`ModuleLauncher`, () => {
         expect(ML._stylesLoaded instanceof Set).toBe(true);
     });
 
-    describe(`#_addInstance()`, () => {
-
-        const el = Element;
-        const fn = () => true;
-
-        it(`should register a controller instance to map`, () => {
-            ML._addInstance(el, fn);
-            expect(ML._instanceMap.get(el)).toEqual(fn);
-        });
-    });
-
     describe(`#_destructInstance()`, () => {
 
         var ranThrough = false;
@@ -86,7 +82,7 @@ describe(`ModuleLauncher`, () => {
         };
 
         it(`should run destruct method of a controller and removes it from the map`, () => {
-            ML._addInstance(el, fn());
+            ML._instanceMap.set(el, fn());
             ML._destructInstance(el);
             expect(ranThrough).toBe(true);
             expect(ML._instanceMap.get(el)).toBeUndefined();
@@ -109,25 +105,89 @@ describe(`ModuleLauncher`, () => {
 
     describe(`#_addAsSleeper`, () => {
         it('should not throw an error', () => {
-            expect(() => ML._addAsSleeper([{
-
-            }], MS)).not.toThrowError();
+            expect(() => ML._addAsSleeper([{}], MS)).not.toThrowError();
         });
     });
 
     describe(`#_addStyles`, () => {
         it('should not throw an error', () => {
-            expect(() => ML._addStyles([{
-
-            }], () => {})).not.toThrowError();
+            expect(() => ML._addStyles([{}], () => {
+            })).not.toThrowError();
         });
     });
 
     describe(`#_batchPaint`, () => {
         it('should not throw an error', () => {
-            expect(() => ML._batchPaint([{
+            expect(() => ML._batchPaint([{}], () => {
+            })).not.toThrowError();
+        });
+    });
 
-            }], () => {})).not.toThrowError();
+    describe(`#bindControllerInstance`, () => {
+        it('should be defined', () => {
+            expect(ML.bindControllerInstance).toBeDefined();
+        });
+
+        it('should bind a controller instance', () => {
+            const element = document.createElement('div');
+            const controller = () => {
+            };
+            const dependency = () => {
+            };
+            expect(() => ML.bindControllerInstance(element, controller, dependency)).not.toThrowError();
+        });
+    });
+
+    describe(`#getStyleElement`, () => {
+        it('should be defined', () => {
+            expect(ML.getStyleElement).toBeDefined();
+        });
+
+        it('should create and return a style element', () => {
+            const style = 'body {}';
+            const styleElement = ML.getStyleElement('gugus', style);
+            expect(styleElement.id).toBe('gluebert-styles-gugus');
+            expect(styleElement.innerText).toBe(style);
+            expect(styleElement instanceof HTMLElement).toBe(true);
+        });
+    });
+
+    describe(`#updateElementStateClass`, () => {
+        it('should be defined', () => {
+            expect(ML.updateElementStateClass).toBeDefined();
+        });
+
+        it('should update element style class', () => {
+            const element = document.createElement('div');
+            const from = 'sleeping';
+            const to = 'loading';
+
+            expect(() => {
+                ML.updateElementStateClass(element, from, to, 'from-class', 'to-class', 100);
+                ML.updateElementStateClass(element, from, to, 'from-class', 'to-class');
+            }).not.toThrowError();
+
+        });
+    });
+
+
+    describe(`#getStateClassByKey`, () => {
+        it('should be defined', () => {
+            expect(ML.getStateClassByKey).toBeDefined();
+        });
+
+        it('should return defined state class by status key', () => {
+            const options = ML._elementBuilder.getOptions();
+            const stateClasses = {
+                SLEEPING: options.elementSleepingClass,
+                LOADING: options.elementLoadingClass,
+                READY: options.elementReadyClass,
+            };
+
+            expect(ML.getStateClassByKey('sleeping', stateClasses)).toBe(options.elementSleepingClass);
+            expect(ML.getStateClassByKey('loading', stateClasses)).toBe(options.elementLoadingClass);
+            expect(ML.getStateClassByKey('ready', stateClasses)).toBe(options.elementReadyClass);
+            expect(ML.getStateClassByKey('gugus', stateClasses)).toBe(null);
         });
     });
 

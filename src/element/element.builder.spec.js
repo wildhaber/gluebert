@@ -336,23 +336,6 @@ describe('ElementBuilder', () => {
 
     });
 
-    describe('#_getTemplateElementClassic()', () => {
-
-        const renderedElement = document.createElement('div');
-        renderedElement.innerHTML = '<div></div>';
-
-        const templateEngine = {
-            render: (i) => renderedElement,
-        };
-
-        const EBWithTemplate = new ElementBuilder([], templateEngine);
-
-        it('should render a template', () => {
-            expect(EBWithTemplate._getTemplateElementClassic('<template>', {}) instanceof Node).toBe(true);
-        });
-
-    });
-
     describe('#_getOptions()', () => {
 
         const options = {

@@ -141,17 +141,19 @@ class ElementBuilder {
     }
 
     /**
-     * get template element HTMLElement Node
-     * @param {string|function} template - Template string or render function
-     * @param {*} data - data
-     * @return {Node}
+     * get template innter html
+     * @param {string} template
+     * @param {object} data
+     * @return {string}
      */
-    getTemplateElement(template, data) {
-        if('content' in document.createElement('template')) {
-            return this._getTemplateElementShadow(template, data);
-        } else {
-            return this._getTemplateElementClassic(template, data);
-        }
+    getTemplateInnerHtml(template, data) {
+        return (
+            this._templateEngine &&
+            typeof this._templateEngine === 'object' &&
+            typeof this._templateEngine.render === 'function'
+        )
+            ? this._templateEngine.render(template, data)
+            : template;
     }
 
     /**
@@ -161,40 +163,17 @@ class ElementBuilder {
      * @return {Node}
      * @private
      */
-    _getTemplateElementClassic(template, data) {
-        const templateElement = document.createDocumentFragment();
+    getTemplateElement(template, data) {
+        const templateFeature = ('content' in document.createElement('template'));
+        const templateElement = (templateFeature)
+            ? document.createElement('template')
+            : document.createDocumentFragment();
 
-        templateElement.innerHTML = (
-            this._templateEngine &&
-            typeof this._templateEngine === 'object' &&
-            typeof this._templateEngine.render === 'function'
-        )
-            ? this._templateEngine.render(template, data)
-            : template;
+        templateElement.innerHTML = this.getTemplateInnerHtml(template, data);
 
-        return templateElement;
-    }
-
-    /**
-     * create elemetn with shadow dom
-     * document fragment
-     * @param {string} template
-     * @param {object} data
-     * @returns {DocumentFragment}
-     * @private
-     */
-    _getTemplateElementShadow(template, data) {
-        const templateElement = document.createElement('template');
-
-        templateElement.innerHTML = (
-            this._templateEngine &&
-            typeof this._templateEngine === 'object' &&
-            typeof this._templateEngine.render === 'function'
-        )
-            ? this._templateEngine.render(template, data)
-            : template;
-
-        return templateElement.content;
+        return (templateFeature)
+            ? templateElement.content
+            : templateElement;
     }
 
     /**
@@ -359,6 +338,22 @@ class ElementBuilder {
             } else {
                 return null;
             }
+            // const elementExists = this._elementExists(name);
+            // const signatureExists = this._signatureExists(name);
+            // const signatureIsBusy = this.isBusySignature(name);
+            //
+            // if(!elementExists && !signatureExists) {
+            //     return null;
+            // }
+            //
+            // if(elementExists) {
+            //     return this._generateElement(name, data);
+            // }
+            //
+            // return (signatureExists && !signatureIsBusy)
+            //     ? this._loadElementModule(name, data)
+            //     : this._retryCreate(name, data);
+
         } catch(err) {
             return null;
         }

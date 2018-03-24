@@ -18,20 +18,7 @@ class ModuleLauncher {
 
         this._observeDomMutation = this._observeDomMutation.bind(this);
         this._observer = new MutationObserver(this._observeDomMutation);
-        this._intersectionObserverOptions = {
-            root: null,
-            rootMargin: '0px',
-            thresholds: [1.0],
-        };
-
-        this._intersectionObserver = null;
-
-        if(typeof IntersectionObserver === 'function') {
-            this._intersectionObserver = new IntersectionObserver(
-                this._wokeUpElements.bind(this),
-                this._intersectionObserverOptions,
-            );
-        }
+        this._intersectionObserver = this.getIntersectionObserver();
 
         this._instanceMap = new Map();
         this._sleepersMap = new Map();
@@ -52,6 +39,25 @@ class ModuleLauncher {
     _init() {
         this.registerObserver(document.body);
         this._bootstrap();
+    }
+
+    /**
+     * get intersection observer
+     * @return {IntersectionObserver|null}
+     */
+    getIntersectionObserver() {
+        if(typeof IntersectionObserver !== 'function') {
+            return null;
+        }
+
+        return new IntersectionObserver(
+            this._wokeUpElements.bind(this),
+            {
+                root: null,
+                rootMargin: '0px',
+                thresholds: [1.0],
+            }
+        );
     }
 
     /**
@@ -87,35 +93,6 @@ class ModuleLauncher {
     }
 
     /**
-     * iterator for each element from a nodes list
-     * @param {NodeList} nodesList
-     * @param {function} callback
-     * @private
-     */
-    _eachElement(nodesList, callback = null) {
-        if(
-            nodesList &&
-            callback
-        ) {
-            Array.from(nodesList).forEach((node) => {
-                if(typeof node.querySelectorAll === 'function') {
-                    callback(node);
-                }
-            });
-        }
-    }
-
-    /**
-     * register a controller instance to element
-     * @param {Element} element
-     * @param {function} instance - controller instance
-     * @private
-     */
-    _addInstance(element, instance) {
-        this._instanceMap.set(element, instance);
-    }
-
-    /**
      * call instance destruct
      * @param {Element} element
      * @private
@@ -131,6 +108,36 @@ class ModuleLauncher {
     }
 
     /**
+     * get controller from signature
+     * @param signature
+     * @return {Promise.<null>}
+     */
+    async getControllerFromSignature(signature) {
+        return (typeof signature.importController === 'function')
+            ? await signature.importController()
+            : null;
+    }
+
+    /**
+     * bind controller instance
+     * @param element
+     * @param controller
+     */
+    bindControllerInstance(element, controller, dependencies) {
+        window.requestAnimationFrame(() => {
+            this._instanceMap.set(
+                element,
+                new controller(
+                    element,
+                    this._dataObserver,
+                    this._elementBuilder,
+                    dependencies,
+                ),
+            );
+        });
+    }
+
+    /**
      * bind controllers from signatures
      * @param {Element} element
      * @param {ModuleSignature} signature
@@ -138,47 +145,27 @@ class ModuleLauncher {
      * @private
      */
     async _bindController(element, signature) {
-
-        if(element) {
-
-            this._updateElementState(element, 'sleeping', 'loading');
-
-            const controller = (typeof signature.importController === 'function')
-                ? await signature.importController()
-                : null;
-
-            const dependencies = await signature.dependencyManager.resolve();
-
-            if(
-                controller &&
-                dependencies
-            ) {
-                if(!this._instanceMap.has(element)) {
-                    window.requestAnimationFrame(() => {
-                        this._addInstance(
-                            element,
-                            new controller(
-                                element,
-                                this._dataObserver,
-                                this._elementBuilder,
-                                dependencies,
-                            ),
-                        );
-                    });
-                }
-            }
-
-            if(
-                !this._stylesLoaded.has(signature.name) &&
-                typeof signature.importStyles === 'function'
-            ) {
-                this._addStyles(element, signature.name, signature.importStyles);
-            } else {
-                this._updateElementState(element, 'loading', 'ready');
-            }
-
+        if(!element || !signature) {
+            return null;
         }
 
+        this._updateElementState(element, 'sleeping', 'loading');
+
+        const controller = await this.getControllerFromSignature(signature);
+        const dependencies = await signature.dependencyManager.resolve();
+
+        if(controller && !this._instanceMap.has(element)) {
+            this.bindControllerInstance(element, controller, dependencies);
+        }
+
+        if(
+            !this._stylesLoaded.has(signature.name) &&
+            typeof signature.importStyles === 'function'
+        ) {
+            this._addStyles(element, signature.name, signature.importStyles);
+        } else {
+            this._updateElementState(element, 'loading', 'ready');
+        }
     }
 
     /**
@@ -277,14 +264,6 @@ class ModuleLauncher {
     }
 
     /**
-     * handle removed item
-     * @param {Element} node
-     */
-    removedElement(node) {
-        this._destructInstance(node);
-    }
-
-    /**
      * add observe DOM changes
      * @param {NodeList} mutations
      * @private
@@ -302,13 +281,36 @@ class ModuleLauncher {
 
                     Array.from(new Set(mutation.removedNodes))
                         .filter((node) => typeof node.querySelectorAll === 'function')
-                        .forEach((node) => this.removedElement(node));
+                        .forEach((node) => this._destructInstance(node));
 
                     break;
                 default:
                     throw new Error(`Unsupported Mutation Type ${mutation.type}`);
             }
         }
+    }
+
+    /**
+     * get style element
+     * @param name
+     * @param styles
+     * @return {Element}
+     */
+    getStyleElement(name, styles) {
+        const styleElement = document.createElement('style');
+
+        styleElement.type = 'text/css';
+        styleElement.id = `gluebert-styles-${name}`;
+
+        if(styleElement.styleSheet) {
+            styleElement.styleSheet.cssText = styles;
+        } else {
+            styleElement.appendChild(
+                document.createTextNode(styles),
+            );
+        }
+
+        return styleElement;
     }
 
     /**
@@ -321,30 +323,20 @@ class ModuleLauncher {
     async _addStyles(element, name, importer) {
         this._stylesLoaded.add(name);
 
-        if(typeof importer === 'function') {
-
-            const styles = await importer();
-            const styleElement = document.createElement('style');
-
-            styleElement.type = 'text/css';
-
-            if(styleElement.styleSheet) {
-                styleElement.styleSheet.cssText = styles;
-            } else {
-                styleElement.appendChild(
-                    document.createTextNode(styles),
-                );
-            }
-
-            this._batchStyles.push(styleElement);
-
-            if(!this._batchStylesBusy) {
-                this._batchPaint();
-            }
-
-            this._updateElementState(element, 'loading', 'ready', 120);
-
+        if(typeof importer !== 'function') {
+            return this;
         }
+
+        const styles = await importer();
+        const styleElement = this.getStyleElement(name, styles);
+
+        this._batchStyles.push(styleElement);
+
+        if(!this._batchStylesBusy) {
+            this._batchPaint();
+        }
+
+        this._updateElementState(element, 'loading', 'ready', 120);
 
         return this;
     }
@@ -376,16 +368,6 @@ class ModuleLauncher {
         }, 100);
     }
 
-    getStateClasses() {
-        const options = this._elementBuilder.getOptions();
-
-        return {
-            SLEEPING: options.elementSleepingClass,
-            LOADING: options.elmentLoadingClass,
-            READY: options.elementReadyClass,
-        };
-    }
-
     updateElementStateClass(element, from, to, fromClass, toClass, delay) {
 
         if(
@@ -410,23 +392,30 @@ class ModuleLauncher {
                 }, delay);
             }
         }
+
+        return this;
+    }
+
+    getStateClassByKey(key, stateClasses) {
+        return (key && typeof stateClasses[key.toUpperCase()] === 'string')
+            ? stateClasses[key.toUpperCase()]
+            : null;
     }
 
     _updateElementState(element, from, to, delay = null) {
 
-        const stateClasses = this.getStateClasses();
-        let fromClass = null;
-        let toClass = null;
+        const options = this._elementBuilder.getOptions();
 
-        if(from && typeof stateClasses[from.toUpperCase()] === 'string') {
-            fromClass = stateClasses[from.toUpperCase()];
-        }
+        const stateClasses = {
+            SLEEPING: options.elementSleepingClass,
+            LOADING: options.elementLoadingClass,
+            READY: options.elementReadyClass,
+        };
 
-        if(to && typeof stateClasses[to.toUpperCase()] === 'string') {
-            toClass = stateClasses[to.toUpperCase()];
-        }
+        const fromClass = this.getStateClassByKey(from, stateClasses);
+        const toClass = this.getStateClassByKey(to, stateClasses);
 
-        this.updateElementStateClass(element, from, to, fromClass, toClass, delay);
+        return this.updateElementStateClass(element, from, to, fromClass, toClass, delay);
     }
 
 }

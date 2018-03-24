@@ -174,22 +174,13 @@ class DataObserver {
     }
 
     /**
-     * get a set of subscriptions by its origin
-     * @param {ModuleAbstract} origin
-     * @returns {Set}
-     */
-    getSubscriptions(origin) {
-        return this._subscriptions.get(origin);
-    }
-
-    /**
      * get single subscription by its origin and data key
      * @param {ModuleAbstract} origin
      * @param {string} key
      * @returns {Subscription|null}
      */
     getSubscription(origin, key) {
-        const subscriptions = (origin) ? this.getSubscriptions(origin) : null;
+        const subscriptions = (origin) ? this._subscriptions.get(origin) : null;
         const foundSubscription = (subscriptions && subscriptions instanceof Set)
             ? Array.from(subscriptions).filter((subscription) => subscription.key === key)
             : [];
@@ -258,35 +249,33 @@ class DataObserver {
     initializeSignature(origin, to, next, error, complete, filter = null) {
 
         this.setSignatureBusy(to);
-
         const signature = this.getSignature(to);
 
-        if(
-            signature &&
-            typeof signature.importModule === 'function'
-        ) {
-            signature
-                .importModule()
-                .then((observableModule) => {
-
-                    try {
-                        this.addObservable(to, new observableModule(this));
-                        this.removeSignature(to);
-
-                        if(this._observableExists(to)) {
-                            this.subscribe(origin, to, next, error, complete, filter);
-                        } else {
-                            throw new Error('Observable could not be instanciated. (' + to + ')');
-                        }
-                    } catch(err) {
-                        this.removeSignature(to);
-                        throw new Error(err);
-                    }
-                })
-                .catch((err) => {
-                    return this;
-                });
+        if(!signature || typeof signature.importModule !== 'function') {
+            return this;
         }
+
+        signature
+            .importModule()
+            .then((observableModule) => {
+
+                try {
+                    this.addObservable(to, new observableModule(this));
+                    this.removeSignature(to);
+
+                    if(!this._observableExists(to)) {
+                        throw new Error('Observable could not be instanciated. (' + to + ')');
+                    }
+
+                    this.subscribe(origin, to, next, error, complete, filter);
+                } catch(err) {
+                    this.removeSignature(to);
+                    throw new Error(err);
+                }
+            })
+            .catch(() => {
+                return this;
+            });
 
         return this;
     }
@@ -353,7 +342,7 @@ class DataObserver {
      * @returns {DataObserver}
      */
     unsubscribeAll(origin) {
-        const subscriptions = this.getSubscriptions(origin);
+        const subscriptions = this._subscriptions.get(origin);
 
         if(
             subscriptions &&
