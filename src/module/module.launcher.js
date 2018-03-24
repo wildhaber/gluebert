@@ -21,6 +21,7 @@ class ModuleLauncher {
         this._intersectionObserver = this.getIntersectionObserver();
 
         this._instanceMap = new Map();
+        this._signatureElements = {};
         this._sleepersMap = new Map();
         this._stylesLoaded = new Set();
         this._batchStyles = [];
@@ -99,11 +100,18 @@ class ModuleLauncher {
      */
     _destructInstance(element) {
         const instance = this._instanceMap.get(element);
+        const signatures = this.getSignaturesByElement(element);
+
         if(instance) {
             if(typeof instance.destruct === 'function') {
                 instance.destruct();
             }
             this._instanceMap.delete(element);
+        }
+
+        if(signatures.length) {
+            this.removeElementFromSignatureList(element);
+            signatures.map((signature) => this.cleanupSignatureStyles(signature));
         }
     }
 
@@ -149,6 +157,7 @@ class ModuleLauncher {
             return null;
         }
 
+        this.addElementToSignatureList(signature, element);
         this._updateElementState(element, 'sleeping', 'loading');
 
         const controller = await this.getControllerFromSignature(signature);
@@ -166,7 +175,44 @@ class ModuleLauncher {
         } else {
             this._updateElementState(element, 'loading', 'ready');
         }
+
     }
+
+    addElementToSignatureList(signature, element) {
+        if(typeof this._signatureElements[signature.name] === 'undefined') {
+            this._signatureElements[signature.name] = new Set();
+        }
+
+        this._signatureElements[signature.name].add(element);
+
+        return this;
+    }
+
+    removeElementFromSignatureList(element) {
+        const signatures = this.getSignaturesByElement(element);
+        signatures.forEach((signature) => {
+            this._signatureElements[signature].delete(element);
+        });
+
+        return this;
+    }
+
+    getSignaturesByElement(element) {
+        const activeSignatures = Object.keys(this._signatureElements);
+        return activeSignatures.filter((signatureKey) => {
+            return (this._signatureElements[signatureKey].has(element));
+        });
+    }
+
+    cleanupSignatureStyles(signature) {
+        const availableElements = this._signatureElements[signature];
+        if(!availableElements.size) {
+            this.removeStylesForSignature(signature);
+        }
+
+        return this;
+    }
+
 
     /**
      * callback when intersection observer
@@ -290,6 +336,10 @@ class ModuleLauncher {
         }
     }
 
+    getStylesId(name) {
+        return `gluebert-styles-${name}`;
+    }
+
     /**
      * get style element
      * @param name
@@ -300,7 +350,7 @@ class ModuleLauncher {
         const styleElement = document.createElement('style');
 
         styleElement.type = 'text/css';
-        styleElement.id = `gluebert-styles-${name}`;
+        styleElement.id = this.getStylesId(name);
 
         if(styleElement.styleSheet) {
             styleElement.styleSheet.cssText = styles;
@@ -416,6 +466,16 @@ class ModuleLauncher {
         const toClass = this.getStateClassByKey(to, stateClasses);
 
         return this.updateElementStateClass(element, from, to, fromClass, toClass, delay);
+    }
+
+    removeStylesForSignature(signature) {
+        const styleElement = document.head.querySelector(`#${this.getStylesId(signature)}`);
+        if(styleElement) {
+            document.head.removeChild(styleElement);
+            this._stylesLoaded.delete(signature);
+        }
+
+        return this;
     }
 
 }
