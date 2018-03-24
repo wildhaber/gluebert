@@ -42,17 +42,9 @@ class ModuleLauncher {
     }
 
     /**
-     * get intersection observer otpions
-     * @return {object}
+     * get instersection observer
+     * @return {IntersectionObserver|null}
      */
-    getIntersectionObserverOptions() {
-        return {
-            root: null,
-            rootMargin: '0px',
-            thresholds: [1.0],
-        };
-    }
-
     getIntersectionObserver() {
         if(typeof IntersectionObserver !== 'function') {
             return null;
@@ -60,7 +52,11 @@ class ModuleLauncher {
 
         return new IntersectionObserver(
             this._wokeUpElements.bind(this),
-            this.getIntersectionObserverOptions(),
+            {
+                root: null,
+                rootMargin: '0px',
+                thresholds: [1.0],
+            }
         );
     }
 
@@ -97,35 +93,6 @@ class ModuleLauncher {
     }
 
     /**
-     * iterator for each element from a nodes list
-     * @param {NodeList} nodesList
-     * @param {function} callback
-     * @private
-     */
-    _eachElement(nodesList, callback = null) {
-        if(
-            nodesList &&
-            callback
-        ) {
-            Array.from(nodesList).forEach((node) => {
-                if(typeof node.querySelectorAll === 'function') {
-                    callback(node);
-                }
-            });
-        }
-    }
-
-    /**
-     * register a controller instance to element
-     * @param {Element} element
-     * @param {function} instance - controller instance
-     * @private
-     */
-    _addInstance(element, instance) {
-        this._instanceMap.set(element, instance);
-    }
-
-    /**
      * call instance destruct
      * @param {Element} element
      * @private
@@ -158,7 +125,7 @@ class ModuleLauncher {
      */
     bindControllerInstance(element, controller, dependencies) {
         window.requestAnimationFrame(() => {
-            this._addInstance(
+            this._instanceMap.set(
                 element,
                 new controller(
                     element,
@@ -302,14 +269,6 @@ class ModuleLauncher {
     }
 
     /**
-     * handle removed item
-     * @param {Element} node
-     */
-    removedElement(node) {
-        this._destructInstance(node);
-    }
-
-    /**
      * add observe DOM changes
      * @param {NodeList} mutations
      * @private
@@ -327,7 +286,7 @@ class ModuleLauncher {
 
                     Array.from(new Set(mutation.removedNodes))
                         .filter((node) => typeof node.querySelectorAll === 'function')
-                        .forEach((node) => this.removedElement(node));
+                        .forEach((node) => this._destructInstance(node));
 
                     break;
                 default:
@@ -336,7 +295,7 @@ class ModuleLauncher {
         }
     }
 
-    createStyleElement(name, styles) {
+    getStyleElement(name, styles) {
         const styleElement = document.createElement('style');
 
         styleElement.type = 'text/css';
@@ -368,7 +327,7 @@ class ModuleLauncher {
         }
 
         const styles = await importer();
-        const styleElement = this.createStyleElement(name, styles);
+        const styleElement = this.getStyleElement(name, styles);
 
         this._batchStyles.push(styleElement);
 
@@ -408,16 +367,6 @@ class ModuleLauncher {
         }, 100);
     }
 
-    getStateClasses() {
-        const options = this._elementBuilder.getOptions();
-
-        return {
-            SLEEPING: options.elementSleepingClass,
-            LOADING: options.elmentLoadingClass,
-            READY: options.elementReadyClass,
-        };
-    }
-
     updateElementStateClass(element, from, to, fromClass, toClass, delay) {
 
         if(
@@ -453,7 +402,14 @@ class ModuleLauncher {
     }
 
     _updateElementState(element, from, to, delay = null) {
-        const stateClasses = this.getStateClasses();
+
+        const options = this._elementBuilder.getOptions();
+        const stateClasses = {
+            SLEEPING: options.elementSleepingClass,
+            LOADING: options.elmentLoadingClass,
+            READY: options.elementReadyClass,
+        };
+
         const fromClass = this.getStateClassByKey(from, stateClasses);
         const toClass = this.getStateClassByKey(to, stateClasses);
 
