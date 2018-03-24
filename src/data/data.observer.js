@@ -174,22 +174,13 @@ class DataObserver {
     }
 
     /**
-     * get a set of subscriptions by its origin
-     * @param {ModuleAbstract} origin
-     * @returns {Set}
-     */
-    getSubscriptions(origin) {
-        return this._subscriptions.get(origin);
-    }
-
-    /**
      * get single subscription by its origin and data key
      * @param {ModuleAbstract} origin
      * @param {string} key
      * @returns {Subscription|null}
      */
     getSubscription(origin, key) {
-        const subscriptions = (origin) ? this.getSubscriptions(origin) : null;
+        const subscriptions = (origin) ? this._subscriptions.get(origin) : null;
         const foundSubscription = (subscriptions && subscriptions instanceof Set)
             ? Array.from(subscriptions).filter((subscription) => subscription.key === key)
             : [];
@@ -353,7 +344,7 @@ class DataObserver {
      * @returns {DataObserver}
      */
     unsubscribeAll(origin) {
-        const subscriptions = this.getSubscriptions(origin);
+        const subscriptions = this._subscriptions.get(origin);
 
         if(
             subscriptions &&
