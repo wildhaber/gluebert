@@ -42,7 +42,7 @@ class ModuleLauncher {
     }
 
     /**
-     * get instersection observer
+     * get intersection observer
      * @return {IntersectionObserver|null}
      */
     getIntersectionObserver() {
