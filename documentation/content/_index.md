@@ -17,6 +17,6 @@ headlineText = "gluebert.js is a tiny helper lazy loading DOM elements, StyleShe
 [[teaser]]
     icon = "github"
     title = "OpenSource MIT"
-    text = "We love the OpenSource community and wanted to make Gluebert.js available for everyone and everywhere with the least reasonable restrictions so we decieded to publish under the MIT-License. Exited what you are building."
+    text = "We love the OpenSource community and wanted to make Gluebert.js available for everyone and everywhere with the least reasonable restrictions. So, we decided to publish under the MIT-License. Excited to see what you are building."
 
 +++
