@@ -1,4 +1,1 @@
-import IntersectionObserverPolyfill from './resources/IntersectionObserverPolyfill';
-import IntersectionObserverEntryPolyfill from './resources/IntersectionObserverEntryPolyfill';
-
-export { IntersectionObserverEntryPolyfill, IntersectionObserverPolyfill };
+'use strict';Object.defineProperty(exports,'__esModule',{value:!0}),exports.IntersectionObserverPolyfill=exports.IntersectionObserverEntryPolyfill=void 0;var _IntersectionObserverPolyfill=require('./resources/IntersectionObserverPolyfill'),_IntersectionObserverPolyfill2=_interopRequireDefault(_IntersectionObserverPolyfill),_IntersectionObserverEntryPolyfill=require('./resources/IntersectionObserverEntryPolyfill'),_IntersectionObserverEntryPolyfill2=_interopRequireDefault(_IntersectionObserverEntryPolyfill);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}exports.IntersectionObserverEntryPolyfill=_IntersectionObserverEntryPolyfill2.default,exports.IntersectionObserverPolyfill=_IntersectionObserverPolyfill2.default;

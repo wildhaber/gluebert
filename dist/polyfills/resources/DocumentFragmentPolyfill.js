@@ -1,1 +1,1 @@
-this.DocumentFragment = document.createDocumentFragment().constructor;
+"use strict";(void 0).DocumentFragment=document.createDocumentFragment().constructor;

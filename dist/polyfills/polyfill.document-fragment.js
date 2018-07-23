@@ -1,3 +1,1 @@
-import DocumentFragment from './resources/DocumentFragmentPolyfill';
-
-export { DocumentFragment };
+'use strict';Object.defineProperty(exports,'__esModule',{value:!0}),exports.DocumentFragment=void 0;var _DocumentFragmentPolyfill=require('./resources/DocumentFragmentPolyfill'),_DocumentFragmentPolyfill2=_interopRequireDefault(_DocumentFragmentPolyfill);function _interopRequireDefault(a){return a&&a.__esModule?a:{default:a}}exports.DocumentFragment=_DocumentFragmentPolyfill2.default;
