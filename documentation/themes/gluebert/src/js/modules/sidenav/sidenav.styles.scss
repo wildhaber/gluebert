@@ -1,0 +1,51 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-sidenav {
+    padding: $gutter-default;
+}
+
+.c-sidenav__entry {
+    padding: $gutter-half 0;
+
+    a {
+        color: $color-accent;
+        text-decoration: none;
+        display: block;
+
+    }
+
+    &.c-sidenav__entry--active {
+        a {
+            font-weight: $typo-weight-bold;
+        }
+    }
+}
+
+@media screen and (max-width: $screen-xs-max) {
+
+    .c-sidenav {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 0;
+
+        > ul {
+            display: block;
+            white-space: nowrap;
+        }
+
+    }
+
+    .c-sidenav__entry {
+
+        display: inline-block;
+        white-space: nowrap;
+
+        a {
+            padding: $gutter-default;
+            display: block;
+        }
+    }
+}

@@ -1,0 +1,31 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-table,
+table {
+
+    text-align: left;
+    display: block;
+    border-collapse: collapse;
+    margin-top: $gutter-default;
+
+    width: 100%;
+    overflow-x: auto;
+
+    td,
+    th {
+        padding: $gutter-half;
+    }
+
+    thead {
+        @include font(h5);
+        background-color: $color-gray-light;
+    }
+
+    tbody {
+        td {
+            border-bottom: 1px solid $color-gray-light;
+        }
+    }
+
+}

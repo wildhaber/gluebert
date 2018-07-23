@@ -1,0 +1,1 @@
+'use strict';Object.defineProperty(IntersectionObserverEntry.prototype,'isIntersecting',{get:function get(){return 0<this.intersectionRatio}});

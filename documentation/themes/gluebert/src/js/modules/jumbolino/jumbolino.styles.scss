@@ -1,0 +1,17 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-jumbolino {
+
+    background-color: $color-primary;
+    color: $color-light-semi;
+    padding: $gutter-double $gutter-default;
+
+    h1 {
+        color: $color-light;
+    }
+
+    p {
+        @include font(large-p);
+    }
+}

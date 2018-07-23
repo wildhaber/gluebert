@@ -1,0 +1,9 @@
+@import '../../styles/variables';
+
+.c-ball-machine {
+    padding: $gutter-default;
+    width: 50vw;
+    margin: $gutter-default auto;
+    background-color: $color-light;
+    border: $gutter-default solid $color-accent;
+}

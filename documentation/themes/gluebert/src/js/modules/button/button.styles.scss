@@ -1,0 +1,23 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-button {
+    @include font('h4');
+
+    display: inline-block;
+    padding: $gutter-default;
+    margin: $gutter-double auto;
+    text-decoration: none;
+    border-radius: $gutter-half;
+
+    &--primary {
+        background-color: $color-primary;
+        color: $color-light;
+    }
+
+    &--secondary {
+        background-color: $color-secondary;
+        color: $color-light;
+    }
+
+}

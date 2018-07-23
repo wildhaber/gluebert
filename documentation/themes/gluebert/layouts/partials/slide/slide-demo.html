@@ -1,0 +1,77 @@
+<div class="c-grid c-grid--align-top">
+
+
+    <div class="c-grid__col--12">
+        <h2>Demo</h2>
+    </div>
+
+    <div class="c-grid__col--6 c-grid__col__md--12">
+
+        <h2>On-the-fly generation through data-observer</h2>
+        <p>Recommendation: To see whats going on behind the scenes, open your network tab in the browser console.</p>
+
+        <div class="c-grid">
+
+            <div class="c-grid__col--12">
+                <div data-ball-machine
+                     class="c-ball-machine">
+
+                    <button data-add-ball>Create a new ball.</button>
+
+                    <div data-ball-bucket
+                         class="c-ball-bucket">
+                        <strong>Balls</strong>
+                        <ul class="balls"
+                            data-e2e-ball-bucket-all></ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="c-grid__col--6">
+                <div data-ball-bucket
+                     class="c-ball-bucket"
+                     data-number-filter="even">
+                    <strong>Even</strong>
+                    <ul class="balls"></ul>
+                </div>
+            </div>
+
+            <div class="c-grid__col--6">
+                <div data-ball-bucket
+                     class="c-ball-bucket"
+                     data-number-filter="odd">
+                    <strong>Odd</strong>
+                    <ul class="balls"></ul>
+                </div>
+            </div>
+
+            <div class="c-grid__col--12">
+                <div data-ball-statistics
+                     class="c-ball-statistics">
+                    <strong>Number Statistics</strong>
+                    <ul class="c-ball-statistics__list"></ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="c-grid__col--6 c-grid__col__md--12">
+        <h2>You want to see more complex stuff?</h2>
+        <p>Open your network-tab in your browsers console and reload the page and you see the advanced lazy loading
+            stuff in action.</p>
+
+        <h2>...or experiment locally</h2>
+
+        <pre class="c-code"><code class="language-bash">git clone git@github.com:wildhaber/gluebert-getting-started.git
+cd gluebert-getting-started
+npm install
+npm run build
+npm run serve</code></pre>
+
+
+    </div>
+
+</div>

@@ -1,0 +1,68 @@
+@import './../../../scss/variables';
+
+@keyframes roll-in {
+    0% {
+        transform: translateX(200%) rotate(360deg);
+        box-shadow: 0 0 0 0px rgba(0, 0, 40, 0.01);
+    }
+    60% {
+        transform: translateX(-20%) rotate(-20deg);
+        box-shadow: 0 0 0 40px rgba(0, 0, 40, 0.1);
+    }
+    80% {
+        transform: translateX(5%) rotate(15deg);
+    }
+    100% {
+        transform: translate(0%) rotate(0deg);
+        box-shadow: 0 0 0 0px rgba(0, 0, 40, 0.05);
+    }
+}
+
+@keyframes roll-out {
+    0% {
+        transform: translateX(0px) rotate(0deg);
+    }
+    100% {
+        transform: translateX(-600px) rotate(-720deg);
+    }
+}
+
+.ball {
+    background-color: $color-primary;
+    color: white;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    font-weight: 800;
+    font-family: "Helvetica Neue", "Arial", sans-serif;
+    font-size: 24px;
+    margin: 7px 0;
+
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.4);
+
+    will-change: transform, box-shadow;
+    animation: roll-in 0.8s;
+
+}
+
+.balls-out .ball {
+    animation: roll-out 2s;
+    animation-fill-mode: forwards;
+    animation-delay: 0.2s;
+}
+
+.balls {
+    transform: rotate(0deg);
+    transition: transform 0.6s;
+}
+
+.balls.balls-out {
+    transform: rotate(-5deg);
+}
+
+.ball.even {
+    background-color: #23272a;
+}

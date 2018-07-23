@@ -1,0 +1,11 @@
+tools/
+.idea/
+src/
+assets/
+e2e/
+docs/
+documentation/
+coverage/
+.github/
+doc/
+*.env$

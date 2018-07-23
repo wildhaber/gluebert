@@ -1,0 +1,54 @@
+@import './../../../scss/variables';
+@import './../../../scss/mixin';
+
+.c-ball-statistics {
+
+    max-width: 100%;
+    overflow-y: auto;
+
+    &__list {
+        display: flex;
+        list-style-type: none;
+        padding: 0px;
+    }
+
+    &__tick {
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-end;
+        margin: 0px 3px;
+        width: $gutter-half;
+        text-align: center;
+    }
+
+    &__number {
+        @include font(h6);
+        order: 2;
+        width: $gutter-half;
+        display: block;
+    }
+
+    &__counter {
+        display: block;
+        position: relative;
+        order: 1;
+        width: $gutter-half;
+        height: 100px;
+        background-color: #f3f3f3;
+    }
+
+    &__counter-bar {
+        display: block;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 0;
+        background-color: $color-dark-semi;
+        transition: height 0.4s, background 0.4s;
+
+        &--leader {
+            background-color: $color-primary;
+        }
+    }
+
+}

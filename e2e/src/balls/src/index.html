@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>FWLess</title>
+    <style>
+        body {
+            background-color: #4271ae
+        }
+
+        .c-ball-machine {
+            padding: 14px;
+            width: 50vw;
+            margin: 14px auto;
+            background-color: #fff;
+            border: 14px solid deeppink;
+        }
+
+        .c-ball-bucket {
+            background-color: #fff;
+        }
+
+        .balls {
+            -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+            transition: transform .6s;
+        }
+
+        .ball {
+            background-color: #adff2f;
+            color: #fff;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 800;
+            font-family: Helvetica Neue, Arial, sans-serif;
+            font-size: 24px;
+            margin: 7px 0;
+            text-shadow: 0 0 4px rgba(0, 0, 0, .4);
+            will-change: transform, box-shadow;
+            animation: roll-in .8s;
+        }
+
+        .ball.even {
+            background-color: #23272a;
+        }
+    </style>
+
+</head>
+<body>
+
+<div data-ball-machine
+     class="c-ball-machine">
+    <button data-add-ball>Create a new ball.</button>
+
+    <div data-ball-bucket
+         class="c-ball-bucket">
+        <h2>Balls</h2>
+        <ul class="balls"
+            data-e2e-ball-bucket-all></ul>
+    </div>
+
+</div>
+
+<div data-ball-bucket
+     class="c-ball-bucket"
+     data-number-filter="even">
+    <h2>Even</h2>
+    <ul class="balls"></ul>
+</div>
+
+<div data-ball-bucket
+     class="c-ball-bucket"
+     data-number-filter="odd">
+    <h2>Odd</h2>
+    <ul class="balls"></ul>
+</div>
+
+
+<script src="/index.js" async></script>
+
+</body>
+</html>

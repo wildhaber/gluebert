@@ -1,0 +1,9 @@
+.c-lazy-img {
+
+    transition: filter 0.4s;
+    will-change: filter;
+
+    &:not(.loaded) {
+        filter: blur(10px);
+    }
+}
