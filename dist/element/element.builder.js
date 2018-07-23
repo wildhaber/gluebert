@@ -1,1 +1,316 @@
-'use strict';var _typeof='function'==typeof Symbol&&'symbol'==typeof Symbol.iterator?function(a){return typeof a}:function(a){return a&&'function'==typeof Symbol&&a.constructor===Symbol&&a!==Symbol.prototype?'symbol':typeof a},_createClass=function(){function a(a,b){for(var c,d=0;d<b.length;d++)c=b[d],c.enumerable=c.enumerable||!1,c.configurable=!0,'value'in c&&(c.writable=!0),Object.defineProperty(a,c.key,c)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}();Object.defineProperty(exports,'__esModule',{value:!0});function _asyncToGenerator(a){return function(){var b=a.apply(this,arguments);return new Promise(function(a,c){function d(e,f){try{var g=b[e](f),h=g.value}catch(a){return void c(a)}return g.done?void a(h):Promise.resolve(h).then(function(a){d('next',a)},function(a){d('throw',a)})}return d('next')})}}function _classCallCheck(a,b){if(!(a instanceof b))throw new TypeError('Cannot call a class as a function')}var ElementBuilder=function(){function a(){var b=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[],c=1<arguments.length&&void 0!==arguments[1]?arguments[1]:null,d=2<arguments.length&&void 0!==arguments[2]?arguments[2]:null,e=3<arguments.length&&void 0!==arguments[3]?arguments[3]:{};_classCallCheck(this,a),this._schemaValidator=d&&'function'==typeof d?new d:null,this._templateEngine='object'===('undefined'==typeof c?'undefined':_typeof(c))?c:null,this._signatures=b instanceof Array?this._transformToObject(b):{},this._elements={},this._options=e}return _createClass(a,[{key:'_transformToObject',value:function _transformToObject(a){var b={};return a instanceof Array&&a.forEach(function(a){a&&'string'==typeof a.name&&(b[a.name]=a)}),b}},{key:'_elementExists',value:function _elementExists(a){return!!a&&'string'==typeof a&&'object'===_typeof(this._elements[a])&&!!this._elements[a]}},{key:'getElement',value:function getElement(a){return this._elementExists(a)?this._elements[a]:null}},{key:'getSignature',value:function getSignature(a){return this._signatureExists(a)?this._signatures[a]:null}},{key:'removeSignature',value:function removeSignature(a){return this._signatureExists(a)&&delete this._signatures[a],this}},{key:'_signatureExists',value:function _signatureExists(a){return'object'===_typeof(this._signatures[a])&&!!this._signatures[a]&&'string'==typeof this._signatures[a].name}},{key:'isBusySignature',value:function isBusySignature(a){var b=this.getSignature(a);return!!(b&&b.busy)}},{key:'setBusySignature',value:function setBusySignature(a){var b=this.getSignature(a);return b&&(this._signatures[a].busy=!0),this}},{key:'getTemplateInnerHtml',value:function getTemplateInnerHtml(a,b){return this._templateEngine&&'object'===_typeof(this._templateEngine)&&'function'==typeof this._templateEngine.render?this._templateEngine.render(a,b):a}},{key:'getTemplateElement',value:function getTemplateElement(a,b){var c='content'in document.createElement('template'),d=c?document.createElement('template'):document.createDocumentFragment();return d.innerHTML=this.getTemplateInnerHtml(a,b),c?d.content:d}},{key:'getSchema',value:function getSchema(a){var b=this.getElement(a);return b&&'object'===('undefined'==typeof b?'undefined':_typeof(b))&&'undefined'!=typeof b.schema?b.schema:null}},{key:'_validate',value:function _validate(a,b){if(!this._elementExists(a))return!1;var c=this.getSchema(a);return this._schemaValidator&&c?this._schemaValidator.validate(c,b):!0}},{key:'addElement',value:function addElement(a,b,c,d){var e=this._templateEngine&&'object'===_typeof(this._templateEngine)?this._templateEngine.createView(c):c;return this._elements[a]={schema:b,template:e,module:d},this}},{key:'_generateElement',value:function _generateElement(a,b){if(this._validate(a,b)){var c=this.getElement(a,b),d=new c.module(b,this.getTemplateElement(c.template,b));return d.create()}throw new Error('Create Element '+a+' failed. Given data do not match given schema.')}},{key:'_loadElementModule',value:function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(b,c){var d,e=this;return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:return d=this.getSignature(b),this.setBusySignature(b),a.next=4,Promise.all([d.importSchema(),d.importTemplate(),d.importElement()]).then(function(a){if(e.addElement(b,a[0],a[1],a[2]),e._elementExists(b))return e.removeSignature(b),e.create(b,c);throw new Error('Unfortunately Element '+b+' could not have been instanciated.')}).catch(function(a){throw new Error('Unfortunately Element '+b+' could not have been instanciated. '+a)});case 4:return a.abrupt('return',a.sent);case 5:case'end':return a.stop();}},a,this)}));return function _loadElementModule(){return a.apply(this,arguments)}}()},{key:'_retryCreate',value:function _retryCreate(a,b){var c=this;return new Promise(function(d,e){window.setTimeout(function(){try{d(c.create(a,b))}catch(a){e(a)}},100)})}},{key:'create',value:function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(b,c){var d,e,f;return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:if(a.prev=0,d=this._elementExists(b),e=this._signatureExists(b),f=this.isBusySignature(b),d||e){a.next=6;break}return a.abrupt('return',null);case 6:if(!d){a.next=8;break}return a.abrupt('return',this._generateElement(b,c));case 8:return a.abrupt('return',e&&!f?this._loadElementModule(b,c):this._retryCreate(b,c));case 11:return a.prev=11,a.t0=a['catch'](0),a.abrupt('return',null);case 14:case'end':return a.stop();}},a,this,[[0,11]])}));return function create(){return a.apply(this,arguments)}}()},{key:'getOptions',value:function getOptions(){return this._options}},{key:'getElementReadyClass',value:function getElementReadyClass(){return'string'==typeof this._options.elementReadyClass?this._options.elementReadyClass:null}}]),a}();exports.ElementBuilder=ElementBuilder;
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+/**
+ * Class represents ElementBuilder
+ * @class ElementBuilder
+ */
+class ElementBuilder {
+
+    /**
+     * Create ElementBuilder instance
+     * @param {ElementSignature[]} signatures
+     * @param {function} templateEngine
+     * @param {function} schemaValidator
+     * @param {object} options
+     */
+    constructor(signatures = [], templateEngine = null, schemaValidator = null, options = {}) {
+
+        this._schemaValidator = schemaValidator && typeof schemaValidator === 'function' ? new schemaValidator() : null;
+
+        this._templateEngine = typeof templateEngine === 'object' ? templateEngine : null;
+
+        this._signatures = signatures instanceof Array ? this._transformToObject(signatures) : {};
+
+        this._elements = {};
+
+        this._options = options;
+    }
+
+    /**
+     * transform signatures array to {name: signature} object
+     * @param {ElementSignature[]} signatures
+     * @returns {object}
+     * @private
+     */
+    _transformToObject(signatures) {
+        let obj = {};
+
+        if (signatures instanceof Array) {
+            signatures.forEach(signature => {
+                if (signature && typeof signature.name === 'string') {
+                    obj[signature.name] = signature;
+                }
+            });
+        }
+
+        return obj;
+    }
+
+    /**
+     * checks if element exists
+     * @param {ElementSignature.<name>} name
+     * @return {boolean}
+     * @private
+     */
+    _elementExists(name) {
+        return !!name && typeof name === 'string' && typeof this._elements[name] === 'object' && !!this._elements[name];
+    }
+
+    /**
+     * get registered element
+     * @param {ElementSignature.<name>} name
+     * @return {object|null}
+     */
+    getElement(name) {
+        return this._elementExists(name) ? this._elements[name] : null;
+    }
+
+    /**
+     * get signature
+     * @param {ElementSignature.<name>} name
+     * @return {object|null}
+     */
+    getSignature(name) {
+        return this._signatureExists(name) ? this._signatures[name] : null;
+    }
+
+    /**
+     * remove signature from registry
+     * @param {ElementSignature.<name>} name
+     * @return {ElementBuilder}
+     */
+    removeSignature(name) {
+        if (this._signatureExists(name)) {
+            delete this._signatures[name];
+        }
+        return this;
+    }
+
+    /**
+     * checks if signature exists
+     * @param {ElementSignature.<name>} name
+     * @return {boolean}
+     * @private
+     */
+    _signatureExists(name) {
+        return typeof this._signatures[name] === 'object' && !!this._signatures[name] && typeof this._signatures[name].name === 'string';
+    }
+
+    /**
+     * checks if signature is currently loading
+     * @param {ElementSignature.<name>} name
+     * @return {boolean}
+     */
+    isBusySignature(name) {
+        let signature = this.getSignature(name);
+        return !!(signature && signature.busy);
+    }
+
+    /**
+     * sets busy flag to
+     * @param {ElementSignature.<name>} name
+     * @return {ElementBuilder}
+     */
+    setBusySignature(name) {
+        let signature = this.getSignature(name);
+        if (signature) {
+            this._signatures[name].busy = true;
+        }
+        return this;
+    }
+
+    /**
+     * get template innter html
+     * @param {string} template
+     * @param {object} data
+     * @return {string}
+     */
+    getTemplateInnerHtml(template, data) {
+        return this._templateEngine && typeof this._templateEngine === 'object' && typeof this._templateEngine.render === 'function' ? this._templateEngine.render(template, data) : template;
+    }
+
+    /**
+     * get template without shadow dom support
+     * @param {string} template
+     * @param {object} data
+     * @return {Node}
+     * @private
+     */
+    getTemplateElement(template, data) {
+        const templateFeature = 'content' in document.createElement('template');
+        const templateElement = templateFeature ? document.createElement('template') : document.createDocumentFragment();
+
+        templateElement.innerHTML = this.getTemplateInnerHtml(template, data);
+
+        return templateFeature ? templateElement.content : templateElement;
+    }
+
+    /**
+     * get schema reference
+     * @param {ElementSignature.<name>} name
+     * @return {object}
+     */
+    getSchema(name) {
+        const element = this.getElement(name);
+        return element && typeof element === 'object' && typeof element.schema !== 'undefined' ? element.schema : null;
+    }
+
+    /**
+     * validate data against schema
+     * @param {ElementSignature.<name>} elementName
+     * @param {*} data
+     * @return {boolean}
+     * @private
+     */
+    _validate(elementName, data) {
+        if (!this._elementExists(elementName)) {
+            return false;
+        }
+
+        const schema = this.getSchema(elementName);
+
+        if (this._schemaValidator && schema) {
+            return this._schemaValidator.validate(schema, data);
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * adds element to registry
+     * @param {ElementSignature.<name>} name
+     * @param {object} schema
+     * @param {string} template
+     * @param {ElementAbstract} module
+     * @return {ElementBuilder}
+     */
+    addElement(name, schema, template, module) {
+
+        const templateView = this._templateEngine && typeof this._templateEngine === 'object' ? this._templateEngine.createView(template) : template;
+
+        this._elements[name] = {
+            schema,
+            template: templateView,
+            module
+        };
+
+        return this;
+    }
+
+    /**
+     * generate element instance
+     * @param {ElementSignature.<name>} name
+     * @param {object} data
+     * @private
+     */
+    _generateElement(name, data) {
+        if (this._validate(name, data)) {
+            const element = this.getElement(name, data);
+
+            const elementInstance = new element.module(data, this.getTemplateElement(element.template, data));
+
+            return elementInstance.create();
+        } else {
+            throw new Error(`Create Element ${name} failed. Given data do not match given schema.`);
+        }
+    }
+
+    /**
+     * load element module
+     * @param {ElementSignature.<name>} name
+     * @param {object} data
+     * @return {Promise.<TResult>}
+     * @private
+     */
+    _loadElementModule(name, data) {
+        var _this = this;
+
+        return _asyncToGenerator(function* () {
+            const signature = _this.getSignature(name);
+            _this.setBusySignature(name);
+
+            return yield Promise.all([signature.importSchema(), signature.importTemplate(), signature.importElement()]).then(function (imports) {
+                _this.addElement(name, imports[0], imports[1], imports[2]);
+
+                if (_this._elementExists(name)) {
+                    _this.removeSignature(name);
+                    return _this.create(name, data);
+                } else {
+                    throw new Error(`Unfortunately Element ${name} could not have been instanciated.`);
+                }
+            }).catch(function (err) {
+                throw new Error(`Unfortunately Element ${name} could not have been instanciated. ${err}`);
+            });
+        })();
+    }
+
+    /**
+     * retry create element loop when
+     * same element signature has to load
+     * multiple times at the same time
+     * @param {Elementsignature.<name>} name
+     * @param {object} data
+     * @return {Promise}
+     * @private
+     */
+    _retryCreate(name, data) {
+        return new Promise((resolve, reject) => {
+            window.setTimeout(() => {
+                try {
+                    resolve(this.create(name, data));
+                } catch (err) {
+                    reject(err);
+                }
+            }, 100);
+        });
+    }
+
+    /**
+     * loads dependency creates element by name and data
+     * @param {ElementSignature.<name>} name
+     * @param {*} data
+     * @return {Promise}
+     */
+    create(name, data) {
+        var _this2 = this;
+
+        return _asyncToGenerator(function* () {
+            try {
+                const elementExists = _this2._elementExists(name);
+                const signatureExists = _this2._signatureExists(name);
+                const signatureIsBusy = _this2.isBusySignature(name);
+
+                if (!elementExists && !signatureExists) {
+                    return null;
+                }
+
+                if (elementExists) {
+                    return _this2._generateElement(name, data);
+                }
+
+                return signatureExists && !signatureIsBusy ? _this2._loadElementModule(name, data) : _this2._retryCreate(name, data);
+            } catch (err) {
+                return null;
+            }
+        })();
+    }
+
+    /**
+     * get options
+     * @return {Object}
+     */
+    getOptions() {
+        return this._options;
+    }
+
+    /**
+     * get element ready class
+     * @return {string|null} elementReadyClass
+     */
+    getElementReadyClass() {
+        return typeof this._options.elementReadyClass === 'string' ? this._options.elementReadyClass : null;
+    }
+
+}
+
+export { ElementBuilder };

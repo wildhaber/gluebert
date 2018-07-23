@@ -1,1 +1,45 @@
-'use strict';var _createClass=function(){function a(a,b){for(var c,d=0;d<b.length;d++)c=b[d],c.enumerable=c.enumerable||!1,c.configurable=!0,'value'in c&&(c.writable=!0),Object.defineProperty(a,c.key,c)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}();Object.defineProperty(exports,'__esModule',{value:!0});function _asyncToGenerator(a){return function(){var b=a.apply(this,arguments);return new Promise(function(a,c){function d(e,f){try{var g=b[e](f),h=g.value}catch(a){return void c(a)}return g.done?void a(h):Promise.resolve(h).then(function(a){d('next',a)},function(a){d('throw',a)})}return d('next')})}}function _classCallCheck(a,b){if(!(a instanceof b))throw new TypeError('Cannot call a class as a function')}var Polyfill=function(){function a(){_classCallCheck(this,a)}return _createClass(a,[{key:'fill',value:function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(){return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:return a.next=2,Promise.all([this._documentFragment(),this._intersectionObserver()]);case 2:return a.abrupt('return',a.sent);case 3:case'end':return a.stop();}},a,this)}));return function fill(){return a.apply(this,arguments)}}()},{key:'_documentFragment',value:function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(){return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:if(!('DocumentFragment'in window&&window.DocumentFragment===document.createDocumentFragment().constructor)){a.next=4;break}return a.abrupt('return',!0);case 4:return a.next=6,import('./polyfill.document-fragment');case 6:return a.abrupt('return',a.sent);case 7:case'end':return a.stop();}},a,this)}));return function _documentFragment(){return a.apply(this,arguments)}}()},{key:'_intersectionObserver',value:function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(){return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:if(!('IntersectionObserver'in window&&'IntersectionObserverEntry'in window)){a.next=4;break}return a.abrupt('return',!0);case 4:return a.next=6,import('./polyfill.intersection-observer');case 6:return a.abrupt('return',a.sent);case 7:case'end':return a.stop();}},a,this)}));return function _intersectionObserver(){return a.apply(this,arguments)}}()}]),a}();exports.Polyfill=Polyfill;
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+class Polyfill {
+
+    constructor() {}
+
+    fill() {
+        var _this = this;
+
+        return _asyncToGenerator(function* () {
+            return yield Promise.all([_this._documentFragment(), _this._intersectionObserver()]);
+        })();
+    }
+
+    _documentFragment() {
+        return _asyncToGenerator(function* () {
+            if ('DocumentFragment' in window && window.DocumentFragment === document.createDocumentFragment().constructor) {
+                return true;
+            } else {
+                return yield new Promise(resolve => {
+                    require.ensure([], require => {
+                        resolve(require('./polyfill.document-fragment'));
+                    });
+                });
+            }
+        })();
+    }
+
+    _intersectionObserver() {
+        return _asyncToGenerator(function* () {
+            if ('IntersectionObserver' in window && 'IntersectionObserverEntry' in window) {
+                return true;
+            } else {
+                return yield new Promise(resolve => {
+                    require.ensure([], require => {
+                        resolve(require('./polyfill.intersection-observer'));
+                    });
+                });
+            }
+        })();
+    }
+
+}
+
+export { Polyfill };

@@ -1,1 +1,358 @@
-'use strict';var _typeof='function'==typeof Symbol&&'symbol'==typeof Symbol.iterator?function(a){return typeof a}:function(a){return a&&'function'==typeof Symbol&&a.constructor===Symbol&&a!==Symbol.prototype?'symbol':typeof a},_createClass=function(){function a(a,b){for(var c,d=0;d<b.length;d++)c=b[d],c.enumerable=c.enumerable||!1,c.configurable=!0,'value'in c&&(c.writable=!0),Object.defineProperty(a,c.key,c)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}(),_message=require('../message/message.dispatcher');Object.defineProperty(exports,'__esModule',{value:!0}),exports.DataObserver=void 0;function _classCallCheck(a,b){if(!(a instanceof b))throw new TypeError('Cannot call a class as a function')}var DataObserver=function(){function a(){_classCallCheck(this,a),this._observables={},this._signatures={},this._subscriptions=new Map}return _createClass(a,[{key:'addSignature',value:function addSignature(a){return this._signatures[a.key]=Object.assign({},a,{busy:!1}),this}},{key:'removeSignature',value:function removeSignature(a){return delete this._signatures[a.key],this}},{key:'getSignature',value:function getSignature(a){return'object'===_typeof(this._signatures[a])?this._signatures[a]:null}},{key:'setSignatureBusy',value:function setSignatureBusy(a){return'object'===_typeof(this._signatures[a])&&(this._signatures[a].busy=!0),this}},{key:'isSignatureBusy',value:function isSignatureBusy(a){return'object'===_typeof(this._signatures[a])&&this._signatures[a].busy}},{key:'addObservable',value:function addObservable(a,b){return a&&'string'==typeof a&&b&&~['function','object'].indexOf('undefined'==typeof b?'undefined':_typeof(b))?(this._observables[a]={observable:b.getObservable(),push:'function'==typeof b.push?b.push.bind(b):null},this):this}},{key:'removeObservable',value:function removeObservable(a){return delete this._observables[a],this}},{key:'_observableExists',value:function _observableExists(a){return!!a&&'string'==typeof a&&!!this._observables[a]&&'object'===_typeof(this._observables[a])&&!!this._observables[a].observable&&'object'===_typeof(this._observables[a].observable)&&'function'==typeof this._observables[a].observable.subscribe}},{key:'_signatureExists',value:function _signatureExists(a){return'object'===_typeof(this._signatures[a])}},{key:'_addSubscription',value:function _addSubscription(a,b,c){this._subscriptions.has(a)||this._subscriptions.set(a,new Set);var d=this._subscriptions.get(a);return d.add({key:b,subscription:c}),this._subscriptions.set(a,d),this}},{key:'getSubscription',value:function getSubscription(a,b){var c=a?this._subscriptions.get(a):null,d=c&&c instanceof Set?Array.from(c).filter(function(a){return a.key===b}):[];return d.length?d[0].subscription:null}},{key:'subscriptionExists',value:function subscriptionExists(a,b){var c=this.getSubscription(a,b);return!!c}},{key:'handleSubscription',value:function handleSubscription(a,b,c,d,e){var f=5<arguments.length&&void 0!==arguments[5]?arguments[5]:null,g='function'==typeof c?c:c&&'object'===('undefined'==typeof c?'undefined':_typeof(c))?new _message.MessageDispatcher(c).filter(f):null;if(!g)throw new Error('No next method declared calling .subscribe()');else g instanceof _message.MessageDispatcher&&(g=g.onMessage.bind(g));var h=this._observables[b].observable.subscribe(g,d,e);return this._addSubscription(a,b,h)}},{key:'initializeSignature',value:function initializeSignature(a,b,c,d,e){var f=this,g=5<arguments.length&&void 0!==arguments[5]?arguments[5]:null;this.setSignatureBusy(b);var h=this.getSignature(b);return h?(h.importModule().then(function(h){try{if(f.addObservable(b,new h(f)),f.removeSignature(b),!f._observableExists(b))throw new Error('Observable could not be instanciated. ('+b+')');f.subscribe(a,b,c,d,e,g)}catch(a){throw f.removeSignature(b),new Error(a)}}).catch(function(){return f}),this):this}},{key:'subscribe',value:function subscribe(a,b,c,d,e){var f=this,g=5<arguments.length&&void 0!==arguments[5]?arguments[5]:null,h=this._observableExists(b),i=this._signatureExists(b),j=this.isSignatureBusy(b);if(!h&&!i)return this;if(h)return this.handleSubscription(a,b,c,d,e,g);if(j)window.setTimeout(function(){return f.subscribe(a,b,c,d,e,g)},100);else return this.initializeSignature(a,b,c,d,e,g);return this}},{key:'unsubscribeFrom',value:function unsubscribeFrom(a,b){var c=this.getSubscription(a,b);return c&&'function'==typeof c.unsubscribe&&c.unsubscribe(),this}},{key:'unsubscribeAll',value:function unsubscribeAll(a){var b=this._subscriptions.get(a);return b&&b instanceof Set&&b.size&&b.forEach(function(a){a&&'object'===('undefined'==typeof a?'undefined':_typeof(a))&&'object'===_typeof(a.subscription)&&a.subscription&&'function'==typeof a.subscription.unsubscribe&&a.subscription.unsubscribe()}),this}},{key:'unsubscribe',value:function unsubscribe(a){var b=1<arguments.length&&void 0!==arguments[1]?arguments[1]:null;return b&&this.subscriptionExists(a,b)?this.unsubscribeFrom(a,b):!b&&this.unsubscribeAll(a),this}},{key:'pushTo',value:function pushTo(a,b){if(this._observableExists(a))if('function'==typeof this._observables[a].push)this._observables[a].push(b);else throw new Error('Observable ('+a+') does not provide a .push() method.');return this}}]),a}();exports.DataObserver=DataObserver;
+import { MessageDispatcher } from '../message/message.dispatcher';
+
+/**
+ * Class represents DataObserver
+ */
+class DataObserver {
+
+    /**
+     * creates new DataObserver instance
+     */
+    constructor() {
+
+        /**
+         * all observables are listed here
+         * @type {{}}
+         * @private
+         */
+        this._observables = {};
+
+        /**
+         * all registered DataSignatures without being subscribed
+         * @type {{}}
+         * @private
+         */
+        this._signatures = {};
+
+        /**
+         * Map with active subscriptions
+         * @type {Map}
+         * @private
+         */
+        this._subscriptions = new Map();
+    }
+
+    /**
+     * registers a signature
+     * @param {DataSignature} signature
+     * @returns {DataObserver}
+     */
+    addSignature(signature) {
+        this._signatures[signature.key] = Object.assign({}, signature, { busy: false });
+        return this;
+    }
+
+    /**
+     * remove signature
+     * @param {DataSignature} signature
+     * @returns {DataObserver}
+     */
+    removeSignature(signature) {
+        delete this._signatures[signature.key];
+        return this;
+    }
+
+    /**
+     * get signature by key
+     * @param {string} key
+     * @returns {DataSignature|null}
+     */
+    getSignature(key) {
+        return typeof this._signatures[key] === 'object' ? this._signatures[key] : null;
+    }
+
+    /**
+     * sets busy state to true for a given signature
+     * while instanciating. Avoids multi instanciating
+     * same DataPool
+     * @param {string} key
+     * @returns {DataObserver}
+     */
+    setSignatureBusy(key) {
+        if (typeof this._signatures[key] === 'object') {
+            this._signatures[key].busy = true;
+        }
+        return this;
+    }
+
+    /**
+     * checks if signature isBusy
+     * @param key
+     * @returns {boolean}
+     */
+    isSignatureBusy(key) {
+        return typeof this._signatures[key] === 'object' ? this._signatures[key].busy : false;
+    }
+
+    /**
+     * adds an observable to internalObservable storage
+     * @param {string} key
+     * @param {DataAbstract} observableModule
+     * @returns {DataObserver}
+     */
+    addObservable(key, observableModule) {
+        if (!key || typeof key !== 'string' || !observableModule || !~['function', 'object'].indexOf(typeof observableModule)) {
+            return this;
+        }
+
+        this._observables[key] = {
+            observable: observableModule.getObservable(),
+            push: typeof observableModule.push === 'function' ? observableModule.push.bind(observableModule) : null
+        };
+
+        return this;
+    }
+
+    /**
+     * deletes an stored observable by key
+     * @param {string} key
+     * @returns {DataObserver}
+     */
+    removeObservable(key) {
+        delete this._observables[key];
+        return this;
+    }
+
+    /**
+     * checks if observable is registered and instanciated by key
+     * @param {string} key
+     * @returns {boolean}
+     * @private
+     */
+    _observableExists(key) {
+        return !!key && typeof key === 'string' && !!this._observables[key] && typeof this._observables[key] === 'object' && !!this._observables[key].observable && typeof this._observables[key].observable === 'object' && typeof this._observables[key].observable.subscribe === 'function';
+    }
+
+    /**
+     * checks if signature exists by key
+     * @param {string} key
+     * @returns {boolean}
+     * @private
+     */
+    _signatureExists(key) {
+        return typeof this._signatures[key] === 'object';
+    }
+
+    /**
+     * adds a subscription to the internal
+     * subscription storage
+     * @param {ModuleAbstract} origin - unique instance of where this subscription is registered from
+     * @param {string} key
+     * @param {Subscription} subscription - RxJs subscription instance
+     * @returns {DataObserver}
+     * @private
+     */
+    _addSubscription(origin, key, subscription) {
+        if (!this._subscriptions.has(origin)) {
+            this._subscriptions.set(origin, new Set());
+        }
+
+        const currentSubscriptions = this._subscriptions.get(origin);
+        currentSubscriptions.add({
+            key,
+            subscription
+        });
+
+        this._subscriptions.set(origin, currentSubscriptions);
+
+        return this;
+    }
+
+    /**
+     * get single subscription by its origin and data key
+     * @param {ModuleAbstract} origin
+     * @param {string} key
+     * @returns {Subscription|null}
+     */
+    getSubscription(origin, key) {
+        const subscriptions = origin ? this._subscriptions.get(origin) : null;
+        const foundSubscription = subscriptions && subscriptions instanceof Set ? Array.from(subscriptions).filter(subscription => subscription.key === key) : [];
+
+        return foundSubscription.length ? foundSubscription[0].subscription : null;
+    }
+
+    /**
+     * checks if a certain subscription exists for its origin
+     * @param {ModuleAbstract} origin
+     * @param {string} key
+     * @returns {boolean}
+     */
+    subscriptionExists(origin, key) {
+        const subscription = this.getSubscription(origin, key);
+        return !!subscription;
+    }
+
+    /**
+     * handle subscription
+     * @param {ModuleAbstract} origin - unique instance of the subscribers scope
+     * @param {DataSignature.key} to - DataSignature.key
+     * @param {function|object} next - callback function on next item or objects with action props
+     * @param {function} error - callback function on error
+     * @param {function} complete - callback function on complete queue
+     * @param {function} filter - filter messages by
+     * @returns {DataObserver}
+     */
+    handleSubscription(origin, to, next, error, complete, filter = null) {
+
+        let nextMethod = typeof next === 'function' ? next : next && typeof next === 'object' ? new MessageDispatcher(next).filter(filter) : null;
+
+        if (!nextMethod) {
+            throw new Error('No next method declared calling .subscribe()');
+        } else if (nextMethod instanceof MessageDispatcher) {
+            nextMethod = nextMethod.onMessage.bind(nextMethod);
+        }
+
+        const subscription = this._observables[to].observable.subscribe(nextMethod, error, complete);
+
+        return this._addSubscription(origin, to, subscription);
+    }
+
+    /**
+     * initialize signature
+     * @param {ModuleAbstract} origin - unique instance of the subscribers scope
+     * @param {DataSignature.key} to - DataSignature.key
+     * @param {function|object} next - callback function on next item or objects with action props
+     * @param {function} error - callback function on error
+     * @param {function} complete - callback function on complete queue
+     * @param {function} filter - filter messages by
+     * @returns {DataObserver}
+     */
+    initializeSignature(origin, to, next, error, complete, filter = null) {
+
+        this.setSignatureBusy(to);
+        const signature = this.getSignature(to);
+
+        if (!signature) {
+            return this;
+        }
+
+        signature.importModule().then(observableModule => {
+
+            try {
+                this.addObservable(to, new observableModule(this));
+                this.removeSignature(to);
+
+                if (!this._observableExists(to)) {
+                    throw new Error('Observable could not be instanciated. (' + to + ')');
+                }
+
+                this.subscribe(origin, to, next, error, complete, filter);
+            } catch (err) {
+                this.removeSignature(to);
+                throw new Error(err);
+            }
+        }).catch(() => {
+            return this;
+        });
+
+        return this;
+    }
+
+    /**
+     * adds a subscription to a registered Data pool by its key
+     * @param {ModuleAbstract} origin - unique instance of the subscribers scope
+     * @param {DataSignature.key} to - DataSignature.key
+     * @param {function|object} next - callback function on next item or objects with action props
+     * @param {function} error - callback function on error
+     * @param {function} complete - callback function on complete queue
+     * @param {function} filter - filter messages by
+     * @returns {DataObserver}
+     */
+    subscribe(origin, to, next, error, complete, filter = null) {
+
+        const observableExists = this._observableExists(to);
+        const signatureExists = this._signatureExists(to);
+        const signatureIsBusy = this.isSignatureBusy(to);
+
+        // skip if neither observable nor signature exists
+        if (!observableExists && !signatureExists) {
+            return this;
+        }
+
+        // handleSubscription
+        if (observableExists) {
+            return this.handleSubscription(origin, to, next, error, complete, filter);
+        }
+
+        if (signatureIsBusy) {
+            // Retry if signature is busy
+            window.setTimeout(() => {
+                return this.subscribe(origin, to, next, error, complete, filter);
+            }, 100);
+        } else {
+            // initialize subscription signature
+            return this.initializeSignature(origin, to, next, error, complete, filter);
+        }
+
+        return this;
+    }
+
+    /**
+     * unsubscribe form a certain DataPool by origin and key
+     * @param {ModuleAbstract} origin
+     * @param {string} key
+     * @returns {DataObserver}
+     */
+    unsubscribeFrom(origin, key) {
+        const subscription = this.getSubscription(origin, key);
+        if (subscription && typeof subscription.unsubscribe === 'function') {
+            subscription.unsubscribe();
+        }
+        return this;
+    }
+
+    /**
+     * unsubscribe all subscription of a given origin
+     * @param {ModuleAbstract} origin
+     * @returns {DataObserver}
+     */
+    unsubscribeAll(origin) {
+        const subscriptions = this._subscriptions.get(origin);
+
+        if (subscriptions && subscriptions instanceof Set && subscriptions.size) {
+            subscriptions.forEach(subscription => {
+                if (subscription && typeof subscription === 'object' && typeof subscription.subscription === 'object' && subscription.subscription && typeof subscription.subscription.unsubscribe === 'function') {
+                    subscription.subscription.unsubscribe();
+                }
+            });
+        }
+
+        return this;
+    }
+
+    /**
+     * unsubscribe from subscription by origin and optionally key
+     * @param {ModuleAbstract} origin
+     * @param {DataSignature.key} from - DataSignature.key
+     * @returns {DataObserver}
+     */
+    unsubscribe(origin, from = null) {
+
+        if (from && this.subscriptionExists(origin, from)) {
+            this.unsubscribeFrom(origin, from);
+        } else if (!from) {
+            this.unsubscribeAll(origin);
+        }
+
+        return this;
+    }
+
+    /**
+     * Push data to a Data instance
+     * @param {DataSignature.key} key - DataSignature.key
+     * @param {Message} message
+     */
+    pushTo(key, message) {
+        if (this._observableExists(key)) {
+            if (typeof this._observables[key].push === 'function') {
+                this._observables[key].push(message);
+            } else {
+                throw new Error('Observable (' + key + ') does not provide a .push() method.');
+            }
+        }
+
+        return this;
+    }
+}
+
+export { DataObserver };

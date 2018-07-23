@@ -1,1 +1,30 @@
-'use strict';var _createClass=function(){function a(a,b){for(var c,d=0;d<b.length;d++)c=b[d],c.enumerable=c.enumerable||!1,c.configurable=!0,'value'in c&&(c.writable=!0),Object.defineProperty(a,c.key,c)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}();Object.defineProperty(exports,'__esModule',{value:!0});function _classCallCheck(a,b){if(!(a instanceof b))throw new TypeError('Cannot call a class as a function')}var TemplateAbstract=function(){function a(b){_classCallCheck(this,a),this.engine=b}return _createClass(a,[{key:'createView',value:function createView(){throw new Error('Template engine must provide a .createView() method')}},{key:'render',value:function render(){throw new Error('Template engine must provide a .render() method')}}]),a}();exports.TemplateAbstract=TemplateAbstract;
+/**
+ * Class represents TemplateAbstract
+ */
+class TemplateAbstract {
+
+    /**
+     * create TemplateAbstract instance
+     * @param {function} engine - template engine
+     * */
+    constructor(engine) {
+        this.engine = engine;
+    }
+
+    /**
+     * create view
+     */
+    createView() {
+        throw new Error('Template engine must provide a .createView() method');
+    }
+
+    /**
+     * actual render function of the template and the data
+     */
+    render() {
+        throw new Error('Template engine must provide a .render() method');
+    }
+
+}
+
+export { TemplateAbstract };

@@ -1,1 +1,34 @@
-"use strict";var _createClass=function(){function a(a,b){for(var c,d=0;d<b.length;d++)c=b[d],c.enumerable=c.enumerable||!1,c.configurable=!0,"value"in c&&(c.writable=!0),Object.defineProperty(a,c.key,c)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}();Object.defineProperty(exports,"__esModule",{value:!0});function _classCallCheck(a,b){if(!(a instanceof b))throw new TypeError("Cannot call a class as a function")}var ControllerAbstract=function(){function a(b,c,d,e){_classCallCheck(this,a),this._element=b,this._data=c,this._elements=d,this._dependencies=e||null,this._dependencies&&this._dependencies.inject(this)}return _createClass(a,[{key:"destruct",value:function destruct(){this._data.unsubscribe(this)}}]),a}();exports.ControllerAbstract=ControllerAbstract;
+/**
+ * Class represents ControllerAbstract
+ * @abstract
+ */
+class ControllerAbstract {
+
+    /**
+     * Create a new ControllerAbstract instance
+     * @param {HTMLElement} element
+     * @param {DataObserver} data
+     * @param {ElementBuilder} elements
+     * @param {DependencyManager} dependencies
+     */
+    constructor(element, data, elements, dependencies) {
+        this._element = element;
+        this._data = data;
+        this._elements = elements;
+        this._dependencies = dependencies || null;
+
+        if (this._dependencies) {
+            this._dependencies.inject(this);
+        }
+    }
+
+    /**
+     * Callback when HTMLElement removed from DOM
+     */
+    destruct() {
+        this._data.unsubscribe(this);
+    }
+
+}
+
+export { ControllerAbstract };

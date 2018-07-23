@@ -1,1 +1,469 @@
-'use strict';var _createClass=function(){function a(a,b){for(var c,d=0;d<b.length;d++)c=b[d],c.enumerable=c.enumerable||!1,c.configurable=!0,'value'in c&&(c.writable=!0),Object.defineProperty(a,c.key,c)}return function(b,c,d){return c&&a(b.prototype,c),d&&a(b,d),b}}();Object.defineProperty(exports,'__esModule',{value:!0});function _asyncToGenerator(a){return function(){var b=a.apply(this,arguments);return new Promise(function(a,c){function d(e,f){try{var g=b[e](f),h=g.value}catch(a){return void c(a)}return g.done?void a(h):Promise.resolve(h).then(function(a){d('next',a)},function(a){d('throw',a)})}return d('next')})}}function _classCallCheck(a,b){if(!(a instanceof b))throw new TypeError('Cannot call a class as a function')}var ModuleLauncher=function(){function a(){var b=0<arguments.length&&void 0!==arguments[0]?arguments[0]:[],c=arguments[1],d=arguments[2];_classCallCheck(this,a),this._modules=b,this._dataObserver=c,this._elementBuilder=d,this._observeDomMutation=this._observeDomMutation.bind(this),this._observer=new MutationObserver(this._observeDomMutation),this._intersectionObserver=this.getIntersectionObserver(),this._instanceMap=new Map,this._signatureElements={},this._sleepersMap=new Map,this._stylesLoaded=new Set,this._batchStyles=[],this._batchStylesBusy=!1,this._lockedNodeSet=new Set,b.length&&this._init()}return _createClass(a,[{key:'_init',value:function _init(){this.registerObserver(document.body),this._bootstrap()}},{key:'getIntersectionObserver',value:function getIntersectionObserver(){return'function'==typeof IntersectionObserver?new IntersectionObserver(this._wokeUpElements.bind(this),{root:null,rootMargin:'0px',thresholds:[1]}):null}},{key:'registerObserver',value:function registerObserver(a,b){var c=Object.assign({attributes:!1,childList:!0,characterData:!1,subtree:!0},b);this._observer.observe(a,c)}},{key:'_eachModule',value:function _eachModule(){var a=0<arguments.length&&void 0!==arguments[0]?arguments[0]:null;if('function'==typeof a)for(var b=0,c=this._modules.length;b<c;b++)a(this._modules[b])}},{key:'_destructInstance',value:function _destructInstance(a){var b=this,c=this._instanceMap.get(a),d=this.getSignaturesByElement(a);c&&('function'==typeof c.destruct&&c.destruct(),this._instanceMap.delete(a)),d.length&&(this.removeElementFromSignatureList(a),d.map(function(a){return b.cleanupSignatureStyles(a)}))}},{key:'getControllerFromSignature',value:function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(b){return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:if('function'!=typeof b.importController){a.next=6;break}return a.next=3,b.importController();case 3:a.t0=a.sent,a.next=7;break;case 6:a.t0=null;case 7:return a.abrupt('return',a.t0);case 8:case'end':return a.stop();}},a,this)}));return function getControllerFromSignature(){return a.apply(this,arguments)}}()},{key:'bindControllerInstance',value:function bindControllerInstance(a,b,c){var d=this;window.requestAnimationFrame(function(){d._instanceMap.set(a,new b(a,d._dataObserver,d._elementBuilder,c))})}},{key:'_bindController',value:function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(b,c){var d,e;return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:if(b&&c){a.next=2;break}return a.abrupt('return',null);case 2:return this.addElementToSignatureList(c,b),this._updateElementState(b,'sleeping','loading'),a.next=6,this.getControllerFromSignature(c);case 6:return d=a.sent,a.next=9,c.dependencyManager.resolve();case 9:e=a.sent,d&&!this._instanceMap.has(b)&&this.bindControllerInstance(b,d,e),this._stylesLoaded.has(c.name)||'function'!=typeof c.importStyles?this._updateElementState(b,'loading','ready'):this._addStyles(b,c.name,c.importStyles);case 12:case'end':return a.stop();}},a,this)}));return function _bindController(){return a.apply(this,arguments)}}()},{key:'addElementToSignatureList',value:function addElementToSignatureList(a,b){return'undefined'==typeof this._signatureElements[a.name]&&(this._signatureElements[a.name]=new Set),this._signatureElements[a.name].add(b),this}},{key:'removeElementFromSignatureList',value:function removeElementFromSignatureList(a){var b=this,c=this.getSignaturesByElement(a);return c.forEach(function(c){b._signatureElements[c].delete(a)}),this}},{key:'getSignaturesByElement',value:function getSignaturesByElement(a){var b=this,c=Object.keys(this._signatureElements);return c.filter(function(c){return b._signatureElements[c].has(a)})}},{key:'cleanupSignatureStyles',value:function cleanupSignatureStyles(a){var b=this._signatureElements[a];return b.size||this.removeStylesForSignature(a),this}},{key:'_wokeUpElements',value:function _wokeUpElements(a,b){var c=this;a.filter(function(a){return'boolean'==typeof a.isIntersecting?a.isIntersecting:0<a.intersectionRatio}).forEach(function(a){if(c._sleepersMap.has(a.target)){var d=c._sleepersMap.get(a.target);c._bindController(a.target,d),c._sleepersMap.delete(a.target)}b.unobserve(a.target)})}},{key:'_addAsSleeper',value:function _addAsSleeper(a,b){var c=this;return a.forEach(function(a){a instanceof Element&&(c._intersectionObserver&&b.isLazy?(c._updateElementState(a,null,'sleeping'),c._sleepersMap.set(a,b),c._intersectionObserver.observe(a)):c._bindController(a,b))}),this}},{key:'_launchMatchingElements',value:function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(b){var c=this;return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:this._lockedNodeSet.add(b),this._eachModule(function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(d){var e,f,g;return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:for(e=0,f=c._modules.length;e<f;e++)g='function'==typeof b.matches&&b.matches(d.selector),g&&c._addAsSleeper([b],d);case 1:case'end':return a.stop();}},a,c)}));return function(){return a.apply(this,arguments)}}());case 2:case'end':return a.stop();}},a,this)}));return function _launchMatchingElements(){return a.apply(this,arguments)}}()},{key:'_bootstrap',value:function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(){var b=this;return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:this._eachModule(function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(c){var d;return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:d=Array.from(document.querySelectorAll(c.selector)),d.length&&b._addAsSleeper(d,c);case 2:case'end':return a.stop();}},a,b)}));return function(){return a.apply(this,arguments)}}());case 1:case'end':return a.stop();}},a,this)}));return function _bootstrap(){return a.apply(this,arguments)}}()},{key:'_observeDomMutation',value:function _observeDomMutation(a){for(var b,c=this,d=0,e=a.length;d<e;d++)switch(b=a[d],b.type){case'childList':Array.from(new Set(b.addedNodes)).filter(function(a){return!c._lockedNodeSet.has(a)&&'function'==typeof a.querySelectorAll}).forEach(function(a){return c._launchMatchingElements(a)}),Array.from(new Set(b.removedNodes)).filter(function(a){return'function'==typeof a.querySelectorAll}).forEach(function(a){return c._destructInstance(a)});break;default:throw new Error('Unsupported Mutation Type '+b.type);}}},{key:'getStylesId',value:function getStylesId(a){return'gluebert-styles-'+a}},{key:'getStyleElement',value:function getStyleElement(a,b){var c=document.createElement('style');return c.type='text/css',c.id=this.getStylesId(a),c.styleSheet?c.styleSheet.cssText=b:c.appendChild(document.createTextNode(b)),c}},{key:'_addStyles',value:function(){var a=_asyncToGenerator(regeneratorRuntime.mark(function a(b,c,d){var e,f;return regeneratorRuntime.wrap(function(a){for(;;)switch(a.prev=a.next){case 0:if(this._stylesLoaded.add(c),'function'==typeof d){a.next=3;break}return a.abrupt('return',this);case 3:return a.next=5,d();case 5:return e=a.sent,f=this.getStyleElement(c,e),this._batchStyles.push(f),this._batchStylesBusy||this._batchPaint(),this._updateElementState(b,'loading','ready',120),a.abrupt('return',this);case 11:case'end':return a.stop();}},a,this)}));return function _addStyles(){return a.apply(this,arguments)}}()},{key:'_batchPaint',value:function _batchPaint(){var a=this;this._batchStylesBusy=!0;var b=document.createDocumentFragment();window.setTimeout(function(){var c=a._batchStyles;a._batchStyles=[],a._batchStylesBusy=!1;for(var d=0,e=c.length;d<e;d++)b.appendChild(c[d]);window.requestAnimationFrame(function(){document.head.appendChild(b)})},100)}},{key:'updateElementStateClass',value:function updateElementStateClass(a,b,c,d,e,f){var g=this;return a&&'undefined'!=typeof a.classList&&(d||e)&&(f?window.setTimeout(function(){g._updateElementState(a,b,c)},f):window.requestAnimationFrame(function(){d&&a.classList.remove(d),e&&a.classList.add(e)})),this}},{key:'getStateClassByKey',value:function getStateClassByKey(a,b){return a&&'string'==typeof b[a.toUpperCase()]?b[a.toUpperCase()]:null}},{key:'_updateElementState',value:function _updateElementState(a,b,c){var d=3<arguments.length&&void 0!==arguments[3]?arguments[3]:null,e=this._elementBuilder.getOptions(),f={SLEEPING:e.elementSleepingClass,LOADING:e.elementLoadingClass,READY:e.elementReadyClass},g=this.getStateClassByKey(b,f),h=this.getStateClassByKey(c,f);return this.updateElementStateClass(a,b,c,g,h,d)}},{key:'removeStylesForSignature',value:function removeStylesForSignature(a){var b=document.head.querySelector('#'+this.getStylesId(a));return b&&(document.head.removeChild(b),this._stylesLoaded.delete(a)),this}}]),a}();exports.ModuleLauncher=ModuleLauncher;
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
+/**
+ * Class representing ModuleLauncher
+ */
+class ModuleLauncher {
+
+    /**
+     * Creates instance of ModuleLauncher
+     * @param modules
+     * @param {DataObserver} dataObserver
+     * @param {ElementBuilder} elementBuilder
+     * @constructor
+     */
+    constructor(modules = [], dataObserver, elementBuilder) {
+
+        this._modules = modules;
+        this._dataObserver = dataObserver;
+        this._elementBuilder = elementBuilder;
+
+        this._observeDomMutation = this._observeDomMutation.bind(this);
+        this._observer = new MutationObserver(this._observeDomMutation);
+        this._intersectionObserver = this.getIntersectionObserver();
+
+        this._instanceMap = new Map();
+        this._signatureElements = {};
+        this._sleepersMap = new Map();
+        this._stylesLoaded = new Set();
+        this._batchStyles = [];
+        this._batchStylesBusy = false;
+        this._lockedNodeSet = new Set();
+
+        if (modules.length) {
+            this._init();
+        }
+    }
+
+    /**
+     * initialize ModuleLoader
+     * @private
+     */
+    _init() {
+        this.registerObserver(document.body);
+        this._bootstrap();
+    }
+
+    /**
+     * get intersection observer
+     * @return {IntersectionObserver|null}
+     */
+    getIntersectionObserver() {
+        if (typeof IntersectionObserver !== 'function') {
+            return null;
+        }
+
+        return new IntersectionObserver(this._wokeUpElements.bind(this), {
+            root: null,
+            rootMargin: '0px',
+            thresholds: [1.0]
+        });
+    }
+
+    /**
+     * register observer
+     * @param {Element} element
+     * @param {object} options
+     */
+    registerObserver(element, options) {
+        let _options = Object.assign({
+            attributes: false,
+            childList: true,
+            characterData: false,
+            subtree: true
+        }, options);
+
+        this._observer.observe(element, _options);
+    }
+
+    /**
+     * module iterator for each module
+     * @param {function|null} callback
+     * @private
+     */
+    _eachModule(callback = null) {
+        if (typeof callback === 'function') {
+            for (let i = 0, l = this._modules.length; i < l; i++) {
+                callback(this._modules[i]);
+            }
+        }
+    }
+
+    /**
+     * call instance destruct
+     * @param {Element} element
+     * @private
+     */
+    _destructInstance(element) {
+        const instance = this._instanceMap.get(element);
+        const signatures = this.getSignaturesByElement(element);
+
+        if (instance) {
+            if (typeof instance.destruct === 'function') {
+                instance.destruct();
+            }
+            this._instanceMap.delete(element);
+        }
+
+        if (signatures.length) {
+            this.removeElementFromSignatureList(element);
+            signatures.map(signature => this.cleanupSignatureStyles(signature));
+        }
+    }
+
+    /**
+     * get controller from signature
+     * @param signature
+     * @return {Promise.<null>}
+     */
+    getControllerFromSignature(signature) {
+        return _asyncToGenerator(function* () {
+            return typeof signature.importController === 'function' ? yield signature.importController() : null;
+        })();
+    }
+
+    /**
+     * bind controller instance
+     * @param element
+     * @param controller
+     */
+    bindControllerInstance(element, controller, dependencies) {
+        window.requestAnimationFrame(() => {
+            this._instanceMap.set(element, new controller(element, this._dataObserver, this._elementBuilder, dependencies));
+        });
+    }
+
+    /**
+     * bind controllers from signatures
+     * @param {Element} element
+     * @param {ModuleSignature} signature
+     * @return {Promise.<void>}
+     * @private
+     */
+    _bindController(element, signature) {
+        var _this = this;
+
+        return _asyncToGenerator(function* () {
+            if (!element || !signature) {
+                return null;
+            }
+
+            _this.addElementToSignatureList(signature, element);
+            _this._updateElementState(element, 'sleeping', 'loading');
+
+            const controller = yield _this.getControllerFromSignature(signature);
+            const dependencies = yield signature.dependencyManager.resolve();
+
+            if (controller && !_this._instanceMap.has(element)) {
+                _this.bindControllerInstance(element, controller, dependencies);
+            }
+
+            if (!_this._stylesLoaded.has(signature.name) && typeof signature.importStyles === 'function') {
+                _this._addStyles(element, signature.name, signature.importStyles);
+            } else {
+                _this._updateElementState(element, 'loading', 'ready');
+            }
+        })();
+    }
+
+    addElementToSignatureList(signature, element) {
+        if (typeof this._signatureElements[signature.name] === 'undefined') {
+            this._signatureElements[signature.name] = new Set();
+        }
+
+        this._signatureElements[signature.name].add(element);
+
+        return this;
+    }
+
+    removeElementFromSignatureList(element) {
+        const signatures = this.getSignaturesByElement(element);
+        signatures.forEach(signature => {
+            this._signatureElements[signature].delete(element);
+        });
+
+        return this;
+    }
+
+    getSignaturesByElement(element) {
+        const activeSignatures = Object.keys(this._signatureElements);
+        return activeSignatures.filter(signatureKey => {
+            return this._signatureElements[signatureKey].has(element);
+        });
+    }
+
+    cleanupSignatureStyles(signature) {
+        const availableElements = this._signatureElements[signature];
+        if (!availableElements.size) {
+            this.removeStylesForSignature(signature);
+        }
+
+        return this;
+    }
+
+    /**
+     * callback when intersection observer
+     * added some entries
+     * @param {array}  entries
+     * @param {Observer} observer
+     * @private
+     */
+    _wokeUpElements(entries, observer) {
+
+        entries.filter(entry => {
+            return typeof entry.isIntersecting === 'boolean' ? entry.isIntersecting : entry.intersectionRatio > 0; // IE Edge Fallback (https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12156111/)
+        }).forEach(entry => {
+            if (this._sleepersMap.has(entry.target)) {
+                let signature = this._sleepersMap.get(entry.target);
+
+                this._bindController(entry.target, signature);
+
+                this._sleepersMap.delete(entry.target);
+            }
+            observer.unobserve(entry.target);
+        });
+    }
+
+    /**
+     * adding an element when it appears
+     * through mutation observer
+     * @param {array} elements
+     * @param {ModuleSignature} signature
+     * @private
+     */
+    _addAsSleeper(elements, signature) {
+
+        elements.forEach(element => {
+            if (!(element instanceof Element)) {
+                return;
+            }
+
+            if (this._intersectionObserver && signature.isLazy) {
+                this._updateElementState(element, null, 'sleeping');
+                this._sleepersMap.set(element, signature);
+                this._intersectionObserver.observe(element);
+            } else {
+                this._bindController(element, signature);
+            }
+        });
+        return this;
+    }
+
+    /**
+     * launch matching elements
+     * @param {Element} node
+     * @return {Promise.<void>}
+     * @private
+     */
+    _launchMatchingElements(node) {
+        var _this2 = this;
+
+        return _asyncToGenerator(function* () {
+            _this2._lockedNodeSet.add(node);
+
+            _this2._eachModule((() => {
+                var _ref = _asyncToGenerator(function* (signature) {
+                    for (let i = 0, l = _this2._modules.length; i < l; i++) {
+
+                        const elementMatches = typeof node.matches === 'function' ? node.matches(signature.selector) : false;
+
+                        if (elementMatches) {
+                            _this2._addAsSleeper([node], signature);
+                        }
+                    }
+                });
+
+                return function (_x) {
+                    return _ref.apply(this, arguments);
+                };
+            })());
+        })();
+    }
+
+    /**
+     * bootstrap module instance iterator
+     * @return {Promise.<void>}
+     * @private
+     */
+    _bootstrap() {
+        var _this3 = this;
+
+        return _asyncToGenerator(function* () {
+
+            _this3._eachModule((() => {
+                var _ref2 = _asyncToGenerator(function* (signature) {
+                    const elements = Array.from(document.querySelectorAll(signature.selector));
+                    if (elements.length) {
+                        _this3._addAsSleeper(elements, signature);
+                    }
+                });
+
+                return function (_x2) {
+                    return _ref2.apply(this, arguments);
+                };
+            })());
+        })();
+    }
+
+    /**
+     * add observe DOM changes
+     * @param {NodeList} mutations
+     * @private
+     */
+    _observeDomMutation(mutations) {
+        for (let i = 0, l = mutations.length; i < l; i++) {
+            const mutation = mutations[i];
+
+            switch (mutation.type) {
+                case 'childList':
+
+                    Array.from(new Set(mutation.addedNodes)).filter(node => !this._lockedNodeSet.has(node) && typeof node.querySelectorAll === 'function').forEach(node => this._launchMatchingElements(node));
+
+                    Array.from(new Set(mutation.removedNodes)).filter(node => typeof node.querySelectorAll === 'function').forEach(node => this._destructInstance(node));
+
+                    break;
+                default:
+                    throw new Error(`Unsupported Mutation Type ${mutation.type}`);
+            }
+        }
+    }
+
+    getStylesId(name) {
+        return `gluebert-styles-${name}`;
+    }
+
+    /**
+     * get style element
+     * @param name
+     * @param styles
+     * @return {Element}
+     */
+    getStyleElement(name, styles) {
+        const styleElement = document.createElement('style');
+
+        styleElement.type = 'text/css';
+        styleElement.id = this.getStylesId(name);
+
+        if (styleElement.styleSheet) {
+            styleElement.styleSheet.cssText = styles;
+        } else {
+            styleElement.appendChild(document.createTextNode(styles));
+        }
+
+        return styleElement;
+    }
+
+    /**
+     * extract and add stylesheet
+     * @param {string} name
+     * @param {function} importer
+     * @return {Promise.<ModuleLauncher>}
+     * @private
+     */
+    _addStyles(element, name, importer) {
+        var _this4 = this;
+
+        return _asyncToGenerator(function* () {
+            _this4._stylesLoaded.add(name);
+
+            if (typeof importer !== 'function') {
+                return _this4;
+            }
+
+            const styles = yield importer();
+            const styleElement = _this4.getStyleElement(name, styles);
+
+            _this4._batchStyles.push(styleElement);
+
+            if (!_this4._batchStylesBusy) {
+                _this4._batchPaint();
+            }
+
+            _this4._updateElementState(element, 'loading', 'ready', 120);
+
+            return _this4;
+        })();
+    }
+
+    /**
+     * combine styles to be added
+     * to avoid too much repainting
+     * @private
+     */
+    _batchPaint() {
+        this._batchStylesBusy = true;
+
+        const fragment = document.createDocumentFragment();
+
+        window.setTimeout(() => {
+            let tmpStyles = this._batchStyles;
+            this._batchStyles = [];
+            this._batchStylesBusy = false;
+
+            for (let i = 0, l = tmpStyles.length; i < l; i++) {
+                fragment.appendChild(tmpStyles[i]);
+            }
+
+            window.requestAnimationFrame(() => {
+                document.head.appendChild(fragment);
+            });
+        }, 100);
+    }
+
+    updateElementStateClass(element, from, to, fromClass, toClass, delay) {
+
+        if (element && typeof element.classList !== 'undefined' && (fromClass || toClass)) {
+
+            if (!delay) {
+                window.requestAnimationFrame(() => {
+                    if (fromClass) {
+                        element.classList.remove(fromClass);
+                    }
+
+                    if (toClass) {
+                        element.classList.add(toClass);
+                    }
+                });
+            } else {
+                window.setTimeout(() => {
+                    this._updateElementState(element, from, to);
+                }, delay);
+            }
+        }
+
+        return this;
+    }
+
+    getStateClassByKey(key, stateClasses) {
+        return key && typeof stateClasses[key.toUpperCase()] === 'string' ? stateClasses[key.toUpperCase()] : null;
+    }
+
+    _updateElementState(element, from, to, delay = null) {
+
+        const options = this._elementBuilder.getOptions();
+
+        const stateClasses = {
+            SLEEPING: options.elementSleepingClass,
+            LOADING: options.elementLoadingClass,
+            READY: options.elementReadyClass
+        };
+
+        const fromClass = this.getStateClassByKey(from, stateClasses);
+        const toClass = this.getStateClassByKey(to, stateClasses);
+
+        return this.updateElementStateClass(element, from, to, fromClass, toClass, delay);
+    }
+
+    removeStylesForSignature(signature) {
+        const styleElement = document.head.querySelector(`#${this.getStylesId(signature)}`);
+        if (styleElement) {
+            document.head.removeChild(styleElement);
+            this._stylesLoaded.delete(signature);
+        }
+
+        return this;
+    }
+
+}
+
+export { ModuleLauncher };
