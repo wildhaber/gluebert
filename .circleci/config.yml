@@ -92,8 +92,8 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm run doc
-      - run: aws s3 sync ./doc s3://api.gluebert.com --region eu-west-1 --delete
+#      - run: npm run doc
+#      - run: aws s3 sync ./doc s3://api.gluebert.com --region eu-west-1 --delete
 workflows:
   version: 2
   pipeline:
@@ -109,8 +109,8 @@ workflows:
             branches:
               only:
                 - master
-      - api_build:
-          filters:
-            branches:
-              only:
-                - master
+#      - api_build:
+#          filters:
+#            branches:
+#              only:
+#                - master

@@ -1,5 +1,5 @@
-import IntersectionObserverPolyfill from 'polyfill-service/polyfills/IntersectionObserver/polyfill';
-import IntersectionObserverEntryPolyfill from 'polyfill-service/polyfills/IntersectionObserverEntry/polyfill';
+import IntersectionObserverPolyfill from './resources/IntersectionObserverPolyfill';
+import IntersectionObserverEntryPolyfill from './resources/IntersectionObserverEntryPolyfill';
 
 export {
     IntersectionObserverEntryPolyfill,

@@ -8,3 +8,4 @@ documentation/
 coverage/
 .github/
 doc/
+*.env$

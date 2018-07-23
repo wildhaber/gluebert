@@ -1,0 +1,1 @@
+"use strict";(void 0).DocumentFragment=document.createDocumentFragment().constructor;

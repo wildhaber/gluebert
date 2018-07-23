@@ -1,4 +1,4 @@
-import DocumentFragment from 'polyfill-service/polyfills/DocumentFragment/polyfill';
+import DocumentFragment from './resources/DocumentFragmentPolyfill';
 
 export {
     DocumentFragment,

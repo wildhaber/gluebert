@@ -32,9 +32,13 @@
 
     <meta name="theme-color" content="#a11a19">
 
+    {{ $criticalPath := "" }}
+    {{ $exists := fileExists  "./themes/gluebert/static/critical.css" }}
+    {{ if $exists }}
     <style>
         {{ readFile "./themes/gluebert/static/critical.css" | safeCSS }}
     </style>
+    {{ end }}
 
 </head>
 <body class="c-body">

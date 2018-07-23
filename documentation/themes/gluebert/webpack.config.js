@@ -88,11 +88,11 @@ const config = {
         ],
     },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            exclude: /workbox/,
-            mangle: true,
-            sourceMap: (process.env.BUILD === 'dev'),
-        }),
+        // new webpack.optimize.UglifyJsPlugin({
+        //     exclude: /workbox/,
+        //     mangle: true,
+        //     sourceMap: (process.env.BUILD === 'dev'),
+        // }),
         new ExtractTextPlugin({
             filename: '[name].css',
             allChunks: true,
