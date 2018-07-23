@@ -38,9 +38,9 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: yarn test
       - run: npm install codeclimate-test-reporter
-#      - run:
-#          name: code-coverage
-#          command: './node_modules/.bin/codeclimate-test-reporter < ./coverage/phantomjs/lcov.info'
+      - run:
+          name: code-coverage
+          command: './node_modules/.bin/codeclimate-test-reporter < ./coverage/phantomjs/lcov.info'
       - run: yarn test
       - run: npm install codeclimate-test-reporter
   saucelabs:

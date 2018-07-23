@@ -3,7 +3,7 @@
   "version": "0.2.1-alpha",
   "description": "gluebert.js is a tiny helper orchestrating interactive html elements with on demand dynamic import Edit",
   "scripts": {
-    "test": "npm run lint",
+    "test": "npm run lint && npm run test:karma",
     "test:master": "npm run test && npm run test:e2e:saucelabs",
     "test:karma": "./node_modules/karma/bin/karma start karma.conf.js --single-run",
     "test:karma:watch": "./node_modules/karma/bin/karma start karma.conf.js",

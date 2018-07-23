@@ -467,13 +467,13 @@ describe('DataObserver', () => {
         it('should return this', () => {
             expect(DO.subscribe('originY', 'signature.valid', (next) => {
             })).toEqual(DO);
+
             expect(DO.subscribe('originZ', 'signature.valid.two', {
                 cool: () => {
                 },
             }, (error) => {
             }, (complete) => {
             }, {})).toEqual(DO);
-            expect(DO.subscribe('originX', 'signature.key', () => null, () => null, () => null)).toEqual(DO);
             expect(DO.subscribe('a')).toEqual(DO);
         });
 
