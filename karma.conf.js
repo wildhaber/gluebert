@@ -7,7 +7,6 @@ module.exports = (config) => {
     config.set({
         frameworks: ['jasmine'],
         files: [
-            './node_modules/babel-polyfill/dist/polyfill.js',
             'src/**/*.spec.js',
         ],
         browsers: ['PhantomJS'],

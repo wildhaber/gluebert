@@ -3,7 +3,7 @@
   "version": "0.2.1-alpha",
   "description": "gluebert.js is a tiny helper orchestrating interactive html elements with on demand dynamic import Edit",
   "scripts": {
-    "test": "npm run lint && npm run test:karma",
+    "test": "npm run lint",
     "test:master": "npm run test && npm run test:e2e:saucelabs",
     "test:karma": "./node_modules/karma/bin/karma start karma.conf.js --single-run",
     "test:karma:watch": "./node_modules/karma/bin/karma start karma.conf.js",
@@ -27,7 +27,7 @@
   },
   "main": "./dist/gluebert.js",
   "dependencies": {
-    "rxjs": "^6.2.2"
+    "rxjs": "^5.4.3"
   },
   "repository": {
     "type": "git",
@@ -73,6 +73,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-2": "^6.24.1",
+    "babel-plugin-dynamic-import-webpack": "^1.0.2",
     "docdash": "^0.4.0",
     "env-cmd": "^8.0.2",
     "eslint": "^5.2.0",
